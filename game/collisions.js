@@ -1,33 +1,53 @@
 import { bullets, enemies, setBullets, setEnemies, setBulletDamage, setBulletFireRate, bulletDamage, bulletFireRate } from './state.js';
 import { ENEMY_TYPES } from './enemyTypes.js';
-import { spawnParticles } from './particles.js';
+import { spawnParticles, spawnTextParticle } from './particles.js';
 
 // Bonus application function
 function applyEnemyBonus(enemy) {
-    if (!enemy.type) return;
+    let bonus = null;
     
-    const enemyType = ENEMY_TYPES[enemy.type];
-    if (!enemyType || !enemyType.bonus) return;
+    // Check for bonus on the enemy instance first (from modifiers)
+    if (enemy.bonus) {
+        bonus = enemy.bonus;
+    }
+    // Fallback to enemy type bonus if no instance bonus
+    else if (enemy.type) {
+        const enemyType = ENEMY_TYPES[enemy.type];
+        if (enemyType && enemyType.bonus) {
+            bonus = enemyType.bonus;
+        }
+    }
     
-    const bonus = enemyType.bonus;
+    if (!bonus) return;
+    
+    // Spawn text particle based on bonus type
+    let text = '';
+    let color = '#00ffcc';
     
     switch (bonus.type) {
         case 'fireRate':
             const newFireRate = bulletFireRate + bonus.value;
             setBulletFireRate(newFireRate);
+            text = `Fire Rate +${Math.abs(bonus.value)}ms`;
+            color = '#00ffcc'; // Cyan for fire rate
             console.log(`Fire rate bonus: ${bonus.value}ms (new rate: ${newFireRate}ms)`);
             break;
             
         case 'damage':
             const newDamage = bulletDamage + bonus.value;
             setBulletDamage(newDamage);
+            text = `Damage +${bonus.value}`;
+            color = '#ff00ff'; // Magenta for damage
             console.log(`Damage bonus: +${bonus.value} (new damage: ${newDamage})`);
             break;
             
         default:
             console.warn(`Unknown bonus type: ${bonus.type}`);
-            break;
+            return;
     }
+    
+    // Spawn text particle at enemy position
+    spawnTextParticle(enemy.x, enemy.y - enemy.radius, text, color);
 }
 
 // Collision detection

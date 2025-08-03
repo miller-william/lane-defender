@@ -32,7 +32,8 @@ export function createEnemyFromSpawnEvent(event) {
         color: enemyType.color,
         imageSrc: enemyType.image,
         bonus: enemyType.bonus,
-        behaviour: enemyType.behaviour
+        behaviour: enemyType.behaviour,
+        glowColour: enemyType.glowColour
     };
     
     // Apply modifiers if they exist (shallow merge)
@@ -59,13 +60,14 @@ export function createEnemyFromSpawnEvent(event) {
         imageSrc: finalConfig.imageSrc,
         type: event.enemyType,
         behaviour: finalConfig.behaviour,
-        bonus: finalConfig.bonus
+        bonus: finalConfig.bonus,
+        glowColour: finalConfig.glowColour
     };
     
     const newEnemies = [...enemies, enemy];
     setEnemies(newEnemies);
     
-    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed} (canvas height/sec), radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}`);
+    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed} (canvas height/sec), radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}, glow=${finalConfig.glowColour || 'none'}`);
 }
 
 export function updateEnemies(deltaTime) {
@@ -99,10 +101,50 @@ export function updateEnemies(deltaTime) {
 // Image cache for enemy sprites
 const imageCache = {};
 
-export function drawEnemies(ctx) {
-    enemies.forEach(enemy => {
-        const { x, y, radius, imageSrc, color } = enemy;
+// Animation state for pulsing glow
+let glowAnimationTime = 0;
 
+export function drawEnemies(ctx) {
+    // Update animation time
+    glowAnimationTime += 0.016; // Assuming 60fps, adjust if needed
+    
+    enemies.forEach(enemy => {
+        const { x, y, radius, imageSrc, color, glowColour } = enemy;
+
+        // Save context state
+        ctx.save();
+        
+        // Draw glow effect if enemy has a bonus and glow color
+        if (enemy.bonus && glowColour) {
+            // Animated pulsing glow
+            const pulseIntensity = 15 + Math.sin(glowAnimationTime * 3) * 10; // Pulse between 5-25 blur
+            
+            ctx.shadowColor = glowColour;
+            ctx.shadowBlur = pulseIntensity;
+            
+            if (imageSrc) {
+                // Draw sprite with glow
+                if (!imageCache[imageSrc]) {
+                    const img = new Image();
+                    img.src = imageSrc;
+                    imageCache[imageSrc] = img;
+                }
+                const img = imageCache[imageSrc];
+                ctx.drawImage(img, x - radius, y - radius, radius * 2, radius * 2);
+            } else {
+                // Draw circle with glow
+                ctx.fillStyle = color || '#ff0000';
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Reset shadow for main sprite
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
+        }
+        
+        // Draw main enemy sprite
         if (imageSrc) {
             // Draw enemy image if available
             if (!imageCache[imageSrc]) {
@@ -119,6 +161,9 @@ export function drawEnemies(ctx) {
             ctx.arc(x, y, radius, 0, Math.PI * 2);
             ctx.fill();
         }
+        
+        // Restore context state
+        ctx.restore();
         
         // Draw health bar
         const healthBarWidth = enemy.radius * 2;

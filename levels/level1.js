@@ -1,5 +1,5 @@
 export default {
-    name: "Test Level",
+    name: "First Level",
     background: "assets/images/fire_bg.png",
     spawnEvents: [
         // Single spawn events

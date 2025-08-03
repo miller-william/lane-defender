@@ -1,6 +1,6 @@
 export default {
     name: "Wave Defense",
-    background: "#1a1a2e", // Dark blue background
+    background: "assets/images/fire_bg.png",
     spawnEvents: [
         // Initial wave of basic enemies
         {
@@ -8,6 +8,19 @@ export default {
             enemyType: 'fireElemental',
             count: 8,
             interval: 300,
+        },
+        {
+            time: 0,
+            enemyType: 'fireElemental',
+            count: 2,
+            interval: 300,
+            modifiers: {
+                bonus: {
+                    type: 'fireRate',
+                    value: -150
+                },
+                glowColour: '#00ffcc'
+            }
         },
         
         // Fast enemy rush
