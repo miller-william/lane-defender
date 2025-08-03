@@ -85,4 +85,11 @@ canvas {
 
 .dev-control button:hover {
     background: #00cc00;
+}
+
+/* Hide dev panel on mobile for layout clarity */
+@media (max-width: 700px) {
+    #devPanel {
+        display: none;
+    }
 } 
