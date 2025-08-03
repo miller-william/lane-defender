@@ -2,6 +2,13 @@ import { enemies, setEnemies, setLevelComplete } from './state.js';
 import { createEnemyFromSpawnEvent } from './enemies.js';
 import { LEVELS } from '../levels/index.js';
 
+// Dev options - toggle these for testing
+const DEV_MODE = {
+    ALL_LEVELS_UNLOCKED: true, // Set to true to unlock all levels for testing
+    INFINITE_HEALTH: false, // Set to true for infinite health
+    INSTANT_WIN: false // Set to true to instantly complete levels
+};
+
 // Function to expand bulk spawn events into individual spawn events
 function expandBulkSpawnEvents(spawnEvents) {
     const expandedEvents = [];
@@ -63,6 +70,15 @@ export function startLevel(levelNumber) {
     
     console.log(`Starting Level ${levelNumber}: ${level.name}`);
     console.log(`Expanded ${level.spawnEvents.length} spawn events into ${expandedSpawnEvents.length} individual events`);
+    
+    // Dev mode: instant win
+    if (DEV_MODE.INSTANT_WIN) {
+        console.log('DEV MODE: Instant win enabled');
+        setTimeout(() => {
+            setLevelComplete(true);
+            console.log('DEV MODE: Level instantly completed');
+        }, 1000); // Win after 1 second
+    }
 }
 
 export function updateLevel() {

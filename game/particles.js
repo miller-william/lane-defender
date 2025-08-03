@@ -12,10 +12,10 @@ class Particle {
         this.dy = (Math.random() - 0.5) * 4; // -2 to 2
         
         // Lifetime
-        this.lifetime = 800; // ms - increased from 400ms
+        this.lifetime = 0.8; // seconds
         this.maxLifetime = this.lifetime;
         
-        // Size - make particles bigger for visibility
+        // Size
         this.size = Math.random() * 4 + 2; // 2-6 pixels
     }
     
@@ -27,8 +27,8 @@ class Particle {
         // Apply gravity
         this.dy += 0.1;
         
-        // Update lifetime - use a fixed time step to ensure consistent behavior
-        this.lifetime -= 16; // Assume 60fps = ~16ms per frame
+        // Update lifetime (deltaTime is in seconds)
+        this.lifetime -= deltaTime;
         
         // Return true if particle should be removed
         return this.lifetime <= 0;

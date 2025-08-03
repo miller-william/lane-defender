@@ -9,7 +9,7 @@ export function createEnemy() {
         x: x,
         y: -ENEMY_RADIUS,
         radius: ENEMY_RADIUS,
-        speed: ENEMY_SPEED,
+        speed: ENEMY_SPEED, // This will now be canvas height per second
         health: enemyHealth,
         maxHealth: enemyHealth
     });
@@ -26,7 +26,7 @@ export function createEnemyFromSpawnEvent(event) {
     // Create base enemy config from type template
     const baseConfig = {
         radius: enemyType.radius,
-        speed: enemyType.defaultSpeed,
+        speed: enemyType.defaultSpeed, // This will now be canvas height per second
         health: enemyType.defaultHealth,
         damage: enemyType.defaultDamage,
         color: enemyType.color,
@@ -51,7 +51,7 @@ export function createEnemyFromSpawnEvent(event) {
         x: x,
         y: -finalConfig.radius,
         radius: finalConfig.radius,
-        speed: finalConfig.speed,
+        speed: finalConfig.speed, // Canvas height per second
         health: finalConfig.health,
         maxHealth: finalConfig.health,
         damage: finalConfig.damage,
@@ -65,15 +65,15 @@ export function createEnemyFromSpawnEvent(event) {
     const newEnemies = [...enemies, enemy];
     setEnemies(newEnemies);
     
-    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed}, radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}`);
+    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed} (canvas height/sec), radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}`);
 }
 
-export function updateEnemies() {
+export function updateEnemies(deltaTime) {
     const updatedEnemies = enemies.map(enemy => {
-        // Create a new enemy object with updated position
+        // Create a new enemy object with updated position using delta time
         const updatedEnemy = {
             ...enemy,
-            y: enemy.y + enemy.speed
+            y: enemy.y + (enemy.speed * CANVAS_HEIGHT * deltaTime)
         };
         
         // Check if enemy reached bottom

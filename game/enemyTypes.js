@@ -3,7 +3,7 @@ export const ENEMY_TYPES = {
     basic: {
         radius: 20,
         defaultHealth: 3,
-        defaultSpeed: 2,
+        defaultSpeed: 0.2, // 80% of canvas height per second (adjusted for real delta time)
         defaultDamage: 1, // damage to player when reaching bottom
         color: '#ff0000', // red
         image: null, // placeholder for future sprite support
@@ -13,7 +13,7 @@ export const ENEMY_TYPES = {
     fast: {
         radius: 15,
         defaultHealth: 1,
-        defaultSpeed: 3,
+        defaultSpeed: 0.4, // 120% of canvas height per second (adjusted for real delta time)
         defaultDamage: 1, // fast but not more damaging
         color: '#ff6600', // orange
         image: null,
@@ -26,7 +26,7 @@ export const ENEMY_TYPES = {
     tank: {
         radius: 25,
         defaultHealth: 5,
-        defaultSpeed: 1,
+        defaultSpeed: 0.01, // 40% of canvas height per second (adjusted for real delta time)
         defaultDamage: 2, // tank deals more damage
         color: '#800000', // dark red
         image: null,
@@ -39,7 +39,7 @@ export const ENEMY_TYPES = {
     small: {
         radius: 12,
         defaultHealth: 1,
-        defaultSpeed: 3,
+        defaultSpeed: 1.2, // 120% of canvas height per second (adjusted for real delta time)
         defaultDamage: 1, // small but still dangerous
         color: '#ff4444', // light red
         image: null,
@@ -52,7 +52,7 @@ export const ENEMY_TYPES = {
     fireElemental: {
         radius: 30,
         defaultHealth: 1,
-        defaultSpeed: 1,
+        defaultSpeed: 0.2, // 60% of canvas height per second (adjusted for real delta time)
         defaultDamage: 1.5,
         color: '#ff4400', // fire orange fallback
         image: 'assets/images/fire.png', // placeholder image path
@@ -62,7 +62,7 @@ export const ENEMY_TYPES = {
     fireTankElemental: {
         radius: 40,
         defaultHealth: 10,
-        defaultSpeed: 0.5,
+        defaultSpeed: 0.1, // 20% of canvas height per second (adjusted for real delta time)
         defaultDamage: 10,
         color: 'green', // fire orange fallback
         image: 'assets/images/green_fire.png', 
@@ -72,7 +72,7 @@ export const ENEMY_TYPES = {
     fireFastElemental: {
         radius: 30,
         defaultHealth: 1,
-        defaultSpeed: 2.5,
+        defaultSpeed: 0.4, // 100% of canvas height per second (adjusted for real delta time)
         defaultDamage: 1,
         color: 'blue', 
         image: 'assets/images/blue_fire.png', 
@@ -82,7 +82,7 @@ export const ENEMY_TYPES = {
     iceElemental: {
         radius: 18,
         defaultHealth: 2,
-        defaultSpeed: 2,
+        defaultSpeed: 0.8, // 80% of canvas height per second (adjusted for real delta time)
         defaultDamage: 1,
         color: '#00aaff', // ice blue
         image: null,
@@ -95,7 +95,7 @@ export const ENEMY_TYPES = {
     poisonElemental: {
         radius: 22,
         defaultHealth: 3,
-        defaultSpeed: 1.5,
+        defaultSpeed: 0.6, // 60% of canvas height per second (adjusted for real delta time)
         defaultDamage: 2,
         color: '#00ff00', // poison green
         image: null,

@@ -12,9 +12,10 @@ html, body {
     align-items: center;
     justify-content: flex-start;
     overscroll-behavior-y: contain;
-    touch-action: none;
+    touch-action: manipulation;
     font-family: Arial, sans-serif;
     color: white;
+    overflow-x: hidden;
 }
 
 /* Menu Screen */
@@ -26,35 +27,45 @@ html, body {
     height: 100vh;
     width: 100vw;
     background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 #menuScreen h1 {
-    font-size: 3rem;
+    font-size: clamp(2rem, 8vw, 3rem);
     margin-bottom: 2rem;
     text-shadow: 0 0 10px #00ff00;
     color: #00ff00;
+    text-align: center;
 }
 
 #levelButtons {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.8rem;
     margin-bottom: 2rem;
-    max-width: 500px;
+    max-width: 90vw;
+    width: 100%;
 }
 
 .levelButton {
-    padding: 1rem;
-    font-size: 1.2rem;
+    padding: 1rem 0.5rem;
+    font-size: clamp(0.9rem, 4vw, 1.2rem);
     background: #333;
     color: white;
     border: 2px solid #00ff00;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.levelButton:hover {
+.levelButton:hover, .levelButton:active {
     background: #00ff00;
     color: black;
     transform: scale(1.05);
@@ -70,16 +81,21 @@ html, body {
 
 #aboutButton {
     padding: 1rem 2rem;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 4vw, 1.2rem);
     background: #333;
     color: white;
     border: 2px solid #00ff00;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#aboutButton:hover {
+#aboutButton:hover, #aboutButton:active {
     background: #00ff00;
     color: black;
     transform: scale(1.05);
@@ -98,28 +114,50 @@ html, body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 #gameOverScreen h2 {
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
     color: #00ff00;
     margin-bottom: 2rem;
     text-shadow: 0 0 10px #00ff00;
+    text-align: center;
 }
 
-#returnToMenu {
+#returnToMenu, #retryLevel {
     padding: 1rem 2rem;
-    font-size: 1.2rem;
-    background: #00ff00;
-    color: black;
+    font-size: clamp(1rem, 4vw, 1.2rem);
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem;
 }
 
-#returnToMenu:hover {
+#returnToMenu {
+    background: #00ff00;
+    color: black;
+}
+
+#returnToMenu:hover, #returnToMenu:active {
     background: #00cc00;
+    transform: scale(1.05);
+}
+
+#retryLevel {
+    background: #ff6600;
+    color: white;
+}
+
+#retryLevel:hover, #retryLevel:active {
+    background: #ff4400;
     transform: scale(1.05);
 }
 
@@ -154,25 +192,56 @@ html, body {
     z-index: 10;
 }
 
-/* Responsive adjustments */
-@media (max-width: 700px) {
-    #menuScreen h1 {
-        font-size: 2rem;
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+    #menuScreen {
+        padding: 10px;
+        justify-content: space-around;
     }
     
     #levelButtons {
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
+        max-width: 95vw;
     }
     
     .levelButton {
-        padding: 0.8rem;
-        font-size: 1rem;
+        padding: 0.8rem 0.3rem;
+        min-height: 45px;
+        font-size: 0.9rem;
     }
     
     #aboutButton {
         padding: 0.8rem 1.5rem;
+        min-height: 45px;
         font-size: 1rem;
+    }
+    
+    #gameOverScreen h2 {
+        margin-bottom: 1.5rem;
+    }
+    
+    #returnToMenu {
+        padding: 0.8rem 1.5rem;
+        min-height: 45px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #levelButtons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+    }
+    
+    .levelButton {
+        padding: 0.6rem 0.2rem;
+        min-height: 40px;
+        font-size: 0.8rem;
+    }
+    
+    #menuScreen h1 {
+        margin-bottom: 1.5rem;
     }
 }
 

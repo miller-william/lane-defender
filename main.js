@@ -2,31 +2,29 @@ import { initializeInput } from './game/input.js';
 import { initializeGameLoop, startGameLoop } from './game/gameLoop.js';
 import { startLevel } from './game/levels.js';
 import { initializeMenu, setGameFunctions, showGameOver } from './game/menu.js';
+import { 
+    setBullets, setEnemies, setPlayerHealth, setGameOver, 
+    setLevelComplete, setBulletDamage, setBulletFireRate 
+} from './game/state.js';
 
 // Game state reset function
 function resetGameState() {
-    // Reset all game state variables
-    import('./game/state.js').then(module => {
-        const { 
-            setBullets, setEnemies, setPlayerHealth, setGameOver, 
-            setLevelComplete, setBulletDamage, setBulletFireRate 
-        } = module;
-        
-        // Reset arrays
-        setBullets([]);
-        setEnemies([]);
-        
-        // Reset player
-        setPlayerHealth(5);
-        
-        // Reset game state
-        setGameOver(false);
-        setLevelComplete(false);
-        
-        // Reset game variables
-        setBulletDamage(1);
-        setBulletFireRate(500);
-    });
+    // Reset arrays
+    setBullets([]);
+    setEnemies([]);
+    
+    // Reset player
+    setPlayerHealth(5);
+    
+    // Reset game state
+    setGameOver(false);
+    setLevelComplete(false);
+    
+    // Reset game variables
+    setBulletDamage(1);
+    setBulletFireRate(500);
+    
+    console.log('Game state reset complete');
 }
 
 // Initialize game systems

@@ -3,7 +3,7 @@ export default {
     background: "assets/images/fire_bg.png",
     spawnEvents: [
         // Single spawn events
-        { time: 0, enemyType: 'fireElemental', health: 1, speed: 2 },
+        { time: 0, enemyType: 'fireElemental', health: 1},
         
         // Bulk spawn: 5 basic enemies every 250ms starting at 1000ms
         {

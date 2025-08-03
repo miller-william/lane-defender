@@ -23,33 +23,47 @@ export function initializeGameLoop(canvas) {
 export function gameLoop(currentTime = performance.now()) {
     if (!gameLoopActive) return;
     
-    // Calculate delta time in milliseconds
-    const deltaTime = (currentTime - lastTime);
+    // Calculate real delta time in seconds, capped to prevent spikes
+    const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.05);
     lastTime = currentTime;
+    
+    // Debug delta time occasionally
+    if (Math.random() < 0.01) { // Log 1% of the time
+        console.log(`Delta time: ${deltaTime.toFixed(4)}s`);
+    }
     
     // Draw background first
     drawBackground(ctx);
     
+    // Debug game state occasionally
+    if (Math.random() < 0.01) { // Log 1% of the time
+        console.log(`Game state: gameOver=${gameOver}, isLevelComplete=${isLevelComplete()}`);
+    }
+    
     if (gameOver) {
-        drawGameOver(ctx);
+        // Player lost - stop game loop and show game over screen
+        console.log('Game over triggered - player lost');
+        gameLoopActive = false;
+        setTimeout(() => showGameOver('lose'), 100);
         return; // stop loop
     }
     
     if (isLevelComplete()) {
-        // Show menu game over screen and stop loop
-        showGameOver();
+        // Player won - stop game loop and show win screen
+        console.log('Level complete triggered - player won');
         gameLoopActive = false;
+        setTimeout(() => showGameOver('win'), 100);
         return;
     }
     
-    // Update game state
+    // Update game state using real delta time
     updatePlayer();
     createBullet();
-    updateBullets();
+    updateBullets(deltaTime);
     updateLevel(); // Update level spawning
-    updateEnemies();
+    updateEnemies(deltaTime);
     handleCollisions();
-    updateParticles(deltaTime); // Update particles
+    updateParticles(deltaTime); // Pass delta time in seconds
     
     // Draw everything
     drawParticles(ctx); // Draw particles first after background
