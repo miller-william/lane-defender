@@ -1,5 +1,6 @@
 export default {
     name: "Wave Defense",
+    background: "#1a1a2e", // Dark blue background
     spawnEvents: [
         // Initial wave of basic enemies
         {

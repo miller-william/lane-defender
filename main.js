@@ -1,5 +1,4 @@
 import { initializeInput } from './game/input.js';
-import { initializeDevPanel } from './devpanel.js';
 import { initializeGameLoop, gameLoop } from './game/gameLoop.js';
 import { startLevel } from './game/levels.js';
 
@@ -9,7 +8,6 @@ function initializeGame() {
     
     // Initialize all game systems
     initializeInput(canvas);
-    initializeDevPanel();
     initializeGameLoop(canvas);
     
     // Start level 1

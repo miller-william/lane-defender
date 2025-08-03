@@ -5,7 +5,7 @@ import { createBullet, updateBullets, drawBullets } from './bullets.js';
 import { updateEnemies, drawEnemies } from './enemies.js';
 import { handleCollisions } from './collisions.js';
 import { drawPlayer } from './player.js';
-import { drawPlayerHealth, drawGameOver, drawWinScreen } from './ui.js';
+import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground } from './ui.js';
 import { updateLevel } from './levels.js';
 
 let ctx = null;
@@ -16,8 +16,8 @@ export function initializeGameLoop(canvas) {
 
 // Main game loop
 export function gameLoop() {
-    // Clear canvas
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // Draw background first
+    drawBackground(ctx);
     
     if (gameOver) {
         drawGameOver(ctx);

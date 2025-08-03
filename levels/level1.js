@@ -1,5 +1,6 @@
 export default {
     name: "Test Level",
+    background: "assets/images/fire_bg.png",
     spawnEvents: [
         // Single spawn events
         { time: 0, enemyType: 'basic', health: 1, speed: 2 },
@@ -10,7 +11,7 @@ export default {
             enemyType: 'fireElemental',
             count: 3,
             interval: 250,
-            modifiers: { speed: 1 }
+            modifiers: { bonus: null,speed: 1 }
         },
         
         // Bulk spawn: 3 fast enemies every 500ms starting at 2500ms
@@ -18,7 +19,7 @@ export default {
             time: 2500,
             enemyType: 'fast',
             count: 2,
-            modifiers: { damage: 0.5 }
+            modifiers: { bonus: null, damage: 0.5 }
         },
         
         // Single tank enemy
@@ -26,6 +27,7 @@ export default {
             time: 4000, 
             enemyType: 'tank',
             modifiers: {
+                bonus: null,
                 health: 8,
                 damage: 3,
                 color: '#ff00ff'
@@ -39,6 +41,7 @@ export default {
             count: 1,
             interval: 200,
             modifiers: {
+                bonus: null,
                 damage: 0.5,
                 color: '#00ff00' // green small enemies
             }

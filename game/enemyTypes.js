@@ -12,8 +12,8 @@ export const ENEMY_TYPES = {
     },
     fast: {
         radius: 15,
-        defaultHealth: 2,
-        defaultSpeed: 4,
+        defaultHealth: 1,
+        defaultSpeed: 3,
         defaultDamage: 1, // fast but not more damaging
         color: '#ff6600', // orange
         image: null,

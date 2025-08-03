@@ -1,5 +1,45 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
 import { player, gameOver, levelComplete } from './state.js';
+import { getCurrentLevel } from './levels.js';
+
+// Background image cache
+const backgroundCache = {};
+
+export function drawBackground(ctx) {
+    const currentLevel = getCurrentLevel();
+    if (!currentLevel || !currentLevel.background) {
+        // Default background
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        return;
+    }
+
+    const background = currentLevel.background;
+
+    // Check if it's a color (starts with #)
+    if (background.startsWith('#')) {
+        ctx.fillStyle = background;
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        return;
+    }
+
+    // It's an image path
+    if (!backgroundCache[background]) {
+        const img = new Image();
+        img.src = background;
+        backgroundCache[background] = img;
+    }
+
+    const img = backgroundCache[background];
+    if (img.complete) {
+        // Draw the image to fill the canvas
+        ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    } else {
+        // Fallback to black while image loads
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    }
+}
 
 export function drawPlayerHealth(ctx) {
     const barWidth = 200;
