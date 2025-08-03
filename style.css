@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-body, html {
+html, body {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -13,8 +13,117 @@ body, html {
     justify-content: flex-start;
     overscroll-behavior-y: contain;
     touch-action: none;
+    font-family: Arial, sans-serif;
+    color: white;
 }
 
+/* Menu Screen */
+#menuScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+}
+
+#menuScreen h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px #00ff00;
+    color: #00ff00;
+}
+
+#levelButtons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.levelButton {
+    padding: 1rem;
+    font-size: 1.2rem;
+    background: #333;
+    color: white;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.levelButton:hover {
+    background: #00ff00;
+    color: black;
+    transform: scale(1.05);
+}
+
+.levelButton:disabled {
+    background: #666;
+    border-color: #666;
+    color: #999;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#aboutButton {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background: #333;
+    color: white;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#aboutButton:hover {
+    background: #00ff00;
+    color: black;
+    transform: scale(1.05);
+}
+
+/* Game Over Screen */
+#gameOverScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#gameOverScreen h2 {
+    font-size: 2.5rem;
+    color: #00ff00;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+#returnToMenu {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background: #00ff00;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#returnToMenu:hover {
+    background: #00cc00;
+    transform: scale(1.05);
+}
+
+/* Game Wrapper */
 #gameWrapper {
     position: relative;
     flex: 1;
@@ -22,7 +131,7 @@ body, html {
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: calc(100dvh - 100px); /* leave room for touch zone */
+    height: calc(100dvh - 100px);
     overflow: hidden;
 }
 
@@ -36,16 +145,35 @@ body, html {
     border: 2px solid white;
 }
 
-
-
-/* Touch control area for mobile */
 #touchControlArea {
     position: fixed;
     bottom: 0;
     width: 100vw;
     height: 100px;
-    background: transparent; /* or rgba(0,0,0,0.05) for testing */
+    background: transparent;
     z-index: 10;
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+    #menuScreen h1 {
+        font-size: 2rem;
+    }
+    
+    #levelButtons {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .levelButton {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    #aboutButton {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
 }
 
  

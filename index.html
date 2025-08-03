@@ -7,8 +7,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="gameWrapper">
+    <!-- Menu Screen -->
+    <div id="menuScreen">
+        <h1>Lane Defender</h1>
+        <div id="levelButtons"></div>
+        <button id="aboutButton">About</button>
+    </div>
+    
+    <!-- Game Screen -->
+    <div id="gameWrapper" style="display: none;">
         <canvas id="gameCanvas" width="600" height="800"></canvas>
+    </div>
+    
+    <!-- Game Over Screen -->
+    <div id="gameOverScreen" style="display: none;">
+        <h2>Level Complete!</h2>
+        <button id="returnToMenu">Back to Menu</button>
     </div>
     
     <div id="touchControlArea"></div>

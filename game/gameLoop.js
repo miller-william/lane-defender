@@ -8,9 +8,11 @@ import { drawPlayer } from './player.js';
 import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground } from './ui.js';
 import { updateLevel } from './levels.js';
 import { updateParticles, drawParticles } from './particles.js';
+import { showGameOver } from './menu.js';
 
 let ctx = null;
 let lastTime = 0;
+let gameLoopActive = false;
 
 export function initializeGameLoop(canvas) {
     ctx = canvas.getContext('2d');
@@ -19,6 +21,8 @@ export function initializeGameLoop(canvas) {
 
 // Main game loop
 export function gameLoop(currentTime = performance.now()) {
+    if (!gameLoopActive) return;
+    
     // Calculate delta time in milliseconds
     const deltaTime = (currentTime - lastTime);
     lastTime = currentTime;
@@ -32,8 +36,10 @@ export function gameLoop(currentTime = performance.now()) {
     }
     
     if (isLevelComplete()) {
-        drawWinScreen(ctx);
-        return; // stop loop
+        // Show menu game over screen and stop loop
+        showGameOver();
+        gameLoopActive = false;
+        return;
     }
     
     // Update game state
@@ -54,4 +60,16 @@ export function gameLoop(currentTime = performance.now()) {
     
     // Continue game loop
     requestAnimationFrame(gameLoop);
+}
+
+// Start the game loop
+export function startGameLoop() {
+    gameLoopActive = true;
+    lastTime = performance.now();
+    gameLoop();
+}
+
+// Stop the game loop
+export function stopGameLoop() {
+    gameLoopActive = false;
 } 
