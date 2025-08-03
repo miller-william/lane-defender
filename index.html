@@ -2,12 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lane Defender</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="gameCanvas" width="600" height="800"></canvas>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="600" height="800"></canvas>
+    </div>
+    
+    <!-- Dev Options Panel -->
+    <div id="devPanel" class="dev-panel">
+        <h3>Dev Options</h3>
+        <div class="dev-control">
+            <label for="bulletDamage">Bullet Damage:</label>
+            <input type="number" id="bulletDamage" value="1" min="1" max="10">
+        </div>
+        <div class="dev-control">
+            <label for="bulletFireRate">Fire Rate (ms):</label>
+            <input type="number" id="bulletFireRate" value="500" min="100" max="2000">
+        </div>
+        <div class="dev-control">
+            <label for="enemyHealth">Enemy Health:</label>
+            <input type="number" id="enemyHealth" value="3" min="1" max="10">
+        </div>
+        <div class="dev-control">
+            <button id="spawnEnemy">Spawn Enemy</button>
+        </div>
+    </div>
+    
     <script src="main.js"></script>
 </body>
 </html> 
