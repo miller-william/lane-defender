@@ -1,5 +1,5 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT, BULLET_WIDTH, BULLET_HEIGHT, BULLET_SPEED } from './constants.js';
-import { bullets, lastBulletFiredAt, bulletDamage, bulletFireRate, player, setBullets, setLastBulletFiredAt } from './state.js';
+import { bullets, lastBulletFiredAt, bulletDamage, bulletFireRate, bulletColor, player, setBullets, setLastBulletFiredAt } from './state.js';
 
 export function createBullet() {
     const currentTime = Date.now();
@@ -32,7 +32,7 @@ export function updateBullets(deltaTime) {
 }
 
 export function drawBullets(ctx) {
-    ctx.fillStyle = '#ffff00';
+    ctx.fillStyle = bulletColor; // Use the bullet color from state
     bullets.forEach(bullet => {
         ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
     });

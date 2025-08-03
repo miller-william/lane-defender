@@ -64,18 +64,51 @@ export function createEnemyFromSpawnEvent(event) {
         glowColour: finalConfig.glowColour
     };
     
+    // Add zigzag properties if behavior is zigzag
+    if (enemy.behaviour === 'zigzag') {
+        enemy.startX = enemy.x;
+        enemy.zigzag = {
+            amplitude: Math.min(50, (CANVAS_WIDTH - enemy.radius * 2) / 4), // Limit amplitude to prevent out of bounds
+            frequency: 2,  // 2 cycles per second
+            phase: Math.random() * Math.PI * 2 // Random starting phase
+        };
+        console.log(`Zigzag enemy created with amplitude: ${enemy.zigzag.amplitude}, frequency: ${enemy.zigzag.frequency}, phase: ${enemy.zigzag.phase.toFixed(2)}`);
+    }
+    
     const newEnemies = [...enemies, enemy];
     setEnemies(newEnemies);
     
-    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed} (canvas height/sec), radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}, glow=${finalConfig.glowColour || 'none'}`);
+    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed} (canvas height/sec), radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}, glow=${finalConfig.glowColour || 'none'}, behaviour=${finalConfig.behaviour}`);
 }
 
 export function updateEnemies(deltaTime) {
     const updatedEnemies = enemies.map(enemy => {
-        // Create a new enemy object with updated position using delta time
+        // Calculate new Y position (same for all enemies)
+        const newY = enemy.y + (enemy.speed * CANVAS_HEIGHT * deltaTime);
+        
+        // Calculate new X position based on behavior
+        let newX = enemy.x;
+        
+        if (enemy.behaviour === 'zigzag' && enemy.zigzag) {
+            // Use performance.now() for smooth animation
+            const t = performance.now() / 1000 + enemy.zigzag.phase;
+            newX = enemy.startX + Math.sin(t * enemy.zigzag.frequency) * enemy.zigzag.amplitude;
+            
+            // Clamp X position to keep enemy within canvas bounds
+            const minX = enemy.radius;
+            const maxX = CANVAS_WIDTH - enemy.radius;
+            newX = Math.max(minX, Math.min(maxX, newX));
+            
+            // Debug logging (uncomment to see zigzag movement)
+            // console.log(`Zigzag enemy: t=${t.toFixed(2)}, sin=${Math.sin(t * enemy.zigzag.frequency).toFixed(2)}, x=${newX.toFixed(1)}`);
+        }
+        // For 'straight' behavior, X position remains unchanged
+        
+        // Create a new enemy object with updated position
         const updatedEnemy = {
             ...enemy,
-            y: enemy.y + (enemy.speed * CANVAS_HEIGHT * deltaTime)
+            x: newX,
+            y: newY
         };
         
         // Check if enemy reached bottom

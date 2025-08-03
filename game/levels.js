@@ -1,4 +1,4 @@
-import { enemies, setEnemies, setLevelComplete } from './state.js';
+import { enemies, setEnemies, setLevelComplete, setBulletColor } from './state.js';
 import { createEnemyFromSpawnEvent } from './enemies.js';
 import { LEVELS } from '../levels/index.js';
 
@@ -44,13 +44,12 @@ function expandBulkSpawnEvents(spawnEvents) {
     return expandedEvents;
 }
 
-
-
 // Level state
 let currentLevel = null;
 let levelStartTime = 0;
 let spawnEventIndex = 0;
 let expandedSpawnEvents = [];
+let currentLevelNumber = 1;
 
 // Level management functions
 export function startLevel(levelNumber) {
@@ -64,11 +63,17 @@ export function startLevel(levelNumber) {
     expandedSpawnEvents = expandBulkSpawnEvents(level.spawnEvents);
     
     currentLevel = level;
+    currentLevelNumber = levelNumber;
     levelStartTime = Date.now();
     spawnEventIndex = 0;
     setLevelComplete(false);
     
+    // Set bullet color from level configuration (default to yellow if not specified)
+    const bulletColor = level.bulletColor || '#ffff00';
+    setBulletColor(bulletColor);
+    
     console.log(`Starting Level ${levelNumber}: ${level.name}`);
+    console.log(`Bullet color: ${bulletColor}`);
     console.log(`Expanded ${level.spawnEvents.length} spawn events into ${expandedSpawnEvents.length} individual events`);
     
     // Dev mode: instant win
@@ -103,10 +108,13 @@ export function updateLevel() {
     if (spawnEventIndex >= expandedSpawnEvents.length && enemies.length === 0) {
         setLevelComplete(true);
         console.log(`Level complete! All enemies defeated.`);
+        
+        // Call the level completion handler
+        if (window.handleLevelCompletion) {
+            window.handleLevelCompletion(currentLevelNumber);
+        }
     }
 }
-
-
 
 export function isLevelComplete() {
     return levelComplete;

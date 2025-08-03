@@ -1,32 +1,68 @@
 export default {
     name: "Swarm Attack",
-    background: "#1a472a", // Dark green background
+    background: "assets/images/fire_bg.png",
     spawnEvents: [
         // Massive swarm of small enemies
         {
             time: 0,
-            enemyType: 'small',
-            count: 15,
+            enemyType: 'fireTankElemental',
+            count: 2,
             interval: 100,
-            modifiers: { damage: 1, color: '#00ff00' }
         },
         
         // Fast enemies mixed in
         {
             time: 2000,
-            enemyType: 'fast',
-            count: 8,
+            enemyType: 'fireFastElemental',
+            count: 2,
             interval: 150,
-            modifiers: { damage: 2, color: '#ff8800' }
+        },
+
+        {
+            time: 2200,
+            enemyType: 'fireFastElemental',
+            count: 2,
+            interval: 150,
+        },
+
+        {
+            time: 2100,
+            enemyType: 'fireFastElemental',
+            count: 1,
+            interval: 300,
+            modifiers: {
+                bonus: {
+                    type: 'fireRate',
+                    value: -300
+                },
+                glowColour: '#00ffcc'
+            }
+        },
+        {
+            time: 3000,
+            enemyType: 'fireFastElemental',
+            count: 2,
+            interval: 150,
+        },
+        {
+            time: 3500,
+            enemyType: 'fireFastElemental',
+            count: 2,
+            interval: 150,
         },
         
         // Tank enemies for challenge
         {
             time: 4000,
-            enemyType: 'tank',
-            count: 3,
+            enemyType: 'fireTankElemental',
+            count: 2,
             interval: 800,
-            modifiers: { health: 8, damage: 3 }
+        },
+        {
+            time: 6000,
+            enemyType: 'fireTankElemental',
+            count: 1,
+            interval: 800,
         }
     ]
 }; 

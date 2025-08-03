@@ -1,35 +1,27 @@
 export default {
     name: "Boss Battle",
-    background: "#8b0000", // Dark red background
+    background: "assets/images/ice_bg.png",
+    bulletColor: "#ff0000", // Red bullets
     spawnEvents: [
         // Initial minions
         {
             time: 0,
-            enemyType: 'basic',
-            count: 5,
-            interval: 400,
-            modifiers: { health: 3, damage: 2 }
+            enemyType: 'iceElemental',
+            count: 4,
+            interval: 2000,
         },
-        
-        // Elite enemies
         {
-            time: 3000,
-            enemyType: 'fireElemental',
-            count: 3,
-            interval: 600,
-            modifiers: { health: 5, damage: 3 }
+            time: 1000,
+            enemyType: 'iceElemental',
+            count: 2,
+            interval: 0,
         },
         
         // Final boss
         {
-            time: 6000,
-            enemyType: 'fireTankElemental',
-            modifiers: {
-                health: 20,
-                damage: 5,
-                color: '#ff0000',
-                radius: 50
-            }
+            time: 1400,
+            enemyType: 'iceTankElemental',
+            count: 1,
         }
     ]
 }; 

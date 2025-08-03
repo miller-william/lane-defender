@@ -1,43 +1,38 @@
 export default {
-    name: "Elemental Chaos",
-    background: "#2d1b69", // Purple background
+    name: "Fire Storm",
+    background: "assets/images/fire_bg.png",
+    bulletColor: "#00ff00", // Green bullets for level 2
     spawnEvents: [
-        // Initial wave of mixed enemies
+        // Initial wave
         {
             time: 0,
             enemyType: 'fireElemental',
-            count: 3,
-            interval: 300,
-            modifiers: { health: 2 }
+            count: 5,
+            interval: 200
         },
         
-        // Ice elemental wave
+        // Fast wave
         {
             time: 2000,
-            enemyType: 'iceElemental',
-            count: 4,
-            interval: 200,
-            modifiers: { damage: 1.5 }
+            enemyType: 'fireFastElemental',
+            count: 3,
+            interval: 400
         },
         
-        // Poison wave
+        // Tank wave
         {
             time: 4000,
-            enemyType: 'poisonElemental',
+            enemyType: 'fireTankElemental',
             count: 2,
-            interval: 500,
-            modifiers: { health: 4 }
+            interval: 4000
         },
         
-        // Final boss wave
+        // Final swarm
         {
             time: 6000,
-            enemyType: 'fireTankElemental',
-            modifiers: {
-                health: 12,
-                damage: 4,
-                color: '#ff4400'
-            }
+            enemyType: 'fireElemental',
+            count: 4,
+            interval: 400
         }
     ]
 }; 

@@ -1,26 +1,14 @@
 export default {
     name: "Wave Defense",
     background: "assets/images/fire_bg.png",
+    bulletColor: "#00ff00", // Green bullets for level 2
     spawnEvents: [
         // Initial wave of basic enemies
         {
             time: 0,
             enemyType: 'fireElemental',
             count: 8,
-            interval: 300,
-        },
-        {
-            time: 0,
-            enemyType: 'fireElemental',
-            count: 2,
-            interval: 300,
-            modifiers: {
-                bonus: {
-                    type: 'fireRate',
-                    value: -150
-                },
-                glowColour: '#00ffcc'
-            }
+            interval: 300
         },
         
         // Fast enemy rush
@@ -29,6 +17,7 @@ export default {
             enemyType: 'fireTankElemental',
             count: 2,
             interval: 150,
+
         },
         
         // Small enemy swarm
@@ -37,6 +26,13 @@ export default {
             enemyType: 'fireFastElemental',
             count: 3,
             interval: 100,
+            modifiers: {
+                bonus: {
+                    type: 'fireRate',
+                    value: -75
+                },
+                glowColour: '#00ffcc'
+            }
         }
     ]
 }; 

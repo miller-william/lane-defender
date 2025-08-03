@@ -83,9 +83,10 @@ function handleNextLevelClick(e, canvas) {
     if (e.type === 'click') {
         clickX = (e.clientX - rect.left) * scaleX;
         clickY = (e.clientY - rect.top) * scaleY;
-    } else if (e.type === 'touchend') {
-        clickX = (e.changedTouches[0].clientX - rect.left) * scaleX;
-        clickY = (e.changedTouches[0].clientY - rect.top) * scaleY;
+    } else if (e.type === 'touchend' || e.type === 'touchstart') {
+        const touch = e.type === 'touchend' ? e.changedTouches[0] : e.touches[0];
+        clickX = (touch.clientX - rect.left) * scaleX;
+        clickY = (touch.clientY - rect.top) * scaleY;
     }
     
     const button = window.nextLevelButton;
@@ -112,7 +113,8 @@ export function initializeInput(canvas) {
     canvas.addEventListener('touchmove', e => handleTouch(e, canvas), { passive: false });
     canvas.addEventListener('touchend', handleTouchEnd);
     
-    // Next level button click handling
+    // Next level button click handling - improved for mobile
     canvas.addEventListener('click', e => handleNextLevelClick(e, canvas));
-    canvas.addEventListener('touchend', e => handleNextLevelClick(e, canvas));
+    canvas.addEventListener('touchstart', e => handleNextLevelClick(e, canvas), { passive: false });
+    canvas.addEventListener('touchend', e => handleNextLevelClick(e, canvas), { passive: false });
 } 

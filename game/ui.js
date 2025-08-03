@@ -1,5 +1,5 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
-import { player, gameOver, levelComplete } from './state.js';
+import { player, gameOver, levelComplete, levelPerfect } from './state.js';
 import { getCurrentLevel } from './levels.js';
 
 // Background image cache
@@ -81,7 +81,33 @@ export function drawWinScreen(ctx) {
     ctx.fillStyle = '#00ff00';
     ctx.font = '48px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Level Complete!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+    ctx.fillText('Level Complete!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 80);
+
+    // Perfect Score message
+    if (levelPerfect) {
+        // Gold gradient effect for perfect score
+        const gradient = ctx.createLinearGradient(CANVAS_WIDTH / 2 - 100, CANVAS_HEIGHT / 2 - 20, CANVAS_WIDTH / 2 + 100, CANVAS_HEIGHT / 2 + 20);
+        gradient.addColorStop(0, '#FFD700'); // Gold
+        gradient.addColorStop(0.5, '#FFA500'); // Orange
+        gradient.addColorStop(1, '#FFD700'); // Gold
+        
+        ctx.fillStyle = gradient;
+        ctx.font = 'bold 32px sans-serif';
+        ctx.textAlign = 'center';
+        
+        // Add shadow for better visibility
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        
+        ctx.fillText('🎉 Perfect Score!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
+        
+        // Reset shadow
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+    }
 
     // Next Level button
     const buttonWidth = 200;

@@ -1,3 +1,5 @@
+import { setPerfectCompletion, isLevelPerfectlyCompleted } from './state.js';
+
 // Menu system state
 let unlockedLevel = 1;
 let currentLevel = null;
@@ -32,9 +34,23 @@ export function initializeMenu() {
     retryLevelButton = document.getElementById('retryLevel');
     touchControlArea = document.getElementById('touchControlArea');
     
-    // Set up event listeners
+    // Set up event listeners with mobile compatibility
+    aboutButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleAboutClick();
+    }, { passive: false });
     aboutButton.addEventListener('click', handleAboutClick);
+    
+    returnToMenuButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleReturnToMenu();
+    }, { passive: false });
     returnToMenuButton.addEventListener('click', handleReturnToMenu);
+    
+    retryLevelButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleRetryLevel();
+    }, { passive: false });
     retryLevelButton.addEventListener('click', handleRetryLevel);
     
     // Render initial level buttons
@@ -83,9 +99,27 @@ function renderLevelButtons() {
         button.textContent = `Level ${i}`;
         button.disabled = i > effectiveUnlockedLevel;
         
+        // Add perfect completion indicator
+        if (isLevelPerfectlyCompleted(i)) {
+            button.classList.add('perfect-completed');
+            // Add star icon
+            const star = document.createElement('span');
+            star.textContent = ' ⭐';
+            star.style.color = '#FFD700';
+            star.style.fontSize = '14px';
+            button.appendChild(star);
+        }
+        
         if (i <= effectiveUnlockedLevel) {
-            button.addEventListener('click', () => startLevel(i));
-            button.addEventListener('touchend', (e) => {
+            // Use touchstart for mobile compatibility
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                startLevel(i);
+            }, { passive: false });
+            
+            // Keep click for desktop
+            button.addEventListener('click', (e) => {
                 e.preventDefault();
                 startLevel(i);
             });
@@ -94,9 +128,34 @@ function renderLevelButtons() {
         levelButtons.appendChild(button);
     }
     
+    // Add legend for perfect completion
+    addPerfectLegend();
+    
     if (DEV_MODE.ALL_LEVELS_UNLOCKED) {
         console.log('DEV MODE: All levels unlocked for testing');
     }
+}
+
+// Add legend for perfect completion
+function addPerfectLegend() {
+    // Remove existing legend if any
+    const existingLegend = document.getElementById('perfectLegend');
+    if (existingLegend) {
+        existingLegend.remove();
+    }
+    
+    const legend = document.createElement('div');
+    legend.id = 'perfectLegend';
+    legend.style.cssText = `
+        text-align: center;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #FFD700;
+        font-weight: bold;
+    `;
+    legend.textContent = '⭐ = Perfect Score';
+    
+    levelButtons.appendChild(legend);
 }
 
 // Start a specific level
@@ -159,7 +218,7 @@ export function showGameOver(result = 'lose') {
 
 // Handle about button click
 function handleAboutClick() {
-    alert('About Lane Defender\n\nA tower defense game where you defend against waves of enemies!');
+    alert('About Defend the Rift\n\nA tower defense game where you defend against waves of enemies!\n\n⭐ Perfect Score: Complete a level without taking any damage!');
 }
 
 // Handle return to menu button click

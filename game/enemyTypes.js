@@ -65,7 +65,7 @@ export const ENEMY_TYPES = {
         glowColour: null
     },
     fireTankElemental: {
-        radius: 40,
+        radius: 50,
         defaultHealth: 10,
         defaultSpeed: 0.1, // 20% of canvas height per second (adjusted for real delta time)
         defaultDamage: 10,
@@ -92,13 +92,24 @@ export const ENEMY_TYPES = {
         defaultSpeed: 0.2, // 80% of canvas height per second (adjusted for real delta time)
         defaultDamage: 1,
         color: '#00aaff', // ice blue
-        image: null,
-        behaviour: 'straight',
+        image: 'assets/images/ice.png',
+        behaviour: 'zigzag', // Changed to zigzag behavior
         bonus: {
             type: 'fireRate',
             value: -75
         },
         glowColour: '#00ffcc' // cyan glow for fire rate bonus
+    },
+    iceTankElemental: {
+        radius: 60,
+        defaultHealth: 25,
+        defaultSpeed: 0.1, // 80% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 1,
+        color: '#00aaff', // ice blue
+        image: 'assets/images/ice.png',
+        behaviour: 'zigzag', // Changed to zigzag behavior
+        bonus: null,
+        glowColour: null
     },
     poisonElemental: {
         radius: 22,
@@ -107,7 +118,7 @@ export const ENEMY_TYPES = {
         defaultDamage: 2,
         color: '#00ff00', // poison green
         image: null,
-        behaviour: 'straight',
+        behaviour: 'zigzag', // Changed to zigzag for variety
         bonus: {
             type: 'damage',
             value: 2
