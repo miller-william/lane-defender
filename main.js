@@ -24,7 +24,7 @@ const ENEMY_SPAWN_INTERVAL_MS = 1000; // milliseconds
 // Dynamic game variables (can be changed via dev panel)
 let bulletDamage = 1;
 let bulletFireRate = 500; // milliseconds
-let enemyHealth = 3;
+let enemyHealth = 1;
 
 // Game state
 let player = {
