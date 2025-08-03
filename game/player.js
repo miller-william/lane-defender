@@ -1,6 +1,18 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
 import { player, keys, touchTargetX, isTouchActive, gameOver } from './state.js';
 
+// Player image cache
+let playerImage = null;
+
+// Load player image
+function loadPlayerImage() {
+    if (!playerImage) {
+        playerImage = new Image();
+        playerImage.src = 'assets/images/wizard.png';
+    }
+    return playerImage;
+}
+
 // Player movement
 export function updatePlayer() {
     if (gameOver) return;
@@ -26,6 +38,14 @@ export function updatePlayer() {
 
 // Drawing functions
 export function drawPlayer(ctx) {
-    ctx.fillStyle = '#00ff00';
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+    const img = loadPlayerImage();
+    
+    if (img.complete) {
+        // Draw the wizard image
+        ctx.drawImage(img, player.x, player.y, player.width, player.height);
+    } else {
+        // Fallback to green rectangle while image loads
+        ctx.fillStyle = '#00ff00';
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
 } 

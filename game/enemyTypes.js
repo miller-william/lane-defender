@@ -52,11 +52,57 @@ export const ENEMY_TYPES = {
     fireElemental: {
         radius: 30,
         defaultHealth: 1,
-        defaultSpeed: 2.5,
+        defaultSpeed: 1,
         defaultDamage: 1.5,
         color: '#ff4400', // fire orange fallback
         image: 'assets/images/fire.png', // placeholder image path
         behaviour: 'straight',
         bonus: null
+    },
+    fireTankElemental: {
+        radius: 40,
+        defaultHealth: 10,
+        defaultSpeed: 0.5,
+        defaultDamage: 10,
+        color: 'green', // fire orange fallback
+        image: 'assets/images/green_fire.png', 
+        behaviour: 'straight',
+        bonus: null
+    },
+    fireFastElemental: {
+        radius: 30,
+        defaultHealth: 1,
+        defaultSpeed: 2.5,
+        defaultDamage: 1,
+        color: 'blue', 
+        image: 'assets/images/blue_fire.png', 
+        behaviour: 'straight',
+        bonus: null
+    },
+    iceElemental: {
+        radius: 18,
+        defaultHealth: 2,
+        defaultSpeed: 2,
+        defaultDamage: 1,
+        color: '#00aaff', // ice blue
+        image: null,
+        behaviour: 'straight',
+        bonus: {
+            type: 'fireRate',
+            value: -75
+        }
+    },
+    poisonElemental: {
+        radius: 22,
+        defaultHealth: 3,
+        defaultSpeed: 1.5,
+        defaultDamage: 2,
+        color: '#00ff00', // poison green
+        image: null,
+        behaviour: 'straight',
+        bonus: {
+            type: 'damage',
+            value: 2
+        }
     }
 }; 

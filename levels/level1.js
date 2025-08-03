@@ -3,48 +3,36 @@ export default {
     background: "assets/images/fire_bg.png",
     spawnEvents: [
         // Single spawn events
-        { time: 0, enemyType: 'basic', health: 1, speed: 2 },
+        { time: 0, enemyType: 'fireElemental', health: 1, speed: 2 },
         
         // Bulk spawn: 5 basic enemies every 250ms starting at 1000ms
         {
             time: 1000,
             enemyType: 'fireElemental',
             count: 3,
-            interval: 250,
-            modifiers: { bonus: null,speed: 1 }
+            interval: 250
         },
         
         // Bulk spawn: 3 fast enemies every 500ms starting at 2500ms
         {
             time: 2500,
-            enemyType: 'fast',
+            enemyType: 'fireFastElemental',
             count: 2,
-            modifiers: { bonus: null, damage: 0.5 }
+            interval: 250
         },
         
         // Single tank enemy
         { 
-            time: 4000, 
-            enemyType: 'tank',
-            modifiers: {
-                bonus: null,
-                health: 8,
-                damage: 3,
-                color: '#ff00ff'
-            }
+            time: 2000, 
+            enemyType: 'fireTankElemental'
         },
         
         // Bulk spawn: 4 small enemies every 200ms starting at 5000ms
         {
             time: 5000,
-            enemyType: 'small',
+            enemyType: 'fireFastElemental',
             count: 1,
-            interval: 200,
-            modifiers: {
-                bonus: null,
-                damage: 0.5,
-                color: '#00ff00' // green small enemies
-            }
+            interval: 200
         }
     ]
 }; 

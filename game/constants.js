@@ -3,8 +3,8 @@ export const CANVAS_WIDTH = 600;
 export const CANVAS_HEIGHT = 800;
 
 // Player properties
-export const PLAYER_WIDTH = 50;
-export const PLAYER_HEIGHT = 20;
+export const PLAYER_WIDTH = 60;
+export const PLAYER_HEIGHT = 80;
 export const PLAYER_SPEED = 7;
 
 // Bullet properties

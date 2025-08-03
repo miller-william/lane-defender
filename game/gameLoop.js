@@ -7,15 +7,22 @@ import { handleCollisions } from './collisions.js';
 import { drawPlayer } from './player.js';
 import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground } from './ui.js';
 import { updateLevel } from './levels.js';
+import { updateParticles, drawParticles } from './particles.js';
 
 let ctx = null;
+let lastTime = 0;
 
 export function initializeGameLoop(canvas) {
     ctx = canvas.getContext('2d');
+    lastTime = performance.now();
 }
 
 // Main game loop
-export function gameLoop() {
+export function gameLoop(currentTime = performance.now()) {
+    // Calculate delta time in milliseconds
+    const deltaTime = (currentTime - lastTime);
+    lastTime = currentTime;
+    
     // Draw background first
     drawBackground(ctx);
     
@@ -36,8 +43,10 @@ export function gameLoop() {
     updateLevel(); // Update level spawning
     updateEnemies();
     handleCollisions();
+    updateParticles(deltaTime); // Update particles
     
     // Draw everything
+    drawParticles(ctx); // Draw particles first after background
     drawPlayer(ctx);
     drawBullets(ctx);
     drawEnemies(ctx);

@@ -1,5 +1,6 @@
 import { bullets, enemies, setBullets, setEnemies, setBulletDamage, setBulletFireRate, bulletDamage, bulletFireRate } from './state.js';
 import { ENEMY_TYPES } from './enemyTypes.js';
+import { spawnParticles } from './particles.js';
 
 // Bonus application function
 function applyEnemyBonus(enemy) {
@@ -61,6 +62,10 @@ export function handleCollisions() {
                 
                 // Remove enemy if health is 0 or below
                 if (enemies[j].health <= 0) {
+                    // Spawn particles at enemy position
+                    const enemy = enemies[j];
+                    spawnParticles(enemy.x, enemy.y, enemy.color || '#ff8800', 15);
+                    
                     // Apply bonus before removing enemy
                     applyEnemyBonus(enemies[j]);
                     enemies.splice(j, 1);

@@ -81,7 +81,7 @@ export function drawWinScreen(ctx) {
     ctx.fillStyle = '#00ff00';
     ctx.font = '48px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Level Complete!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+    ctx.fillText('Level complete!', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
 
     // Next Level button
     const buttonWidth = 200;
@@ -97,7 +97,7 @@ export function drawWinScreen(ctx) {
     ctx.fillStyle = '#000000';
     ctx.font = '24px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Next Level', CANVAS_WIDTH / 2, buttonY + 35);
+    ctx.fillText('Next level', CANVAS_WIDTH / 2, buttonY + 35);
 
     // Store button coordinates for click detection
     window.nextLevelButton = {
