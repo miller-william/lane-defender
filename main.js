@@ -42,6 +42,8 @@ let enemies = [];
 let lastBulletFiredAt = 0;
 let keys = {};
 let gameOver = false;
+let touchTargetX = null;
+let isTouchActive = false;
 
 // Input handling
 function handleKeyDown(e) {
@@ -93,6 +95,29 @@ function handleTouchEnd(e) {
     keys.ArrowRight = false;
 }
 
+// Touch control area setup
+const touchArea = document.getElementById('touchControlArea');
+
+touchArea.addEventListener('touchstart', e => {
+    isTouchActive = true;
+    handleTouchMove(e);
+});
+
+touchArea.addEventListener('touchmove', handleTouchMove, { passive: false });
+touchArea.addEventListener('touchend', () => {
+    isTouchActive = false;
+    touchTargetX = null;
+});
+
+function handleTouchMove(e) {
+    if (gameOver) return;
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const touch = e.touches[0];
+    touchTargetX = (touch.clientX - rect.left) * scaleX;
+}
+
 // Event listeners
 document.addEventListener('keydown', handleKeyDown);
 document.addEventListener('keyup', handleKeyUp);
@@ -104,11 +129,19 @@ canvas.addEventListener('touchend', handleTouchEnd);
 function updatePlayer() {
     if (gameOver) return;
     
-    if (keys.ArrowLeft && player.x > 0) {
-        player.x -= player.speed;
-    }
-    if (keys.ArrowRight && player.x < CANVAS_WIDTH - player.width) {
-        player.x += player.speed;
+    // Smooth touch movement
+    if (touchTargetX !== null) {
+        const playerCenter = player.x + player.width / 2;
+        const dx = touchTargetX - playerCenter;
+        player.x += dx * 0.2; // smoothing factor
+    } else if (!isTouchActive) {
+        // Arrow key movement only when touch is not active
+        if (keys.ArrowLeft && player.x > 0) {
+            player.x -= player.speed;
+        }
+        if (keys.ArrowRight && player.x < CANVAS_WIDTH - player.width) {
+            player.x += player.speed;
+        }
     }
     
     // Clamp player position

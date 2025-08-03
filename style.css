@@ -5,6 +5,8 @@ html, body {
     overflow: hidden;
     height: 100%;
     width: 100%;
+    overscroll-behavior-y: contain;
+    touch-action: none;
 }
 
 .game-container {
@@ -85,6 +87,16 @@ canvas {
 
 .dev-control button:hover {
     background: #00cc00;
+}
+
+/* Touch control area for mobile */
+#touchControlArea {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 100px;
+    background: transparent; /* or rgba(0,0,0,0.05) for testing */
+    z-index: 10;
 }
 
 /* Hide dev panel on mobile for layout clarity */
