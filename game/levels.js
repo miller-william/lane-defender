@@ -1,4 +1,4 @@
-import { enemies, setEnemies, setLevelComplete, setBulletColor, setActiveUpgradeEvent, clearUpgradeEvent } from './state.js';
+import { enemies, setEnemies, setLevelComplete, setBulletColor, setActiveUpgradeEvent, clearUpgradeEvent, setLevelCompletionDelayActive, getLevelCompletionDelay, isLevelCompletionDelayActive, setTotalEnemiesSpawned } from './state.js';
 import { createEnemyFromSpawnEvent } from './enemies.js';
 import { LEVELS } from '../levels/index.js';
 
@@ -103,14 +103,20 @@ export function startLevel(levelNumber) {
     levelStartTime = Date.now();
     eventIndex = 0;
     setLevelComplete(false);
+    setLevelCompletionDelayActive(false); // Reset completion delay state
     
     // Set bullet color from level configuration (default to yellow if not specified)
     const bulletColor = level.bulletColor || '#ffff00';
     setBulletColor(bulletColor);
     
+    // Count total enemies that will be spawned
+    const spawnEvents = allLevelEvents.filter(event => !event.type || event.type !== 'upgradeChoice');
+    setTotalEnemiesSpawned(spawnEvents.length);
+    
     console.log(`Starting Level ${levelNumber}: ${level.name}`);
     console.log(`Bullet color: ${bulletColor}`);
     console.log(`Total events: ${allLevelEvents.length} (spawn + upgrade)`);
+    console.log(`Total enemies to spawn: ${spawnEvents.length}`);
     
     // Dev mode: instant win
     if (DEV_MODE.INSTANT_WIN) {
@@ -150,14 +156,22 @@ export function updateLevel() {
     }
     
     // Check if level is complete (all events processed and enemies defeated)
-    if (eventIndex >= allLevelEvents.length && enemies.length === 0) {
-        setLevelComplete(true);
-        console.log(`Level complete! All enemies defeated.`);
+    if (eventIndex >= allLevelEvents.length && enemies.length === 0 && !isLevelCompletionDelayActive()) {
+        // Start completion delay to allow for final explosion
+        setLevelCompletionDelayActive(true);
+        console.log(`Level complete! Starting completion delay...`);
         
-        // Call the level completion handler
-        if (window.handleLevelCompletion) {
-            window.handleLevelCompletion(currentLevelNumber);
-        }
+        // Wait for delay before showing win screen
+        setTimeout(() => {
+            setLevelComplete(true);
+            setLevelCompletionDelayActive(false);
+            console.log(`Level completion delay finished, showing win screen.`);
+            
+            // Call the level completion handler
+            if (window.handleLevelCompletion) {
+                window.handleLevelCompletion(currentLevelNumber);
+            }
+        }, 1000); // 1 second delay
     }
 }
 

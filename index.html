@@ -22,8 +22,21 @@
     <!-- Game Over Screen -->
     <div id="gameOverScreen" style="display: none;">
         <h2>Level Complete!</h2>
-        <button id="returnToMenu">Back to Menu</button>
-        <button id="retryLevel">Retry Level</button>
+        
+        <!-- Stats Panel -->
+        <div id="levelStats">
+            <p id="enemiesDefeated">Enemies Defeated: 0</p>
+            <p id="damageTaken">Damage Taken: 0</p>
+            <p id="bonusesUsed">Bonuses Used: None</p>
+            <p id="perfectBadge" style="display: none;">🌟 Perfect Score!</p>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div id="gameOverButtons">
+            <button id="playAgain">Play Again</button>
+            <button id="returnToMenu">Back to Menu</button>
+            <button id="nextLevel" style="display: none;">Next Level</button>
+        </div>
     </div>
     
     <!-- Touch Control Area (only visible during gameplay) -->

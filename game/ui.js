@@ -63,17 +63,38 @@ export function drawPlayerHealth(ctx) {
 
 // Draw active player bonuses
 export function drawActiveBonuses(ctx) {
-    if (playerActiveBonuses.length === 0) return;
+    // Early return if no bonuses to avoid unnecessary canvas operations
+    if (!playerActiveBonuses || playerActiveBonuses.length === 0) return;
+    
+    // Group bonuses by type and sum their values
+    const groupedBonuses = {};
+    playerActiveBonuses.forEach(bonus => {
+        if (!groupedBonuses[bonus.type]) {
+            groupedBonuses[bonus.type] = 0;
+        }
+        groupedBonuses[bonus.type] += bonus.value;
+    });
+    
+    // Convert to array of combined bonuses
+    const combinedBonuses = Object.entries(groupedBonuses).map(([type, totalValue]) => ({
+        type,
+        value: totalValue
+    }));
     
     const x = 20;
     const y = 50;
     const iconSize = 20;
     const spacing = 25;
     
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.fillRect(x - 5, y - 5, playerActiveBonuses.length * spacing + 10, iconSize + 10);
+    // Cache canvas operations
+    const originalFillStyle = ctx.fillStyle;
+    const originalFont = ctx.font;
+    const originalTextAlign = ctx.textAlign;
     
-    playerActiveBonuses.forEach((bonus, index) => {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.fillRect(x - 5, y - 5, combinedBonuses.length * spacing + 10, iconSize + 10);
+    
+    combinedBonuses.forEach((bonus, index) => {
         const iconX = x + (index * spacing);
         
         // Draw bonus icon
@@ -101,11 +122,37 @@ export function drawActiveBonuses(ctx) {
         ctx.textAlign = 'center';
         ctx.fillText(icon, iconX + iconSize/2, y + iconSize/2 + 5);
         
-        // Draw bonus value
-        ctx.fillStyle = '#ffffff';
+        // Draw bonus value with background for better readability
+        const valueText = bonus.value >= 0 ? `+${bonus.value}` : `${bonus.value}`;
         ctx.font = '12px Arial';
-        ctx.fillText(`+${bonus.value}`, iconX + iconSize/2, y + iconSize + 15);
+        ctx.textAlign = 'center';
+        
+        // Measure text for background
+        const textMetrics = ctx.measureText(valueText);
+        const textWidth = textMetrics.width;
+        const textHeight = 14;
+        const textX = iconX + iconSize/2 - textWidth/2;
+        const textY = y + iconSize + 15;
+        
+        // Draw background for value text
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.fillRect(textX - 4, textY - textHeight/2 - 2, textWidth + 8, textHeight + 4);
+        
+        // Draw border for value text
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(textX - 4, textY - textHeight/2 - 2, textWidth + 8, textHeight + 4);
+        
+        // Draw value text (centered vertically in the background)
+        ctx.fillStyle = '#ffffff';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(valueText, iconX + iconSize/2, textY);
     });
+    
+    // Restore original canvas state
+    ctx.fillStyle = originalFillStyle;
+    ctx.font = originalFont;
+    ctx.textAlign = originalTextAlign;
 }
 
 // Game over screen

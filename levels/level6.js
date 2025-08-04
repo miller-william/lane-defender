@@ -45,8 +45,8 @@ export default {
             type: 'upgradeChoice',
             bannerSpeed: 0.3, // Fast banner for urgency
             leftBonus: [
-                { type: 'fireRate', value: 200 },
-                { type: 'damage', value: 4 }
+                { type: 'fireRate', value: 1000 },
+                { type: 'damage', value: 8 }
             ],
             rightBonus: [
                 { type: 'fireRate', value: -100 },

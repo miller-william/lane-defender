@@ -28,18 +28,8 @@ export function gameLoop(currentTime = performance.now()) {
     const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.05);
     lastTime = currentTime;
     
-    // Debug delta time occasionally
-    if (Math.random() < 0.01) { // Log 1% of the time
-        console.log(`Delta time: ${deltaTime.toFixed(4)}s`);
-    }
-    
     // Draw background first
     drawBackground(ctx);
-    
-    // Debug game state occasionally
-    if (Math.random() < 0.01) { // Log 1% of the time
-        console.log(`Game state: gameOver=${gameOver}, isLevelComplete=${isLevelComplete()}`);
-    }
     
     if (gameOver) {
         // Player lost - stop game loop and show game over screen
@@ -50,10 +40,9 @@ export function gameLoop(currentTime = performance.now()) {
     }
     
     if (isLevelComplete()) {
-        // Player won - stop game loop and show win screen
+        // Player won - stop game loop (win screen handled by handleLevelCompletion)
         console.log('Level complete triggered - player won');
         gameLoopActive = false;
-        setTimeout(() => showGameOver('win'), 100);
         return;
     }
     

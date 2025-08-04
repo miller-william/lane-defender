@@ -63,6 +63,14 @@ export let upgradeDecisionMade = false;
 export let playerActiveBonuses = []; // Store active bonuses for stacking
 export let upgradeEventQueue = []; // Queue for pending upgrade events
 
+// Level completion delay state
+export let levelCompletionDelay = 0; // Time to wait before showing win screen
+export let levelCompletionDelayActive = false; // Whether delay is currently active
+
+// Level stats tracking
+export let totalEnemiesSpawned = 0;
+export let startingHealth = 5;
+
 // Setter functions for mutable state
 export function setLastBulletFiredAt(time) {
     lastBulletFiredAt = time;
@@ -151,6 +159,12 @@ export function setActiveUpgradeEvent(event) {
 }
 
 export function clearUpgradeEvent() {
+    // Clear cached data
+    if (activeUpgradeEvent) {
+        delete activeUpgradeEvent._cachedLeftUpgrades;
+        delete activeUpgradeEvent._cachedRightUpgrades;
+    }
+    
     activeUpgradeEvent = null;
     upgradeBannerY = -100;
     upgradeDecisionMade = false;
@@ -255,4 +269,46 @@ export function resetUpgradeSystem() {
     playerActiveBonuses = [];
     upgradeEventQueue = []; // Clear the queue
     bulletSpread = 0; // Reset spread to 0
+} 
+
+// Level completion delay functions
+export function setLevelCompletionDelay(delay) {
+    levelCompletionDelay = delay;
+}
+
+export function setLevelCompletionDelayActive(active) {
+    levelCompletionDelayActive = active;
+}
+
+export function getLevelCompletionDelay() {
+    return levelCompletionDelay;
+}
+
+export function isLevelCompletionDelayActive() {
+    return levelCompletionDelayActive;
+}
+
+// Level stats functions
+export function setTotalEnemiesSpawned(count) {
+    totalEnemiesSpawned = count;
+}
+
+export function setStartingHealth(health) {
+    startingHealth = health;
+}
+
+export function getEnemiesDefeated() {
+    // Calculate enemies defeated on-demand: total spawned - current enemies
+    // Cache enemies.length to avoid repeated property access
+    const currentEnemies = enemies ? enemies.length : 0;
+    return totalEnemiesSpawned - currentEnemies;
+}
+
+export function getDamageTaken() {
+    // Calculate damage taken on-demand instead of tracking incrementally
+    return startingHealth - player.health;
+}
+
+export function getStartingHealth() {
+    return startingHealth;
 } 

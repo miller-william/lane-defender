@@ -88,6 +88,7 @@ export function handleCollisions() {
                     
                     // Apply bonus before removing enemy
                     applyEnemyBonus(enemies[j]);
+                    
                     enemies.splice(j, 1);
                     enemiesModified = true;
                 }

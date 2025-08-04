@@ -67,7 +67,7 @@ export const ENEMY_TYPES = {
     fireTankElemental: {
         radius: 50,
         defaultHealth: 10,
-        defaultSpeed: 0.1, // 20% of canvas height per second (adjusted for real delta time)
+        defaultSpeed: 0.07, // 20% of canvas height per second (adjusted for real delta time)
         defaultDamage: 10,
         color: 'green', // fire orange fallback
         image: 'assets/images/green_fire.png', 

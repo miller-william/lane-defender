@@ -22,9 +22,16 @@ export function updateUpgradeBanner(deltaTime) {
     // Get banner speed from level config or use default
     const bannerSpeed = activeUpgradeEvent.bannerSpeed || DEFAULT_BANNER_SPEED;
     
-    // Calculate dynamic banner height for removal logic
-    const leftUpgrades = getUpgradeList(activeUpgradeEvent.leftBonus);
-    const rightUpgrades = getUpgradeList(activeUpgradeEvent.rightBonus);
+    // Cache upgrade lists to avoid recalculating every frame
+    if (!activeUpgradeEvent._cachedLeftUpgrades) {
+        activeUpgradeEvent._cachedLeftUpgrades = getUpgradeList(activeUpgradeEvent.leftBonus);
+    }
+    if (!activeUpgradeEvent._cachedRightUpgrades) {
+        activeUpgradeEvent._cachedRightUpgrades = getUpgradeList(activeUpgradeEvent.rightBonus);
+    }
+    
+    const leftUpgrades = activeUpgradeEvent._cachedLeftUpgrades;
+    const rightUpgrades = activeUpgradeEvent._cachedRightUpgrades;
     const maxRows = Math.max(leftUpgrades.length, rightUpgrades.length);
     const dynamicBannerHeight = Math.max(BANNER_HEIGHT, maxRows * 25 + 40);
     
@@ -32,10 +39,7 @@ export function updateUpgradeBanner(deltaTime) {
     const newBannerY = upgradeBannerY + bannerSpeed * CANVAS_HEIGHT * deltaTime;
     setUpgradeBannerY(newBannerY);
     
-    // Debug banner position occasionally
-    if (Math.random() < 0.1) { // Log 10% of the time
-        console.log(`Banner Y: ${newBannerY.toFixed(1)}, Speed: ${bannerSpeed}, Canvas Height: ${CANVAS_HEIGHT}, Dynamic Height: ${dynamicBannerHeight}, Threshold: ${CANVAS_HEIGHT + dynamicBannerHeight}`);
-    }
+    // Banner position updated
     
     // Check if banner has reached decision point (only once)
     if (newBannerY >= DECISION_Y_THRESHOLD && !upgradeDecisionMade) {
@@ -112,11 +116,11 @@ function getBonusDescription(bonus) {
 export function drawUpgradeBanner(ctx) {
     if (!activeUpgradeEvent || upgradeBannerY > CANVAS_HEIGHT) return;
     
-    // Calculate dynamic banner height based on content
-    const leftUpgrades = getUpgradeList(activeUpgradeEvent.leftBonus);
-    const rightUpgrades = getUpgradeList(activeUpgradeEvent.rightBonus);
+    // Use cached upgrade lists to avoid recalculating
+    const leftUpgrades = activeUpgradeEvent._cachedLeftUpgrades || getUpgradeList(activeUpgradeEvent.leftBonus);
+    const rightUpgrades = activeUpgradeEvent._cachedRightUpgrades || getUpgradeList(activeUpgradeEvent.rightBonus);
     const maxRows = Math.max(leftUpgrades.length, rightUpgrades.length);
-    const dynamicBannerHeight = Math.max(BANNER_HEIGHT, maxRows * 25 + 40); // 25px per row + padding
+    const dynamicBannerHeight = Math.max(BANNER_HEIGHT, maxRows * 30 + 60); // Increased spacing
     
     const bannerTop = Math.max(0, upgradeBannerY);
     const bannerBottom = Math.min(CANVAS_HEIGHT, upgradeBannerY + dynamicBannerHeight);
@@ -127,54 +131,170 @@ export function drawUpgradeBanner(ctx) {
     // Save context
     ctx.save();
     
-    // Draw left half (translucent)
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+    // Create animated glow effect based on time
+    const time = performance.now() * 0.001;
+    const glowIntensity = 0.3 + 0.1 * Math.sin(time * 3);
+    
+    // Draw background blur/overlay
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.fillRect(0, bannerTop, CANVAS_WIDTH, bannerHeight);
+    
+    // Draw left half with modern gradient
+    const leftGradient = ctx.createLinearGradient(0, bannerTop, CANVAS_WIDTH / 2, bannerBottom);
+    leftGradient.addColorStop(0, `rgba(255, 50, 50, ${0.4 + glowIntensity * 0.2})`);
+    leftGradient.addColorStop(0.5, `rgba(255, 100, 100, ${0.3 + glowIntensity * 0.1})`);
+    leftGradient.addColorStop(1, `rgba(255, 150, 150, ${0.2 + glowIntensity * 0.1})`);
+    ctx.fillStyle = leftGradient;
     ctx.fillRect(0, bannerTop, CANVAS_WIDTH / 2, bannerHeight);
     
-    // Draw right half (translucent)
-    ctx.fillStyle = 'rgba(0, 0, 255, 0.3)';
+    // Draw right half with modern gradient
+    const rightGradient = ctx.createLinearGradient(CANVAS_WIDTH / 2, bannerTop, CANVAS_WIDTH, bannerBottom);
+    rightGradient.addColorStop(0, `rgba(50, 150, 255, ${0.4 + glowIntensity * 0.2})`);
+    rightGradient.addColorStop(0.5, `rgba(100, 180, 255, ${0.3 + glowIntensity * 0.1})`);
+    rightGradient.addColorStop(1, `rgba(150, 200, 255, ${0.2 + glowIntensity * 0.1})`);
+    ctx.fillStyle = rightGradient;
     ctx.fillRect(CANVAS_WIDTH / 2, bannerTop, CANVAS_WIDTH / 2, bannerHeight);
     
-    // Draw center line
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
+    // Draw modern center line with glow
+    const centerLineGlow = ctx.createLinearGradient(CANVAS_WIDTH / 2 - 3, bannerTop, CANVAS_WIDTH / 2 + 3, bannerBottom);
+    centerLineGlow.addColorStop(0, 'rgba(255, 255, 255, 0)');
+    centerLineGlow.addColorStop(0.5, `rgba(255, 255, 255, ${0.8 + glowIntensity * 0.2})`);
+    centerLineGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    
+    ctx.strokeStyle = centerLineGlow;
+    ctx.lineWidth = 4;
+    ctx.setLineDash([8, 8]);
     ctx.beginPath();
     ctx.moveTo(CANVAS_WIDTH / 2, bannerTop);
     ctx.lineTo(CANVAS_WIDTH / 2, bannerBottom);
     ctx.stroke();
     
-    // Draw upgrade labels
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    // Draw solid center line
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(CANVAS_WIDTH / 2, bannerTop);
+    ctx.lineTo(CANVAS_WIDTH / 2, bannerBottom);
+    ctx.stroke();
+    
+    // Draw upgrade labels with modern styling
     ctx.font = 'bold 14px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    // Draw left upgrades in rows
+    // Draw left upgrades in rows with enhanced styling
     const leftStartY = bannerTop + 20;
     leftUpgrades.forEach((upgrade, index) => {
-        const y = leftStartY + (index * 25);
+        const y = leftStartY + (index * 30);
+        
+        // Draw background highlight for each upgrade
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.fillRect(CANVAS_WIDTH / 4 - 80, y - 10, 160, 25);
+        
+        // Draw upgrade text with glow
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.shadowColor = 'rgba(255, 50, 50, 0.8)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         ctx.fillText(upgrade, CANVAS_WIDTH / 4, y);
+        
+        // Reset shadow
+        ctx.shadowBlur = 0;
     });
     
-    // Draw right upgrades in rows
+    // Draw right upgrades in rows with enhanced styling
     const rightStartY = bannerTop + 20;
     rightUpgrades.forEach((upgrade, index) => {
-        const y = rightStartY + (index * 25);
+        const y = rightStartY + (index * 30);
+        
+        // Draw background highlight for each upgrade
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.fillRect((CANVAS_WIDTH / 4) * 3 - 80, y - 10, 160, 25);
+        
+        // Draw upgrade text with glow
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.shadowColor = 'rgba(50, 150, 255, 0.8)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         ctx.fillText(upgrade, (CANVAS_WIDTH / 4) * 3, y);
+        
+        // Reset shadow
+        ctx.shadowBlur = 0;
     });
     
-    // Draw decision indicator or confirmation
+    // Draw decision indicator or confirmation with modern styling
     if (upgradeBannerY >= DECISION_Y_THRESHOLD - 50 && !upgradeDecisionMade) {
-        // Show "CHOOSE NOW!" before decision
-        ctx.fillStyle = 'rgba(255, 255, 0, 0.8)';
-        ctx.font = 'bold 14px Arial';
-        ctx.fillText('CHOOSE NOW!', CANVAS_WIDTH / 2, bannerTop + bannerHeight / 2);
+        // Show "CHOOSE NOW!" with pulsing effect and solid background
+        const pulseIntensity = 0.8 + 0.2 * Math.sin(time * 5);
+        const text = '⚡ CHOOSE NOW! ⚡';
+        ctx.font = 'bold 18px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Measure text for background
+        const textMetrics = ctx.measureText(text);
+        const textWidth = textMetrics.width;
+        const textHeight = 25;
+        const textX = CANVAS_WIDTH / 2 - textWidth / 2;
+        const textY = bannerTop + bannerHeight / 2;
+        
+        // Draw solid background
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.fillRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
+        
+        // Draw border
+        ctx.strokeStyle = `rgba(255, 255, 0, ${pulseIntensity})`;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
+        
+        // Draw text with glow
+        ctx.fillStyle = `rgba(255, 255, 0, ${pulseIntensity})`;
+        ctx.shadowColor = 'rgba(255, 255, 0, 0.8)';
+        ctx.shadowBlur = 12;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        
+        ctx.fillText(text, CANVAS_WIDTH / 2, textY);
+        
+        // Reset shadow
+        ctx.shadowBlur = 0;
     } else if (upgradeDecisionMade) {
-        // Show confirmation after decision
-        ctx.fillStyle = 'rgba(0, 255, 0, 0.8)';
-        ctx.font = 'bold 14px Arial';
-        ctx.fillText('UPGRADE APPLIED!', CANVAS_WIDTH / 2, bannerTop + bannerHeight / 2);
+        // Show confirmation with success styling and solid background
+        const text = '✅ UPGRADE APPLIED! ✅';
+        ctx.font = 'bold 18px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Measure text for background
+        const textMetrics = ctx.measureText(text);
+        const textWidth = textMetrics.width;
+        const textHeight = 25;
+        const textX = CANVAS_WIDTH / 2 - textWidth / 2;
+        const textY = bannerTop + bannerHeight / 2;
+        
+        // Draw solid background
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.fillRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
+        
+        // Draw border
+        ctx.strokeStyle = 'rgba(0, 255, 100, 0.9)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
+        
+        // Draw text with glow
+        ctx.fillStyle = 'rgba(0, 255, 100, 0.9)';
+        ctx.shadowColor = 'rgba(0, 255, 100, 0.8)';
+        ctx.shadowBlur = 12;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        
+        ctx.fillText(text, CANVAS_WIDTH / 2, textY);
+        
+        // Reset shadow
+        ctx.shadowBlur = 0;
     }
     
     // Restore context
