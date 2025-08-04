@@ -17,7 +17,7 @@ export let lastBulletFiredAt = 0;
 export let keys = {};
 export let gameOver = false;
 export let levelComplete = false;
-export let levelPerfect = true; // Track if level was completed without taking damage
+export let levelPerfect = true; // Track if current level attempt was perfect (no damage taken)
 export let touchTargetX = null;
 export let isTouchActive = false;
 

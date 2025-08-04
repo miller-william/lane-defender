@@ -8,6 +8,7 @@ import {
     setLevelPerfect, setPerfectCompletion, isLevelPerfect, setBulletColor, resetUpgradeSystem, setBulletSpread,
     setTotalEnemiesSpawned, setStartingHealth
 } from './game/state.js';
+import { getCurrentLevelNumber } from './game/levels.js';
 
 // Game state reset function
 function resetGameState() {

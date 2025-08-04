@@ -6,30 +6,35 @@ export default {
         // Initial wave
         {
             time: 0,
-            enemyType: 'fireElemental',
-            count: 5,
-            interval: 200
+            enemyType: 'fireFastElemental',
+            count: 1,
+            interval: 1000,
+            modifiers: {
+                bonus: {
+                    type: 'spread',
+                    value: 1
+                },
+                glowColour: '#00ffcc'
+            }
         },
         
         // Fast wave
         {
             time: 2000,
-            enemyType: 'fireFastElemental',
-            count: 3,
+            enemyType: 'fireElemental',
+            count: 4,
             interval: 400
         },
         
         // Tank wave
         {
-            time: 4000,
-            enemyType: 'fireTankElemental',
-            count: 2,
-            interval: 6000
-        },
+            time: 3000,
+            enemyType: 'fireFastElemental',
+            count: 1        },
         
         // Final swarm
         {
-            time: 6000,
+            time: 5000,
             enemyType: 'fireElemental',
             count: 4,
             interval: 400

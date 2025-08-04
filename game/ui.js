@@ -83,16 +83,19 @@ export function drawActiveBonuses(ctx) {
     
     const x = 20;
     const y = 50;
-    const iconSize = 20;
-    const spacing = 25;
+    const iconSize = 24; // Increased icon size for better alignment
+    const spacing = 35; // Increased spacing to accommodate larger numbers
     
     // Cache canvas operations
     const originalFillStyle = ctx.fillStyle;
     const originalFont = ctx.font;
     const originalTextAlign = ctx.textAlign;
+    const originalTextBaseline = ctx.textBaseline;
     
+    // Calculate total width needed for all bonuses
+    const totalWidth = combinedBonuses.length * spacing;
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.fillRect(x - 5, y - 5, combinedBonuses.length * spacing + 10, iconSize + 10);
+    ctx.fillRect(x - 5, y - 5, totalWidth + 10, iconSize + 25); // Increased height for text
     
     combinedBonuses.forEach((bonus, index) => {
         const iconX = x + (index * spacing);
@@ -117,22 +120,25 @@ export function drawActiveBonuses(ctx) {
                 color = '#ffff00';
         }
         
+        // Draw icon (properly centered)
         ctx.fillStyle = color;
-        ctx.font = '16px Arial';
+        ctx.font = '20px Arial'; // Increased font size
         ctx.textAlign = 'center';
-        ctx.fillText(icon, iconX + iconSize/2, y + iconSize/2 + 5);
+        ctx.textBaseline = 'middle';
+        ctx.fillText(icon, iconX + spacing/2, y + iconSize/2);
         
         // Draw bonus value with background for better readability
         const valueText = bonus.value >= 0 ? `+${bonus.value}` : `${bonus.value}`;
         ctx.font = '12px Arial';
         ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
         
         // Measure text for background
         const textMetrics = ctx.measureText(valueText);
         const textWidth = textMetrics.width;
         const textHeight = 14;
-        const textX = iconX + iconSize/2 - textWidth/2;
-        const textY = y + iconSize + 15;
+        const textX = iconX + spacing/2 - textWidth/2;
+        const textY = y + iconSize + 8; // Better vertical spacing
         
         // Draw background for value text
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
@@ -143,16 +149,16 @@ export function drawActiveBonuses(ctx) {
         ctx.lineWidth = 1;
         ctx.strokeRect(textX - 4, textY - textHeight/2 - 2, textWidth + 8, textHeight + 4);
         
-        // Draw value text (centered vertically in the background)
+        // Draw value text
         ctx.fillStyle = '#ffffff';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(valueText, iconX + iconSize/2, textY);
+        ctx.fillText(valueText, iconX + spacing/2, textY);
     });
     
     // Restore original canvas state
     ctx.fillStyle = originalFillStyle;
     ctx.font = originalFont;
     ctx.textAlign = originalTextAlign;
+    ctx.textBaseline = originalTextBaseline;
 }
 
 // Game over screen

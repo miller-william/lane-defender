@@ -1,4 +1,4 @@
-import { enemies, setEnemies, setLevelComplete, setBulletColor, setActiveUpgradeEvent, clearUpgradeEvent, setLevelCompletionDelayActive, getLevelCompletionDelay, isLevelCompletionDelayActive, setTotalEnemiesSpawned } from './state.js';
+import { enemies, setEnemies, setLevelComplete, setBulletColor, setActiveUpgradeEvent, clearUpgradeEvent, setLevelCompletionDelayActive, getLevelCompletionDelay, isLevelCompletionDelayActive, setTotalEnemiesSpawned, setLevelPerfect } from './state.js';
 import { createEnemyFromSpawnEvent } from './enemies.js';
 import { LEVELS } from '../levels/index.js';
 
@@ -181,4 +181,8 @@ export function isLevelComplete() {
 
 export function getCurrentLevel() {
     return currentLevel;
+}
+
+export function getCurrentLevelNumber() {
+    return currentLevelNumber;
 } 

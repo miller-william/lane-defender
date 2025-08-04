@@ -322,7 +322,7 @@ function populateLevelStats(levelNumber) {
     
     // Show/hide perfect badge
     if (perfectBadgeElement && statsContainer) {
-        if (isLevelPerfect()) {
+        if (isLevelPerfectlyCompleted(levelNumber)) {
             perfectBadgeElement.style.display = 'block';
             statsContainer.classList.add('perfect');
         } else {
