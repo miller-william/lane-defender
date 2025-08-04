@@ -67,7 +67,7 @@ export const ENEMY_TYPES = {
     fireTankElemental: {
         radius: 50,
         defaultHealth: 10,
-        defaultSpeed: 0.1, // 20% of canvas height per second (adjusted for real delta time)
+        defaultSpeed: 0.07, // 20% of canvas height per second (adjusted for real delta time)
         defaultDamage: 10,
         color: 'green', // fire orange fallback
         image: 'assets/images/green_fire.png', 
@@ -94,11 +94,8 @@ export const ENEMY_TYPES = {
         color: '#00aaff', // ice blue
         image: 'assets/images/ice.png',
         behaviour: 'zigzag', // Changed to zigzag behavior
-        bonus: {
-            type: 'fireRate',
-            value: -75
-        },
-        glowColour: '#00ffcc' // cyan glow for fire rate bonus
+        bonus: null,
+        glowColour: null
     },
     iceTankElemental: {
         radius: 60,

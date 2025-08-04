@@ -5,8 +5,10 @@ import { initializeMenu, setGameFunctions, showGameOver } from './game/menu.js';
 import { 
     setBullets, setEnemies, setPlayerHealth, setGameOver, 
     setLevelComplete, setBulletDamage, setBulletFireRate, 
-    setLevelPerfect, setPerfectCompletion, isLevelPerfect, setBulletColor
+    setLevelPerfect, setPerfectCompletion, isLevelPerfect, setBulletColor, resetUpgradeSystem, setBulletSpread,
+    setTotalEnemiesSpawned, setStartingHealth
 } from './game/state.js';
+import { getCurrentLevelNumber } from './game/levels.js';
 
 // Game state reset function
 function resetGameState() {
@@ -16,6 +18,7 @@ function resetGameState() {
     
     // Reset player
     setPlayerHealth(5);
+    setStartingHealth(5);
     
     // Reset game state
     setGameOver(false);
@@ -26,6 +29,13 @@ function resetGameState() {
     setBulletDamage(1);
     setBulletFireRate(500);
     setBulletColor('#ffff00'); // Reset to default yellow
+    setBulletSpread(0); // Reset spread to 0
+    
+    // Reset stats
+    setTotalEnemiesSpawned(0);
+    
+    // Reset upgrade system
+    resetUpgradeSystem();
     
     console.log('Game state reset complete');
 }
@@ -51,7 +61,7 @@ function handleLevelCompletion(levelNumber) {
         console.log(`🎉 Level ${levelNumber} completed perfectly!`);
     }
     
-    showGameOver('win');
+    showGameOver('win', levelNumber);
 }
 
 // Initialize the game

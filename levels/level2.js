@@ -5,34 +5,30 @@ export default {
     spawnEvents: [
         // Initial wave of basic enemies
         {
-            time: 0,
+            time: 10000,
             enemyType: 'fireElemental',
-            count: 8,
-            interval: 300
-        },
-        
-        // Fast enemy rush
-        {
-            time: 4000,
-            enemyType: 'fireTankElemental',
-            count: 2,
-            interval: 150,
-
-        },
-        
-        // Small enemy swarm
-        {
-            time: 7000,
-            enemyType: 'fireFastElemental',
-            count: 3,
-            interval: 100,
+            count: 6,
+            interval: 300,
             modifiers: {
-                bonus: {
-                    type: 'fireRate',
-                    value: -75
-                },
-                glowColour: '#00ffcc'
+                health: 2
             }
+        }
+        
+    ],
+    upgradeEvents: [        
+        // slow and powerful or fast and weak
+        {
+            time: 500,
+            type: 'upgradeChoice',
+            bannerSpeed: 0.15, // Fast banner for urgency
+            leftBonus: [
+                { type: 'fireRate', value: 200 },
+                { type: 'damage', value: 1 }
+            ],
+            rightBonus: [
+                { type: 'fireRate', value: -200 },
+                { type: 'damage', value: -0.5 }
+            ]
         }
     ]
 }; 

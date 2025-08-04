@@ -1,5 +1,5 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
-import { player, gameOver, levelComplete, levelPerfect } from './state.js';
+import { player, gameOver, levelComplete, levelPerfect, playerActiveBonuses } from './state.js';
 import { getCurrentLevel } from './levels.js';
 
 // Background image cache
@@ -59,6 +59,106 @@ export function drawPlayerHealth(ctx) {
     // Border
     ctx.strokeStyle = '#ffffff';
     ctx.strokeRect(x, y, barWidth, barHeight);
+}
+
+// Draw active player bonuses
+export function drawActiveBonuses(ctx) {
+    // Early return if no bonuses to avoid unnecessary canvas operations
+    if (!playerActiveBonuses || playerActiveBonuses.length === 0) return;
+    
+    // Group bonuses by type and sum their values
+    const groupedBonuses = {};
+    playerActiveBonuses.forEach(bonus => {
+        if (!groupedBonuses[bonus.type]) {
+            groupedBonuses[bonus.type] = 0;
+        }
+        groupedBonuses[bonus.type] += bonus.value;
+    });
+    
+    // Convert to array of combined bonuses
+    const combinedBonuses = Object.entries(groupedBonuses).map(([type, totalValue]) => ({
+        type,
+        value: totalValue
+    }));
+    
+    const x = 20;
+    const y = 50;
+    const iconSize = 24; // Increased icon size for better alignment
+    const spacing = 35; // Increased spacing to accommodate larger numbers
+    
+    // Cache canvas operations
+    const originalFillStyle = ctx.fillStyle;
+    const originalFont = ctx.font;
+    const originalTextAlign = ctx.textAlign;
+    const originalTextBaseline = ctx.textBaseline;
+    
+    // Calculate total width needed for all bonuses
+    const totalWidth = combinedBonuses.length * spacing;
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.fillRect(x - 5, y - 5, totalWidth + 10, iconSize + 25); // Increased height for text
+    
+    combinedBonuses.forEach((bonus, index) => {
+        const iconX = x + (index * spacing);
+        
+        // Draw bonus icon
+        let icon, color;
+        switch (bonus.type) {
+            case 'fireRate':
+                icon = '🔥';
+                color = '#00ff00';
+                break;
+            case 'damage':
+                icon = '💥';
+                color = '#ff00ff';
+                break;
+            case 'spread':
+                icon = '🎯';
+                color = '#00ffff';
+                break;
+            default:
+                icon = '⭐';
+                color = '#ffff00';
+        }
+        
+        // Draw icon (properly centered)
+        ctx.fillStyle = color;
+        ctx.font = '20px Arial'; // Increased font size
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(icon, iconX + spacing/2, y + iconSize/2);
+        
+        // Draw bonus value with background for better readability
+        const valueText = bonus.value >= 0 ? `+${bonus.value}` : `${bonus.value}`;
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Measure text for background
+        const textMetrics = ctx.measureText(valueText);
+        const textWidth = textMetrics.width;
+        const textHeight = 14;
+        const textX = iconX + spacing/2 - textWidth/2;
+        const textY = y + iconSize + 8; // Better vertical spacing
+        
+        // Draw background for value text
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.fillRect(textX - 4, textY - textHeight/2 - 2, textWidth + 8, textHeight + 4);
+        
+        // Draw border for value text
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(textX - 4, textY - textHeight/2 - 2, textWidth + 8, textHeight + 4);
+        
+        // Draw value text
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(valueText, iconX + spacing/2, textY);
+    });
+    
+    // Restore original canvas state
+    ctx.fillStyle = originalFillStyle;
+    ctx.font = originalFont;
+    ctx.textAlign = originalTextAlign;
+    ctx.textBaseline = originalTextBaseline;
 }
 
 // Game over screen

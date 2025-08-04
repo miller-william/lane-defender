@@ -1,4 +1,4 @@
-import { bullets, enemies, setBullets, setEnemies, setBulletDamage, setBulletFireRate, bulletDamage, bulletFireRate } from './state.js';
+import { bullets, enemies, setBullets, setEnemies, setBulletDamage, setBulletFireRate, setBulletSpread, bulletDamage, bulletFireRate, bulletSpread, applyPlayerBonus } from './state.js';
 import { ENEMY_TYPES } from './enemyTypes.js';
 import { spawnParticles, spawnTextParticle } from './particles.js';
 
@@ -20,25 +20,27 @@ function applyEnemyBonus(enemy) {
     
     if (!bonus) return;
     
-    // Spawn text particle based on bonus type
+    // Apply the bonus effect and add to active bonuses array
+    applyPlayerBonus(bonus);
+    
+    // Set up text and color for particle effect
     let text = '';
     let color = '#00ffcc';
     
     switch (bonus.type) {
         case 'fireRate':
-            const newFireRate = bulletFireRate + bonus.value;
-            setBulletFireRate(newFireRate);
             text = `Fire Rate +${Math.abs(bonus.value)}ms`;
             color = '#00ffcc'; // Cyan for fire rate
-            console.log(`Fire rate bonus: ${bonus.value}ms (new rate: ${newFireRate}ms)`);
             break;
             
         case 'damage':
-            const newDamage = bulletDamage + bonus.value;
-            setBulletDamage(newDamage);
             text = `Damage +${bonus.value}`;
             color = '#ff00ff'; // Magenta for damage
-            console.log(`Damage bonus: +${bonus.value} (new damage: ${newDamage})`);
+            break;
+            
+        case 'spread':
+            text = `Spread +${bonus.value}`;
+            color = '#00ffff'; // Cyan for spread
             break;
             
         default:
@@ -88,6 +90,7 @@ export function handleCollisions() {
                     
                     // Apply bonus before removing enemy
                     applyEnemyBonus(enemies[j]);
+                    
                     enemies.splice(j, 1);
                     enemiesModified = true;
                 }

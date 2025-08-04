@@ -16,23 +16,17 @@ export default {
         
         // Bulk spawn: 3 fast enemies every 500ms starting at 2500ms
         {
-            time: 2500,
+            time: 4000,
             enemyType: 'fireFastElemental',
-            count: 2,
+            count: 1,
             interval: 250
-        },
-        
-        // Single tank enemy
-        { 
-            time: 2000, 
-            enemyType: 'fireTankElemental'
         },
         
         // Bulk spawn: 4 small enemies every 200ms starting at 5000ms
         {
             time: 5000,
-            enemyType: 'fireFastElemental',
-            count: 1,
+            enemyType: 'fireElemental',
+            count: 2,
             interval: 200
         }
     ]
