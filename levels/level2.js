@@ -11,12 +11,12 @@ export default {
             interval: 300
         },
         
-        // Fast enemy rush
+        // Tank enemies
         {
             time: 4000,
             enemyType: 'fireTankElemental',
             count: 2,
-            interval: 150,
+            interval: 2000,
 
         },
         

@@ -1,5 +1,5 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
-import { player, gameOver, levelComplete, levelPerfect } from './state.js';
+import { player, gameOver, levelComplete, levelPerfect, playerActiveBonuses } from './state.js';
 import { getCurrentLevel } from './levels.js';
 
 // Background image cache
@@ -59,6 +59,53 @@ export function drawPlayerHealth(ctx) {
     // Border
     ctx.strokeStyle = '#ffffff';
     ctx.strokeRect(x, y, barWidth, barHeight);
+}
+
+// Draw active player bonuses
+export function drawActiveBonuses(ctx) {
+    if (playerActiveBonuses.length === 0) return;
+    
+    const x = 20;
+    const y = 50;
+    const iconSize = 20;
+    const spacing = 25;
+    
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.fillRect(x - 5, y - 5, playerActiveBonuses.length * spacing + 10, iconSize + 10);
+    
+    playerActiveBonuses.forEach((bonus, index) => {
+        const iconX = x + (index * spacing);
+        
+        // Draw bonus icon
+        let icon, color;
+        switch (bonus.type) {
+            case 'fireRate':
+                icon = '🔥';
+                color = '#00ff00';
+                break;
+            case 'damage':
+                icon = '💥';
+                color = '#ff00ff';
+                break;
+            case 'spread':
+                icon = '🎯';
+                color = '#00ffff';
+                break;
+            default:
+                icon = '⭐';
+                color = '#ffff00';
+        }
+        
+        ctx.fillStyle = color;
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(icon, iconX + iconSize/2, y + iconSize/2 + 5);
+        
+        // Draw bonus value
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '12px Arial';
+        ctx.fillText(`+${bonus.value}`, iconX + iconSize/2, y + iconSize + 15);
+    });
 }
 
 // Game over screen

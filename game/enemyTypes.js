@@ -94,11 +94,8 @@ export const ENEMY_TYPES = {
         color: '#00aaff', // ice blue
         image: 'assets/images/ice.png',
         behaviour: 'zigzag', // Changed to zigzag behavior
-        bonus: {
-            type: 'fireRate',
-            value: -75
-        },
-        glowColour: '#00ffcc' // cyan glow for fire rate bonus
+        bonus: null,
+        glowColour: null
     },
     iceTankElemental: {
         radius: 60,

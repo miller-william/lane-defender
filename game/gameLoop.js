@@ -5,9 +5,10 @@ import { createBullet, updateBullets, drawBullets } from './bullets.js';
 import { updateEnemies, drawEnemies } from './enemies.js';
 import { handleCollisions } from './collisions.js';
 import { drawPlayer } from './player.js';
-import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground } from './ui.js';
+import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground, drawActiveBonuses } from './ui.js';
 import { updateLevel } from './levels.js';
 import { updateParticles, drawParticles } from './particles.js';
+import { updateUpgradeBanner, drawUpgradeBanner } from './upgrades.js';
 import { showGameOver } from './menu.js';
 
 let ctx = null;
@@ -62,6 +63,7 @@ export function gameLoop(currentTime = performance.now()) {
     updateBullets(deltaTime);
     updateLevel(); // Update level spawning
     updateEnemies(deltaTime);
+    updateUpgradeBanner(deltaTime); // Update upgrade banner
     handleCollisions();
     updateParticles(deltaTime); // Pass delta time in seconds
     
@@ -70,7 +72,9 @@ export function gameLoop(currentTime = performance.now()) {
     drawPlayer(ctx);
     drawBullets(ctx);
     drawEnemies(ctx);
+    drawUpgradeBanner(ctx); // Draw upgrade banner on top
     drawPlayerHealth(ctx);
+    drawActiveBonuses(ctx); // Draw active bonuses
     
     // Continue game loop
     requestAnimationFrame(gameLoop);

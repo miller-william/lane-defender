@@ -24,7 +24,7 @@ export default {
             time: 4000,
             enemyType: 'fireTankElemental',
             count: 2,
-            interval: 4000
+            interval: 6000
         },
         
         // Final swarm

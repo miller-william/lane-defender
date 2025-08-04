@@ -1,6 +1,23 @@
-import { enemies, setEnemies, setLevelComplete, setBulletColor } from './state.js';
+import { enemies, setEnemies, setLevelComplete, setBulletColor, setActiveUpgradeEvent, clearUpgradeEvent } from './state.js';
 import { createEnemyFromSpawnEvent } from './enemies.js';
 import { LEVELS } from '../levels/index.js';
+
+// Helper function to get bonus description
+function getBonusDescription(bonus) {
+    if (bonus === 'nothing' || bonus === null) {
+        return 'nothing';
+    }
+    
+    if (Array.isArray(bonus)) {
+        return bonus.map(b => `${b.type}+${b.value}`).join(', ');
+    }
+    
+    if (bonus && bonus.type && bonus.value !== undefined) {
+        return `${bonus.type}+${bonus.value}`;
+    }
+    
+    return 'unknown';
+}
 
 // Dev options - toggle these for testing
 const DEV_MODE = {
@@ -44,11 +61,30 @@ function expandBulkSpawnEvents(spawnEvents) {
     return expandedEvents;
 }
 
+// Function to process all level events (spawn and upgrade)
+function processLevelEvents(level) {
+    const allEvents = [];
+    
+    // Add spawn events
+    if (level.spawnEvents) {
+        const expandedSpawnEvents = expandBulkSpawnEvents(level.spawnEvents);
+        allEvents.push(...expandedSpawnEvents);
+    }
+    
+    // Add upgrade events
+    if (level.upgradeEvents) {
+        allEvents.push(...level.upgradeEvents);
+    }
+    
+    // Sort all events by time
+    return allEvents.sort((a, b) => a.time - b.time);
+}
+
 // Level state
 let currentLevel = null;
 let levelStartTime = 0;
-let spawnEventIndex = 0;
-let expandedSpawnEvents = [];
+let eventIndex = 0;
+let allLevelEvents = [];
 let currentLevelNumber = 1;
 
 // Level management functions
@@ -59,13 +95,13 @@ export function startLevel(levelNumber) {
         return;
     }
     
-    // Expand bulk spawn events into individual spawn events
-    expandedSpawnEvents = expandBulkSpawnEvents(level.spawnEvents);
+    // Process all level events (spawn and upgrade)
+    allLevelEvents = processLevelEvents(level);
     
     currentLevel = level;
     currentLevelNumber = levelNumber;
     levelStartTime = Date.now();
-    spawnEventIndex = 0;
+    eventIndex = 0;
     setLevelComplete(false);
     
     // Set bullet color from level configuration (default to yellow if not specified)
@@ -74,7 +110,7 @@ export function startLevel(levelNumber) {
     
     console.log(`Starting Level ${levelNumber}: ${level.name}`);
     console.log(`Bullet color: ${bulletColor}`);
-    console.log(`Expanded ${level.spawnEvents.length} spawn events into ${expandedSpawnEvents.length} individual events`);
+    console.log(`Total events: ${allLevelEvents.length} (spawn + upgrade)`);
     
     // Dev mode: instant win
     if (DEV_MODE.INSTANT_WIN) {
@@ -91,21 +127,30 @@ export function updateLevel() {
     
     const currentTime = Date.now() - levelStartTime;
     
-    // Check for spawn events using expanded events
-    while (spawnEventIndex < expandedSpawnEvents.length) {
-        const event = expandedSpawnEvents[spawnEventIndex];
+    // Check for events using all events
+    while (eventIndex < allLevelEvents.length) {
+        const event = allLevelEvents[eventIndex];
         
         if (currentTime >= event.time) {
-            // Spawn enemy with custom properties
-            createEnemyFromSpawnEvent(event);
-            spawnEventIndex++;
+            // Handle different event types
+            if (event.type === 'upgradeChoice') {
+                // Trigger upgrade event
+                setActiveUpgradeEvent(event);
+                const leftDesc = getBonusDescription(event.leftBonus);
+                const rightDesc = getBonusDescription(event.rightBonus);
+                console.log(`🎯 Upgrade choice triggered: ${leftDesc} vs ${rightDesc}`);
+            } else {
+                // Spawn enemy with custom properties
+                createEnemyFromSpawnEvent(event);
+            }
+            eventIndex++;
         } else {
-            break; // Wait for next spawn time
+            break; // Wait for next event time
         }
     }
     
-    // Check if level is complete (all enemies spawned and defeated)
-    if (spawnEventIndex >= expandedSpawnEvents.length && enemies.length === 0) {
+    // Check if level is complete (all events processed and enemies defeated)
+    if (eventIndex >= allLevelEvents.length && enemies.length === 0) {
         setLevelComplete(true);
         console.log(`Level complete! All enemies defeated.`);
         

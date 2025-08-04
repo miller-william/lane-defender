@@ -5,7 +5,7 @@ import { initializeMenu, setGameFunctions, showGameOver } from './game/menu.js';
 import { 
     setBullets, setEnemies, setPlayerHealth, setGameOver, 
     setLevelComplete, setBulletDamage, setBulletFireRate, 
-    setLevelPerfect, setPerfectCompletion, isLevelPerfect, setBulletColor
+    setLevelPerfect, setPerfectCompletion, isLevelPerfect, setBulletColor, resetUpgradeSystem, setBulletSpread
 } from './game/state.js';
 
 // Game state reset function
@@ -26,6 +26,10 @@ function resetGameState() {
     setBulletDamage(1);
     setBulletFireRate(500);
     setBulletColor('#ffff00'); // Reset to default yellow
+    setBulletSpread(0); // Reset spread to 0
+    
+    // Reset upgrade system
+    resetUpgradeSystem();
     
     console.log('Game state reset complete');
 }
