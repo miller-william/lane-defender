@@ -1,88 +1,556 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* Keyframes for animations */
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow: 
+            0 0 3px #00ff00,
+            0 0 6px #00ff00;
+    }
+    50% {
+        text-shadow: 
+            0 0 5px #00ff00,
+            0 0 10px #00ff00,
+            0 0 15px #00ff00;
+    }
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 5px #00ffcc,
+            0 0 10px #00ffcc,
+            0 0 15px #00ffcc,
+            inset 0 0 20px rgba(0, 255, 204, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 10px #00ffcc,
+            0 0 20px #00ffcc,
+            0 0 30px #00ffcc,
+            inset 0 0 30px rgba(0, 255, 204, 0.2);
+    }
+}
+
+@keyframes buttonGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 5px #00ff00,
+            0 0 10px #00ff00,
+            inset 0 0 10px rgba(0, 255, 0, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 10px #00ff00,
+            0 0 20px #00ff00,
+            0 0 30px #00ff00,
+            inset 0 0 20px rgba(0, 255, 0, 0.2);
+    }
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html, body {
     margin: 0;
     padding: 0;
-    background: black;
-    overflow: hidden;
     height: 100%;
-    width: 100%;
+    background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overscroll-behavior-y: contain;
+    touch-action: manipulation;
+    font-family: 'Orbitron', monospace;
+    color: white;
+    overflow-x: hidden;
 }
 
-.game-container {
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Menu Screen */
+#menuScreen {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle at center, rgba(26, 26, 46, 0.8), rgba(10, 10, 10, 0.95));
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
 }
 
-canvas {
-    display: block;
-    margin: auto;
-    image-rendering: pixelated; /* optional, for crisp retro style */
-    width: auto;
-    height: auto;
-    max-width: 100vw;
-    max-height: 100vh;
-    aspect-ratio: 3 / 4;
+#menuScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(0, 255, 204, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
+    pointer-events: none;
 }
 
-/* Dev Panel Styles */
-.dev-panel {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.8);
+#menuScreen h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    margin-bottom: 2rem;
+    color: #00ff00;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    animation: titleGlow 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+#menuScreen h1::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, #00ff00, #00ffcc, #00ff00);
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(20px);
+}
+
+#levelButtons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+    max-width: 90vw;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.levelButton {
+    padding: 1rem 0.5rem;
+    font-size: clamp(0.9rem, 4vw, 1.2rem);
+    background: linear-gradient(135deg, rgba(51, 51, 51, 0.9), rgba(26, 26, 46, 0.9));
     color: white;
-    padding: 15px;
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    z-index: 1000;
-    min-width: 200px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 0.05em;
 }
 
-.dev-panel h3 {
-    margin: 0 0 10px 0;
-    font-size: 16px;
+.levelButton::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc);
+    border-radius: 14px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: buttonGlow 2s ease-in-out infinite;
+}
+
+.levelButton:hover::before,
+.levelButton:active::before {
+    opacity: 1;
+}
+
+.levelButton:hover, .levelButton:active {
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 204, 0.2));
+    color: #00ff00;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 
+        0 10px 20px rgba(0, 255, 0, 0.3),
+        0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+.levelButton:disabled {
+    background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+    border-color: rgba(102, 102, 102, 0.5);
+    color: #999;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.levelButton:disabled::before {
+    opacity: 0;
+}
+
+/* Perfect completion styling */
+.levelButton.perfect-completed {
+    border-color: #FFD700;
+    box-shadow: 0 0 10px #FFD700;
+    position: relative;
+}
+
+.levelButton.perfect-completed::before {
+    background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+    opacity: 0.3;
+}
+
+.levelButton.perfect-completed:hover {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+    color: #FFD700;
+    box-shadow: 
+        0 10px 20px rgba(255, 215, 0, 0.3),
+        0 0 30px rgba(255, 215, 0, 0.2);
+}
+
+.levelButton.perfect-completed:disabled {
+    border-color: #FFD700;
+    box-shadow: 0 0 5px #FFD700;
+    background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+    color: #999;
+}
+
+#aboutButton {
+    padding: 1rem 2rem;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    background: linear-gradient(135deg, rgba(51, 51, 51, 0.9), rgba(26, 26, 46, 0.9));
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+#aboutButton::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc);
+    border-radius: 14px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#aboutButton:hover::before,
+#aboutButton:active::before {
+    opacity: 1;
+}
+
+#aboutButton:hover, #aboutButton:active {
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 204, 0.2));
+    color: #00ff00;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 
+        0 10px 20px rgba(0, 255, 0, 0.3),
+        0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+/* Game Over Screen */
+#gameOverScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.9), rgba(10, 10, 10, 0.95));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+#gameOverScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(0, 255, 204, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+#gameOverScreen h2 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    color: #00ff00;
+    margin-bottom: 2rem;
+    text-shadow: 
+        0 0 10px #00ff00,
+        0 0 20px #00ff00;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    position: relative;
+    z-index: 1;
+}
+
+#returnToMenu, #retryLevel {
+    padding: 1rem 2rem;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+#returnToMenu, #retryLevel {
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 204, 0.2));
     color: #00ff00;
 }
 
-.dev-control {
-    margin-bottom: 10px;
+#returnToMenu::before, #retryLevel::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff00, #00ffcc, #00ff00);
+    border-radius: 14px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.dev-control label {
-    display: block;
-    margin-bottom: 3px;
-    color: #cccccc;
+#returnToMenu:hover::before, #retryLevel:hover::before,
+#returnToMenu:active::before, #retryLevel:active::before {
+    opacity: 1;
 }
 
-.dev-control input {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #333;
-    background: #222;
-    color: white;
-    border-radius: 3px;
+#returnToMenu:hover, #returnToMenu:active {
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.3), rgba(0, 255, 204, 0.3));
+    color: #00ff00;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 
+        0 10px 20px rgba(0, 255, 0, 0.3),
+        0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+#retryLevel {
+    background: linear-gradient(135deg, rgba(255, 102, 0, 0.2), rgba(255, 68, 0, 0.2));
+    color: #ff6600;
+}
+
+#retryLevel:hover, #retryLevel:active {
+    background: linear-gradient(135deg, rgba(255, 102, 0, 0.3), rgba(255, 68, 0, 0.3));
+    color: #ff6600;
+    box-shadow: 
+        0 10px 20px rgba(255, 102, 0, 0.3),
+        0 0 30px rgba(255, 102, 0, 0.2);
+}
+
+#retryLevel::before {
+    background: linear-gradient(45deg, #ff6600, #ff4400, #ff6600);
+}
+
+/* Game Wrapper */
+#gameWrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: calc(100dvh - 100px);
+    overflow: hidden;
+    background: radial-gradient(circle at center, rgba(26, 26, 46, 0.8), rgba(10, 10, 10, 0.95));
+}
+
+#gameCanvas {
+    width: auto;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    aspect-ratio: 3 / 4;
+    image-rendering: pixelated;
+    border: 3px solid transparent;
+    border-radius: 15px;
+    background: 
+        linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc) border-box;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 204, 0.5),
+        0 0 40px rgba(0, 255, 204, 0.3),
+        inset 0 0 30px rgba(0, 255, 204, 0.1);
+    animation: borderGlow 4s ease-in-out infinite;
+    position: relative;
+}
+
+#gameCanvas::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc);
+    border-radius: 18px;
+    z-index: -1;
+    opacity: 0.5;
+    filter: blur(10px);
+}
+
+#touchControlArea {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 100px;
+    background: transparent;
+    z-index: 10;
+}
+
+/* Perfect completion legend */
+#perfectLegend {
+    text-align: center;
+    margin-top: 10px;
     font-size: 12px;
-}
-
-.dev-control input:focus {
-    outline: none;
-    border-color: #00ff00;
-}
-
-.dev-control button {
-    width: 100%;
-    padding: 8px;
-    background: #00ff00;
-    color: black;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+    color: #FFD700;
     font-weight: bold;
-    font-size: 12px;
+    text-shadow: 0 0 5px #FFD700;
+    letter-spacing: 0.05em;
 }
 
-.dev-control button:hover {
-    background: #00cc00;
-} 
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+    #menuScreen {
+        padding: 10px;
+        justify-content: space-around;
+    }
+    
+    #levelButtons {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        max-width: 95vw;
+    }
+    
+    .levelButton {
+        padding: 0.8rem 0.3rem;
+        min-height: 45px;
+        font-size: 0.9rem;
+        /* Improve touch targets */
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Perfect completion styling for mobile */
+    .levelButton.perfect-completed {
+        box-shadow: 0 0 8px #FFD700;
+    }
+    
+    .levelButton.perfect-completed:active {
+        transform: scale(0.95);
+        box-shadow: 0 0 12px #FFD700;
+    }
+    
+    #aboutButton {
+        padding: 0.8rem 1.5rem;
+        min-height: 45px;
+        font-size: 1rem;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    #gameOverScreen h2 {
+        margin-bottom: 1.5rem;
+    }
+    
+    #returnToMenu, #retryLevel {
+        padding: 0.8rem 1.5rem;
+        min-height: 45px;
+        font-size: 1rem;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Perfect legend for mobile */
+    #perfectLegend {
+        font-size: 11px;
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    #levelButtons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+    }
+    
+    .levelButton {
+        padding: 0.6rem 0.2rem;
+        min-height: 40px;
+        font-size: 0.8rem;
+    }
+    
+    #menuScreen h1 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+ 
