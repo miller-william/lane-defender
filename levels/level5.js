@@ -1,5 +1,5 @@
 export default {
-    name: "Ice Battle",
+    name: "Ice swarm",
     background: "assets/images/ice_bg.png",
     bulletColor: "#ff0000", // Red bullets
     spawnEvents: [
@@ -33,7 +33,7 @@ export default {
         
         // Final boss
         {
-            time: 1400,
+            time: 2500,
             enemyType: 'iceTankElemental',
             count: 1,
         }

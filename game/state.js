@@ -1,4 +1,5 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_SPEED, DEFAULT_BULLET_DAMAGE, DEFAULT_BULLET_FIRE_RATE, DEFAULT_ENEMY_HEALTH } from './constants.js';
+import { GAME_CONFIG, STORAGE_KEYS } from './config.js';
 
 // Game state
 export let player = {
@@ -27,7 +28,7 @@ export let perfectCompletedLevels = {};
 // Load perfect completion data from localStorage
 function loadPerfectCompletionData() {
     try {
-        const saved = localStorage.getItem('laneDefenderPerfectLevels');
+        const saved = localStorage.getItem(STORAGE_KEYS.PERFECT_LEVELS);
         if (saved) {
             perfectCompletedLevels = JSON.parse(saved);
         }
@@ -40,7 +41,7 @@ function loadPerfectCompletionData() {
 // Save perfect completion data to localStorage
 function savePerfectCompletionData() {
     try {
-        localStorage.setItem('laneDefenderPerfectLevels', JSON.stringify(perfectCompletedLevels));
+        localStorage.setItem(STORAGE_KEYS.PERFECT_LEVELS, JSON.stringify(perfectCompletedLevels));
     } catch (error) {
         console.warn('Failed to save perfect completion data:', error);
     }

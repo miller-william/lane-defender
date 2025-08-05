@@ -1,9 +1,9 @@
 export default {
-    name: "Wave Defense",
+    name: "Upgrade choice",
     background: "assets/images/fire_bg.png",
-    bulletColor: "#00ff00", // Green bullets for level 2
+    bulletColor: "#00ff00", 
     spawnEvents: [
-        // Initial wave of basic enemies
+        // Wave of slightly stronger basic enemies
         {
             time: 10000,
             enemyType: 'fireElemental',
@@ -20,7 +20,7 @@ export default {
         {
             time: 500,
             type: 'upgradeChoice',
-            bannerSpeed: 0.15, // Fast banner for urgency
+            bannerSpeed: 0.15,
             leftBonus: [
                 { type: 'fireRate', value: 200 },
                 { type: 'damage', value: 1 }

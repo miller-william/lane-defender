@@ -1,5 +1,5 @@
 export default {
-    name: "Boss Battle",
+    name: "Swarm Battle",
     background: "assets/images/ice_bg.png",
     bulletColor: "#ff0000", // Red bullets
     spawnEvents: [
@@ -7,8 +7,8 @@ export default {
         {
             time: 12000,
             enemyType: 'iceElemental',
-            count: 4,
-            interval: 2000,
+            count: 8,
+            interval: 0,
             modifiers: {
                 bonus: null,
                 glowColour: null
@@ -39,16 +39,16 @@ export default {
     upgradeEvents: [
         // Test multiple upgrades vs nothing
         {
-            time: 3000,
+            time: 1000,
             type: 'upgradeChoice',
             bannerSpeed: 0.1, // Slow banner for easy reading
             leftBonus: [ // faster 
-                { type: 'fireRate', value: -200 },
+                { type: 'damage', value: 1 },
 
             ],
             rightBonus: [ // more spread
                 { type: 'fireRate', value: +100 },
-                { type: 'spread', value: 1 }
+                { type: 'spread', value: 2 }
             ]
         },
         
