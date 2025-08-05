@@ -1,12 +1,6 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
 import { player, keys, touchTargetX, isTouchActive, gameOver } from './state.js';
-
-// Dev options - toggle these for testing
-const DEV_MODE = {
-    ALL_LEVELS_UNLOCKED: true, // Set to true to unlock all levels for testing
-    INFINITE_HEALTH: false, // Set to true for infinite health
-    INSTANT_WIN: false // Set to true to instantly complete levels
-};
+import { DEV_MODE } from './config.js';
 
 // Player image cache
 let playerImage = null;

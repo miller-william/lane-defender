@@ -1,17 +1,11 @@
 import { setPerfectCompletion, isLevelPerfectlyCompleted, getEnemiesDefeated, getDamageTaken, getStartingHealth, playerActiveBonuses, isLevelPerfect } from './state.js';
+import { DEV_MODE, GAME_CONFIG } from './config.js';
 
 // Menu system state
 let unlockedLevel = 1;
 let currentLevel = null;
 let lastPlayedLevel = null; // Track the last level played
 let gameResult = null; // 'win' or 'lose'
-
-// Dev options - toggle these for testing
-const DEV_MODE = {
-    ALL_LEVELS_UNLOCKED: true, // Set to true to unlock all levels for testing
-    INFINITE_HEALTH: false, // Set to true for infinite health
-    INSTANT_WIN: false // Set to true to instantly complete levels
-};
 
     // UI elements
     let menuScreen = null;

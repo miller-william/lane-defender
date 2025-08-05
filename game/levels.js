@@ -1,6 +1,7 @@
 import { enemies, setEnemies, setLevelComplete, setBulletColor, setActiveUpgradeEvent, clearUpgradeEvent, setLevelCompletionDelayActive, getLevelCompletionDelay, isLevelCompletionDelayActive, setTotalEnemiesSpawned, setLevelPerfect } from './state.js';
 import { createEnemyFromSpawnEvent } from './enemies.js';
 import { LEVELS } from '../levels/index.js';
+import { DEV_MODE } from './config.js';
 
 // Helper function to get bonus description
 function getBonusDescription(bonus) {
@@ -19,12 +20,7 @@ function getBonusDescription(bonus) {
     return 'unknown';
 }
 
-// Dev options - toggle these for testing
-const DEV_MODE = {
-    ALL_LEVELS_UNLOCKED: true, // Set to true to unlock all levels for testing
-    INFINITE_HEALTH: false, // Set to true for infinite health
-    INSTANT_WIN: false // Set to true to instantly complete levels
-};
+
 
 // Function to expand bulk spawn events into individual spawn events
 function expandBulkSpawnEvents(spawnEvents) {

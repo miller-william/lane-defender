@@ -1,5 +1,5 @@
 export default {
-    name: "First Level",
+    name: "Introductory Level",
     background: "assets/images/fire_bg.png",
     bulletColor: "#00ff00", // Green bullets for level 1
     spawnEvents: [

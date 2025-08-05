@@ -1,5 +1,5 @@
 export default {
-    name: "Fire Storm",
+    name: "Intro to enemy bonuses",
     background: "assets/images/fire_bg.png",
     bulletColor: "#00ff00", // Green bullets for level 2
     spawnEvents: [
@@ -18,19 +18,19 @@ export default {
             }
         },
         
-        // Fast wave
+        // Basic wave
         {
             time: 2000,
             enemyType: 'fireElemental',
-            count: 4,
+            count: 5,
             interval: 400
         },
         
-        // Tank wave
+        // Fast wave
         {
             time: 3000,
             enemyType: 'fireFastElemental',
-            count: 1        },
+            count: 2        },
         
         // Final swarm
         {

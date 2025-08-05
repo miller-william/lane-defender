@@ -1,5 +1,5 @@
 export default {
-    name: "Swarm Attack",
+    name: "Tank attack",
     background: "assets/images/fire_bg.png",
     spawnEvents: [
         // Tank
@@ -9,7 +9,7 @@ export default {
             count: 1,
             interval: 100,
             modifiers: {
-                health: 12
+                health: 20
             }
         },
         {
@@ -18,14 +18,14 @@ export default {
             count: 2,
             interval: 10,
             modifiers: {
-                health: 12
+                health: 20
             }
         },
         
     ],
     upgradeEvents: [
         {
-            time: 10000,
+            time: 9000,
             type: 'upgradeChoice',
             bannerSpeed: 0.1,
             leftBonus: [
