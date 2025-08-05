@@ -1,15 +1,16 @@
 export default {
-    name: "Ice swarm",
-    background: "assets/images/ice_bg.png",
-    bulletColor: "#ff0000", // Red bullets
+    name: "Moving around",
+    background: "#3e5c59",
+    bulletColor: "#4a90e2", // Blue water bullets
     spawnEvents: [
         // Initial minions
         {
             time: 0,
-            enemyType: 'iceElemental',
+            enemyType: 'roll',
             count: 4,
             interval: 2000,
             modifiers: {
+                health: 2,
                 bonus: {
                     type: 'fireRate',
                     value: -75
@@ -19,10 +20,11 @@ export default {
         },
         {
             time: 1000,
-            enemyType: 'iceElemental',
+            enemyType: 'roll',
             count: 2,
             interval: 0,
             modifiers: {
+                health: 2,
                 bonus: {
                     type: 'fireRate',
                     value: -75
@@ -34,8 +36,12 @@ export default {
         // Final boss
         {
             time: 2500,
-            enemyType: 'iceTankElemental',
+            enemyType: 'trolley',
             count: 1,
+            modifiers: {
+                health: 30,
+                radius: 100
+            }
         }
     ]
 }; 

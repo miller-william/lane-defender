@@ -94,8 +94,19 @@ export function drawActiveBonuses(ctx) {
     
     // Calculate total width needed for all bonuses
     const totalWidth = combinedBonuses.length * spacing;
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    
+    // Wood-colored background for bonus counter
+    const woodGradient = ctx.createLinearGradient(x - 5, y - 5, x + totalWidth + 5, y + iconSize + 20);
+    woodGradient.addColorStop(0, '#8B4513');
+    woodGradient.addColorStop(0.5, '#A0522D');
+    woodGradient.addColorStop(1, '#CD853F');
+    ctx.fillStyle = woodGradient;
     ctx.fillRect(x - 5, y - 5, totalWidth + 10, iconSize + 25); // Increased height for text
+    
+    // Wood border
+    ctx.strokeStyle = '#654321';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x - 5, y - 5, totalWidth + 10, iconSize + 25);
     
     combinedBonuses.forEach((bonus, index) => {
         const iconX = x + (index * spacing);
@@ -104,16 +115,16 @@ export function drawActiveBonuses(ctx) {
         let icon, color;
         switch (bonus.type) {
             case 'fireRate':
-                icon = '🔥';
-                color = '#00ff00';
+                icon = '🌪️';
+                color = '#4a90e2';
                 break;
             case 'damage':
-                icon = '💥';
-                color = '#ff00ff';
+                icon = '🌊';
+                color = '#6ba3e8';
                 break;
             case 'spread':
-                icon = '🎯';
-                color = '#00ffff';
+                icon = '💦';
+                color = '#87ceeb';
                 break;
             default:
                 icon = '⭐';
@@ -140,17 +151,17 @@ export function drawActiveBonuses(ctx) {
         const textX = iconX + spacing/2 - textWidth/2;
         const textY = y + iconSize + 8; // Better vertical spacing
         
-        // Draw background for value text
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        // Draw background for value text (wood-themed)
+        ctx.fillStyle = '#654321';
         ctx.fillRect(textX - 4, textY - textHeight/2 - 2, textWidth + 8, textHeight + 4);
         
         // Draw border for value text
-        ctx.strokeStyle = color;
+        ctx.strokeStyle = '#8B4513';
         ctx.lineWidth = 1;
         ctx.strokeRect(textX - 4, textY - textHeight/2 - 2, textWidth + 8, textHeight + 4);
         
         // Draw value text
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#F5DEB3';
         ctx.fillText(valueText, iconX + spacing/2, textY);
     });
     

@@ -1,12 +1,12 @@
 export default {
     name: "Swarm Battle",
-    background: "assets/images/ice_bg.png",
-    bulletColor: "#ff0000", // Red bullets
+    background: "#3e5c59",
+    bulletColor: "#4a90e2", // Blue water bullets
     spawnEvents: [
         // Initial minions
         {
             time: 12000,
-            enemyType: 'iceElemental',
+            enemyType: 'roll',
             count: 8,
             interval: 0,
             modifiers: {
@@ -17,7 +17,7 @@ export default {
         // Initial minions
         {
             time: 25000,
-            enemyType: 'iceElemental',
+            enemyType: 'roll',
             count: 8,
             interval: 1000,
             modifiers: {
@@ -29,7 +29,7 @@ export default {
         // Final boss
         {
             time: 35000,
-            enemyType: 'iceTankElemental',
+            enemyType: 'trolley',
             count: 1,
             modifiers: {
                 health: 20

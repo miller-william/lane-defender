@@ -28,7 +28,7 @@ function resetGameState() {
     // Reset game variables
     setBulletDamage(1);
     setBulletFireRate(500);
-    setBulletColor('#ffff00'); // Reset to default yellow
+    setBulletColor('#4a90e2'); // Reset to default blue water
     setBulletSpread(0); // Reset spread to 0
     
     // Reset stats

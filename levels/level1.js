@@ -1,15 +1,15 @@
 export default {
     name: "Introductory Level",
-    background: "assets/images/fire_bg.png",
-    bulletColor: "#00ff00", // Green bullets for level 1
+    background: "#3e5c59",
+    bulletColor: "#4a90e2", // Blue water bullets for level 1
     spawnEvents: [
         // Single spawn events
-        { time: 0, enemyType: 'fireElemental', health: 1},
+        { time: 0, enemyType: 'poop', health: 1},
         
         // Bulk spawn: 5 basic enemies every 250ms starting at 1000ms
         {
             time: 1000,
-            enemyType: 'fireElemental',
+            enemyType: 'poop',
             count: 3,
             interval: 250
         },
@@ -17,7 +17,7 @@ export default {
         // Bulk spawn: 3 fast enemies every 500ms starting at 2500ms
         {
             time: 4000,
-            enemyType: 'fireFastElemental',
+            enemyType: 'cup',
             count: 1,
             interval: 250
         },
@@ -25,7 +25,7 @@ export default {
         // Bulk spawn: 4 small enemies every 200ms starting at 5000ms
         {
             time: 5000,
-            enemyType: 'fireElemental',
+            enemyType: 'crisps',
             count: 2,
             interval: 200
         }

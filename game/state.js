@@ -53,7 +53,7 @@ loadPerfectCompletionData();
 // Dynamic game variables (can be changed via dev panel)
 export let bulletDamage = DEFAULT_BULLET_DAMAGE;
 export let bulletFireRate = DEFAULT_BULLET_FIRE_RATE;
-export let bulletColor = '#ffff00'; // Default yellow bullet color
+export let bulletColor = '#4a90e2'; // Default blue water bullet color
 export let enemyHealth = DEFAULT_ENEMY_HEALTH;
 export let bulletSpread = 0; // Number of additional bullets (0 = single bullet)
 
@@ -153,7 +153,7 @@ export function setActiveUpgradeEvent(event) {
     
     // Start the new event
     activeUpgradeEvent = event;
-    upgradeBannerY = -100; // Reset banner position
+    upgradeBannerY = -500; // Start further off-screen to ensure it scrolls in from top
     upgradeDecisionMade = false;
     const bannerSpeed = event.bannerSpeed || 0.1;
     console.log(`🎯 Starting upgrade event: ${getBonusDescription(event.leftBonus)} vs ${getBonusDescription(event.rightBonus)} (banner speed: ${bannerSpeed})`);
