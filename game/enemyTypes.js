@@ -1,5 +1,71 @@
 // Enemy type definitions
 export const ENEMY_TYPES = {
+    poop: {
+        radius: 30,
+        defaultHealth: 1,
+        defaultSpeed: 0.2, // 60% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 1.5,
+        color: '#bd672a', // fire orange fallback
+        image: 'assets/images/poop.png', 
+        behaviour: 'straight',
+        bonus: null,
+        glowColour: null
+    },
+    crisps: {
+        radius: 20,
+        defaultHealth: 1,
+        defaultSpeed: 0.2, // 60% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 1.5,
+        color: '#800000', 
+        image: 'assets/images/crisps.png', 
+        behaviour: 'straight',
+        bonus: null,
+        glowColour: null
+    },
+    roll: {
+        radius: 20,
+        defaultHealth: 1,
+        defaultSpeed: 0.2, // 60% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 1.5,
+        color: 'white', 
+        image: 'assets/images/roll.png', 
+        behaviour: 'zigzag',
+        bonus: null,
+        glowColour: null
+    },
+    cup: {
+        radius: 20,
+        defaultHealth: 1,
+        defaultSpeed: 0.4, // 60% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 1.5,
+        color: 'yellow', 
+        image: 'assets/images/cup.png', 
+        behaviour: 'straight',
+        bonus: null,
+        glowColour: null
+    },
+    fishFast: {
+        radius: 40,
+        defaultHealth: 1,
+        defaultSpeed: 0.4, // 100% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 1,
+        color: 'brown', 
+        image: 'assets/images/zombie.png', 
+        behaviour: 'straight',
+        bonus: null,
+        glowColour: null
+    },
+    trolley: {
+        radius: 90,
+        defaultHealth: 10,
+        defaultSpeed: 0.07, // 20% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 10,
+        color: 'silver', // fire orange fallback
+        image: 'assets/images/trolley.png', 
+        behaviour: 'straight',
+        bonus: null,
+        glowColour: null
+    },
     basic: {
         radius: 20,
         defaultHealth: 3,
@@ -60,17 +126,6 @@ export const ENEMY_TYPES = {
         defaultDamage: 1.5,
         color: '#ff4400', // fire orange fallback
         image: 'assets/images/fire.png', // placeholder image path
-        behaviour: 'straight',
-        bonus: null,
-        glowColour: null
-    },
-    fireTankElemental: {
-        radius: 50,
-        defaultHealth: 10,
-        defaultSpeed: 0.07, // 20% of canvas height per second (adjusted for real delta time)
-        defaultDamage: 10,
-        color: 'green', // fire orange fallback
-        image: 'assets/images/green_fire.png', 
         behaviour: 'straight',
         bonus: null,
         glowColour: null

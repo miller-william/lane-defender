@@ -1,13 +1,31 @@
 export default {
     name: "Upgrade choice",
-    background: "assets/images/fire_bg.png",
-    bulletColor: "#00ff00", 
+    background: "#3e5c59",
+    bulletColor: "#4a90e2", // Blue water bullets
     spawnEvents: [
         // Wave of slightly stronger basic enemies
         {
             time: 10000,
-            enemyType: 'fireElemental',
-            count: 6,
+            enemyType: 'poop',
+            count: 2,
+            interval: 300,
+            modifiers: {
+                health: 2
+            }
+        },
+        {
+            time: 10000,
+            enemyType: 'crisps',
+            count: 2,
+            interval: 300,
+            modifiers: {
+                health: 2
+            }
+        },
+        {
+            time: 10000,
+            enemyType: 'roll',
+            count: 2,
             interval: 300,
             modifiers: {
                 health: 2

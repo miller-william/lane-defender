@@ -1,11 +1,12 @@
 export default {
     name: "Tank attack",
-    background: "assets/images/fire_bg.png",
+    background: "#3e5c59",
+    bulletColor: "#4a90e2", // Blue water bullets
     spawnEvents: [
         // Tank
         {
             time: 0,
-            enemyType: 'fireTankElemental',
+            enemyType: 'trolley',
             count: 1,
             interval: 100,
             modifiers: {
@@ -14,7 +15,7 @@ export default {
         },
         {
             time: 20000,
-            enemyType: 'fireTankElemental',
+            enemyType: 'trolley',
             count: 2,
             interval: 10,
             modifiers: {

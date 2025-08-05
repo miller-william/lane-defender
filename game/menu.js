@@ -331,9 +331,9 @@ function populateLevelStats(levelNumber) {
             const bonusText = Object.entries(groupedBonuses).map(([type, totalValue]) => {
                 const valueText = totalValue >= 0 ? `+${totalValue}` : `${totalValue}`;
                 switch (type) {
-                    case 'fireRate': return `🔥 Fire Rate ${valueText}`;
-                    case 'damage': return `💥 Damage ${valueText}`;
-                    case 'spread': return `🎯 Spread ${valueText}`;
+                    case 'fireRate': return `🌪️ Fire Rate ${valueText}`;
+                    case 'damage': return `🌊 Damage ${valueText}`;
+                    case 'spread': return `💦 Spread ${valueText}`;
                     default: return `${type} ${valueText}`;
                 }
             }).join(', ');
@@ -368,7 +368,7 @@ function populateLevelStats(levelNumber) {
 
 // Handle about button click
 function handleAboutClick() {
-    alert('About Defend the Rift\n\nA tower defense game where you defend against waves of enemies!\n\n⭐ Perfect Score: Complete a level without taking any damage!');
+    alert('About River Revival\n\nA pixel art tower defense game where you defend against waves of enemies!\n\n⭐ Perfect Score: Complete a level without taking any damage!');
 }
 
 // Handle return to menu button click

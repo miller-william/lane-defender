@@ -1,51 +1,51 @@
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400;700;900&display=swap');
 
 /* Keyframes for animations */
 @keyframes titleGlow {
     0%, 100% {
         text-shadow: 
-            0 0 3px #00ff00,
-            0 0 6px #00ff00;
+            0 0 3px #4a90e2,
+            0 0 6px #4a90e2;
     }
     50% {
         text-shadow: 
-            0 0 5px #00ff00,
-            0 0 10px #00ff00,
-            0 0 15px #00ff00;
+            0 0 5px #4a90e2,
+            0 0 10px #4a90e2,
+            0 0 15px #4a90e2;
     }
 }
 
 @keyframes borderGlow {
     0%, 100% {
         box-shadow: 
-            0 0 5px #00ffcc,
-            0 0 10px #00ffcc,
-            0 0 15px #00ffcc,
-            inset 0 0 20px rgba(0, 255, 204, 0.1);
+            0 0 5px #4a90e2,
+            0 0 10px #4a90e2,
+            0 0 15px #4a90e2,
+            inset 0 0 20px rgba(74, 144, 226, 0.1);
     }
     50% {
         box-shadow: 
-            0 0 10px #00ffcc,
-            0 0 20px #00ffcc,
-            0 0 30px #00ffcc,
-            inset 0 0 30px rgba(0, 255, 204, 0.2);
+            0 0 10px #4a90e2,
+            0 0 20px #4a90e2,
+            0 0 30px #4a90e2,
+            inset 0 0 30px rgba(74, 144, 226, 0.2);
     }
 }
 
 @keyframes buttonGlow {
     0%, 100% {
         box-shadow: 
-            0 0 5px #00ff00,
-            0 0 10px #00ff00,
-            inset 0 0 10px rgba(0, 255, 0, 0.1);
+            0 0 5px #4a90e2,
+            0 0 10px #4a90e2,
+            inset 0 0 10px rgba(74, 144, 226, 0.1);
     }
     50% {
         box-shadow: 
-            0 0 10px #00ff00,
-            0 0 20px #00ff00,
-            0 0 30px #00ff00,
-            inset 0 0 20px rgba(0, 255, 0, 0.2);
+            0 0 10px #4a90e2,
+            0 0 20px #4a90e2,
+            0 0 30px #4a90e2,
+            inset 0 0 20px rgba(74, 144, 226, 0.2);
     }
 }
 
@@ -57,7 +57,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+    background: linear-gradient(135deg, #1a3a5f, #2d5a8a, #4a90e2, #6ba3e8);
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
     display: flex;
@@ -66,7 +66,7 @@ html, body {
     justify-content: flex-start;
     overscroll-behavior-y: contain;
     touch-action: manipulation;
-    font-family: 'Orbitron', monospace;
+    font-family: 'Press Start 2P', monospace;
     color: white;
     overflow-x: hidden;
 }
@@ -88,7 +88,7 @@ html, body {
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background: radial-gradient(circle at center, rgba(26, 26, 46, 0.8), rgba(10, 10, 10, 0.95));
+    background: radial-gradient(circle at center, rgba(26, 58, 95, 0.8), rgba(10, 20, 40, 0.95));
     padding: 20px;
     box-sizing: border-box;
     position: relative;
@@ -102,21 +102,22 @@ html, body {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 20% 20%, rgba(0, 255, 204, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 20% 20%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(107, 163, 232, 0.1) 0%, transparent 50%);
     pointer-events: none;
 }
 
 #menuScreen h1 {
-    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
     margin-bottom: 2rem;
-    color: #00ff00;
+    color: #4a90e2;
     text-align: center;
     font-weight: 900;
     letter-spacing: 0.1em;
     animation: titleGlow 3s ease-in-out infinite;
     position: relative;
     z-index: 1;
+    text-shadow: 2px 2px 0px #1a3a5f;
 }
 
 #menuScreen h1::before {
@@ -126,7 +127,7 @@ html, body {
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background: linear-gradient(45deg, #00ff00, #00ffcc, #00ff00);
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
     border-radius: 10px;
     z-index: -1;
     opacity: 0.3;
@@ -146,11 +147,11 @@ html, body {
 
 .levelButton {
     padding: 1rem 0.5rem;
-    font-size: clamp(0.9rem, 4vw, 1.2rem);
-    background: linear-gradient(135deg, rgba(51, 51, 51, 0.9), rgba(26, 26, 46, 0.9));
+    font-size: clamp(0.7rem, 3vw, 1rem);
+    background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
     color: white;
-    border: 2px solid transparent;
-    border-radius: 12px;
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-height: 50px;
@@ -168,6 +169,8 @@ html, body {
     overflow: hidden;
     font-weight: 700;
     letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    box-shadow: 3px 3px 0px #1a3a5f;
 }
 
 .levelButton::before {
@@ -177,8 +180,8 @@ html, body {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc);
-    border-radius: 14px;
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+    border-radius: 10px;
     z-index: -1;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -191,12 +194,12 @@ html, body {
 }
 
 .levelButton:hover, .levelButton:active {
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 204, 0.2));
-    color: #00ff00;
-    transform: scale(1.05) translateY(-2px);
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+    color: #4a90e2;
+    transform: scale(1.02) translateY(-1px);
     box-shadow: 
-        0 10px 20px rgba(0, 255, 0, 0.3),
-        0 0 30px rgba(0, 255, 0, 0.2);
+        2px 2px 0px #1a3a5f,
+        0 5px 10px rgba(74, 144, 226, 0.3);
 }
 
 .levelButton:disabled {
@@ -205,7 +208,7 @@ html, body {
     color: #999;
     cursor: not-allowed;
     transform: none;
-    box-shadow: none;
+    box-shadow: 1px 1px 0px #333;
 }
 
 .levelButton:disabled::before {
@@ -241,11 +244,11 @@ html, body {
 
 #aboutButton {
     padding: 1rem 2rem;
-    font-size: clamp(1rem, 4vw, 1.2rem);
-    background: linear-gradient(135deg, rgba(51, 51, 51, 0.9), rgba(26, 26, 46, 0.9));
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
     color: white;
-    border: 2px solid transparent;
-    border-radius: 12px;
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-tap-highlight-color: transparent;
@@ -262,6 +265,8 @@ html, body {
     overflow: hidden;
     font-weight: 700;
     letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    box-shadow: 3px 3px 0px #1a3a5f;
 }
 
 #aboutButton::before {
@@ -271,8 +276,8 @@ html, body {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc);
-    border-radius: 14px;
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+    border-radius: 10px;
     z-index: -1;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -284,12 +289,12 @@ html, body {
 }
 
 #aboutButton:hover, #aboutButton:active {
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 204, 0.2));
-    color: #00ff00;
-    transform: scale(1.05) translateY(-2px);
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+    color: #4a90e2;
+    transform: scale(1.02) translateY(-1px);
     box-shadow: 
-        0 10px 20px rgba(0, 255, 0, 0.3),
-        0 0 30px rgba(0, 255, 0, 0.2);
+        2px 2px 0px #1a3a5f,
+        0 5px 10px rgba(74, 144, 226, 0.3);
 }
 
 /* Game Over Screen */
@@ -299,7 +304,7 @@ html, body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.9), rgba(10, 10, 10, 0.95));
+    background: radial-gradient(circle at center, rgba(10, 20, 40, 0.9), rgba(26, 58, 95, 0.95));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -320,17 +325,17 @@ html, body {
 
 /* Stats Panel */
 #levelStats {
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 255, 204, 0.1));
-    border: 2px solid transparent;
-    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(107, 163, 232, 0.1));
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
     padding: 1.5rem;
     margin: 1.5rem 0;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
     box-shadow: 
-        0 0 20px rgba(0, 255, 0, 0.2),
-        0 0 40px rgba(0, 255, 204, 0.1);
+        3px 3px 0px #1a3a5f,
+        0 0 20px rgba(74, 144, 226, 0.2);
 }
 
 #levelStats::before {
@@ -340,8 +345,8 @@ html, body {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #00ff00, #00ffcc, #00ff00);
-    border-radius: 17px;
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+    border-radius: 10px;
     z-index: -1;
     opacity: 0.3;
     animation: borderGlow 3s ease-in-out infinite;
@@ -349,11 +354,25 @@ html, body {
 
 #levelStats p {
     margin: 0.5rem 0;
-    font-size: clamp(0.9rem, 3vw, 1.1rem);
-    color: #00ff00;
-    text-shadow: 0 0 5px #00ff00;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    color: #4a90e2;
+    text-shadow: 1px 1px 0px #1a3a5f;
     font-weight: 600;
     letter-spacing: 0.05em;
+}
+
+/* Special styling for bonus counter */
+#bonusesUsed {
+    background: linear-gradient(135deg, #8B4513, #A0522D, #CD853F);
+    border: 2px solid #654321;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 0.8rem 0;
+    color: #F5DEB3;
+    text-shadow: 1px 1px 0px #654321;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    box-shadow: 2px 2px 0px #654321;
 }
 
 /* Perfect Score Badge */
@@ -390,9 +409,9 @@ html, body {
 /* Updated button styling for game over screen */
 #gameOverButtons button {
     padding: 1rem 2rem;
-    font-size: clamp(1rem, 4vw, 1.2rem);
-    border: 2px solid transparent;
-    border-radius: 12px;
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-tap-highlight-color: transparent;
@@ -409,8 +428,10 @@ html, body {
     overflow: hidden;
     font-weight: 700;
     letter-spacing: 0.05em;
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 204, 0.2));
-    color: #00ff00;
+    background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+    color: white;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    box-shadow: 3px 3px 0px #1a3a5f;
 }
 
 #gameOverButtons button::before {
@@ -420,8 +441,8 @@ html, body {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #00ff00, #00ffcc, #00ff00);
-    border-radius: 14px;
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+    border-radius: 10px;
     z-index: -1;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -434,12 +455,12 @@ html, body {
 
 #gameOverButtons button:hover, 
 #gameOverButtons button:active {
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.3), rgba(0, 255, 204, 0.3));
-    color: #00ff00;
-    transform: scale(1.05) translateY(-2px);
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+    color: #4a90e2;
+    transform: scale(1.02) translateY(-1px);
     box-shadow: 
-        0 10px 20px rgba(0, 255, 0, 0.3),
-        0 0 30px rgba(0, 255, 0, 0.2);
+        2px 2px 0px #1a3a5f,
+        0 5px 10px rgba(74, 144, 226, 0.3);
 }
 
 /* Next Level button special styling */
@@ -469,18 +490,18 @@ html, body {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 30% 30%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 70% 70%, rgba(0, 255, 204, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 30% 30%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(107, 163, 232, 0.1) 0%, transparent 50%);
     pointer-events: none;
 }
 
 #gameOverScreen h2 {
-    font-size: clamp(1.5rem, 6vw, 2.5rem);
-    color: #00ff00;
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    color: #4a90e2;
     margin-bottom: 2rem;
     text-shadow: 
-        0 0 10px #00ff00,
-        0 0 20px #00ff00;
+        2px 2px 0px #1a3a5f,
+        0 0 10px #4a90e2;
     text-align: center;
     font-weight: 900;
     letter-spacing: 0.1em;
@@ -590,14 +611,15 @@ html, body {
     max-width: 100%;
     aspect-ratio: 3 / 4;
     image-rendering: pixelated;
-    border: 3px solid transparent;
-    border-radius: 15px;
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
     background: 
-        linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc) border-box;
+        linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2) border-box;
     box-shadow: 
-        0 0 20px rgba(0, 255, 204, 0.5),
-        0 0 40px rgba(0, 255, 204, 0.3),
-        inset 0 0 30px rgba(0, 255, 204, 0.1);
+        3px 3px 0px #1a3a5f,
+        0 0 20px rgba(74, 144, 226, 0.5),
+        0 0 40px rgba(74, 144, 226, 0.3),
+        inset 0 0 30px rgba(74, 144, 226, 0.1);
     animation: borderGlow 4s ease-in-out infinite;
     position: relative;
 }
@@ -609,8 +631,8 @@ html, body {
     left: -3px;
     right: -3px;
     bottom: -3px;
-    background: linear-gradient(45deg, #00ffcc, #00ff00, #00ffcc);
-    border-radius: 18px;
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+    border-radius: 11px;
     z-index: -1;
     opacity: 0.5;
     filter: blur(10px);
