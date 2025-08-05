@@ -1,11 +1,37 @@
 import { setPerfectCompletion, isLevelPerfectlyCompleted, getEnemiesDefeated, getDamageTaken, getStartingHealth, playerActiveBonuses, isLevelPerfect } from './state.js';
-import { DEV_MODE, GAME_CONFIG } from './config.js';
+import { DEV_MODE, GAME_CONFIG, STORAGE_KEYS } from './config.js';
 
 // Menu system state
 let unlockedLevel = 1;
 let currentLevel = null;
 let lastPlayedLevel = null; // Track the last level played
 let gameResult = null; // 'win' or 'lose'
+
+// Load unlocked level from localStorage
+function loadUnlockedLevel() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEYS.UNLOCKED_LEVEL);
+        if (saved) {
+            unlockedLevel = parseInt(saved, 10);
+            console.log(`Loaded unlocked level from storage: ${unlockedLevel}`);
+        } else {
+            console.log('No saved unlocked level found, starting at level 1');
+        }
+    } catch (error) {
+        console.warn('Failed to load unlocked level:', error);
+        unlockedLevel = 1;
+    }
+}
+
+// Save unlocked level to localStorage
+function saveUnlockedLevel() {
+    try {
+        localStorage.setItem(STORAGE_KEYS.UNLOCKED_LEVEL, unlockedLevel.toString());
+        console.log(`Saved unlocked level to storage: ${unlockedLevel}`);
+    } catch (error) {
+        console.warn('Failed to save unlocked level:', error);
+    }
+}
 
     // UI elements
     let menuScreen = null;
@@ -21,6 +47,9 @@ let gameResult = null; // 'win' or 'lose'
 
 // Initialize menu system
 export function initializeMenu() {
+    // Load unlocked level from persistent storage
+    loadUnlockedLevel();
+    
     menuScreen = document.getElementById('menuScreen');
     gameWrapper = document.getElementById('gameWrapper');
     gameOverScreen = document.getElementById('gameOverScreen');
@@ -347,6 +376,7 @@ function handleReturnToMenu() {
     // Update progress if level was completed
     if (gameResult === 'win' && currentLevel && currentLevel === unlockedLevel) {
         unlockedLevel = Math.min(unlockedLevel + 1, 10);
+        saveUnlockedLevel(); // Save the updated unlocked level
     }
     
     showMenu();
@@ -385,6 +415,14 @@ function handleNextLevel() {
         const nextLevel = lastPlayedLevel + 1;
         if (nextLevel <= 10) { // Assuming max 10 levels
             console.log(`Starting next level ${nextLevel}`);
+            
+            // Update unlocked level to the next level since player completed the previous level
+            if (nextLevel > unlockedLevel) {
+                unlockedLevel = nextLevel;
+                saveUnlockedLevel(); // Save the updated unlocked level
+                console.log(`Unlocked level updated to ${unlockedLevel}`);
+            }
+            
             resetGameState();
             startLevel(nextLevel);
         } else {
@@ -395,6 +433,14 @@ function handleNextLevel() {
     } else {
         // Fallback to level 2 if no last played level
         console.log('No last played level, starting level 2');
+        
+        // Update unlocked level to level 2 since player is progressing
+        if (2 > unlockedLevel) {
+            unlockedLevel = 2;
+            saveUnlockedLevel(); // Save the updated unlocked level
+            console.log(`Unlocked level updated to ${unlockedLevel}`);
+        }
+        
         resetGameState();
         startLevel(2);
     }
@@ -439,4 +485,30 @@ export function getLastPlayedLevel() {
 // Get game result
 export function getGameResult() {
     return gameResult;
+}
+
+// Reset unlocked level (for testing purposes)
+export function resetUnlockedLevel() {
+    unlockedLevel = 1;
+    saveUnlockedLevel();
+    renderLevelButtons(); // Re-render to reflect the change
+}
+
+// Unlock a specific level (for testing purposes)
+export function unlockLevel(levelNumber) {
+    if (levelNumber > unlockedLevel) {
+        unlockedLevel = levelNumber;
+        saveUnlockedLevel();
+        renderLevelButtons(); // Re-render to reflect the change
+        console.log(`Level ${levelNumber} unlocked`);
+    }
+}
+
+// Test function to verify persistent storage (can be called from browser console)
+export function testPersistentStorage() {
+    console.log('=== Testing Persistent Storage ===');
+    console.log(`Current unlocked level: ${unlockedLevel}`);
+    console.log(`Storage key: ${STORAGE_KEYS.UNLOCKED_LEVEL}`);
+    console.log(`Storage value: ${localStorage.getItem(STORAGE_KEYS.UNLOCKED_LEVEL)}`);
+    console.log('=== End Test ===');
 } 
