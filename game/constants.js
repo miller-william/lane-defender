@@ -8,8 +8,8 @@ export const PLAYER_HEIGHT = 80;
 export const PLAYER_SPEED = 7; // pixels per frame (not time-based)
 
 // Bullet properties
-export const BULLET_WIDTH = 4;
-export const BULLET_HEIGHT = 10;
+export const BULLET_WIDTH = 6;
+export const BULLET_HEIGHT = 12;
 export const BULLET_SPEED = 0.5; // canvas height per second (time-based)
 
 // Enemy properties
