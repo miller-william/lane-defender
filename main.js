@@ -1,7 +1,7 @@
 import { initializeInput } from './game/input.js';
 import { initializeGameLoop, startGameLoop } from './game/gameLoop.js';
 import { startLevel } from './game/levels.js';
-import { initializeMenu, setGameFunctions, showGameOver } from './game/menu.js';
+import { initializeMenu, setGameFunctions, showGameOver, resetUnlockedLevel, unlockLevel, testPersistentStorage } from './game/menu.js';
 import { 
     setBullets, setEnemies, setPlayerHealth, setGameOver, 
     setLevelComplete, setBulletDamage, setBulletFireRate, 
@@ -74,6 +74,11 @@ function initializeGame() {
     
     // Set up level completion handler
     window.handleLevelCompletion = handleLevelCompletion;
+    
+    // Expose test functions to global scope for debugging
+    window.resetUnlockedLevel = resetUnlockedLevel;
+    window.unlockLevel = unlockLevel;
+    window.testPersistentStorage = testPersistentStorage;
 }
 
 // Start the game when the page loads
