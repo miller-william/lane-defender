@@ -53,7 +53,7 @@ loadPerfectCompletionData();
 // Dynamic game variables (can be changed via dev panel)
 export let bulletDamage = DEFAULT_BULLET_DAMAGE;
 export let bulletFireRate = DEFAULT_BULLET_FIRE_RATE;
-export let bulletColor = '#4a90e2'; // Default blue water bullet color
+export let bulletColor = '#ff0000'; // Default laser red bullet color
 export let enemyHealth = DEFAULT_ENEMY_HEALTH;
 export let bulletSpread = 0; // Number of additional bullets (0 = single bullet)
 

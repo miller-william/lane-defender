@@ -10,9 +10,49 @@
 <body>
     <!-- Menu Screen -->
     <div id="menuScreen">
+        <div id="waveBackground">
+            <img src="assets/wave.svg" alt="River wave background" class="wave wave1">
+            <img src="assets/wave.svg" alt="River wave background" class="wave wave2">
+        </div>
         <h1>River Revival</h1>
+        <p id="tagline">Be the fish. Fight the filth.</p>
         <div id="levelButtons"></div>
-        <button id="aboutButton">About</button>
+        <div class="button-row">
+            <button id="instructionsButton">Instructions</button>
+            <button id="aboutButton">About</button>
+        </div>
+    </div>
+    
+    <!-- Instructions Screen -->
+    <div id="instructionsScreen" style="display: none;">
+        <div id="waveBackground">
+            <img src="assets/wave.svg" alt="River wave background" class="wave wave1">
+            <img src="assets/wave.svg" alt="River wave background" class="wave wave2">
+        </div>
+        <h1>Instructions</h1>
+        <div id="instructionsContent">
+            <h2>How to Play</h2>
+            <p><strong>Movement</strong> Tap and hold on the left or right of your screen to move your fish around. (Use arrow keys on desktop).</p>
+            <p><strong>Objective</strong> Clean up the river by zapping pollution and rubbish before it floats past you.</p>
+            <p><strong>Controls</strong></p>
+            <ul>
+                <li>Move left/right to aim at floating objects</li>
+                <li>Your fish automatically fires its laser - just steer!</li>
+                <li>Collect power-ups by shooting shiny things or picking up bonues from Driftwood Upgrades.</li>
+                <li>Avoid taking damage to achieve perfect scores!</li>
+            </ul>
+            <p><strong>Upgrades</strong> When <em>Driftwood</em> appears, steer left or right to pick a bonus. Choose wisely — each side offers a different upgrade!</p>
+
+            <ul>
+                <li><strong>🌪️ Fire Rate</strong> – Shoot faster</li>
+                <li><strong>💦 Spread</strong> – Fire more lasers at once</li>
+                <li><strong>🌊 Damage</strong> – Deal more damage to floating objects</li>
+            </ul>
+            
+            <p><strong>⚠️ Some upgrades come with trade-offs!</strong> For example, you might shoot faster but deal less damage. Not every upgrade is purely positive — think before you pick!</p>
+            <p><strong>Perfect Score:</strong> Complete a level without taking any damage to earn a ⭐ star!</p>
+        </div>
+        <button id="backButton">Back to Menu</button>
     </div>
     
     <!-- Game Screen -->
@@ -23,6 +63,7 @@
     <!-- Game Over Screen -->
     <div id="gameOverScreen" style="display: none;">
         <h2>Level Complete!</h2>
+        <p id="missionDebrief">Mission debrief loading...</p>
         
         <!-- Stats Panel -->
         <div id="levelStats">
@@ -42,6 +83,21 @@
     
     <!-- Touch Control Area (only visible during gameplay) -->
     <div id="touchControlArea" style="display: none;"></div>
+    
+    <!-- How to Play Popup -->
+    <div id="howToPlayPopup" style="display: none;">
+        <div class="popup-content">
+            <h2>How to Play</h2>
+            <ul>
+                <li>Tap left/right (or use arrow keys) to steer your fish</li>
+                <li>Your laser fires automatically</li>
+                <li>Shoot rubbish to clean the river and score points</li>
+                <li>Choose upgrades from floating Driftwood — some are risky!</li>
+            </ul>
+            <p>💡 Avoid damage to earn a ⭐ perfect score!</p>
+            <button id="gotItButton">Got it!</button>
+        </div>
+    </div>
     
     <script type="module" src="main.js"></script>
 </body>

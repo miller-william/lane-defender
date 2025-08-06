@@ -101,8 +101,8 @@ export function startLevel(levelNumber) {
     setLevelComplete(false);
     setLevelCompletionDelayActive(false); // Reset completion delay state
     
-    // Set bullet color from level configuration (default to yellow if not specified)
-    const bulletColor = level.bulletColor || '#ffff00';
+    // Set bullet color from level configuration (default to laser red if not specified)
+    const bulletColor = level.bulletColor || '#ff0000';
     setBulletColor(bulletColor);
     
     // Count total enemies that will be spawned
