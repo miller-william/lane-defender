@@ -10,6 +10,49 @@ import {
     setUpgradeDecisionMade
 } from './state.js';
 
+// Function to draw pixel art wooden boxes
+function drawPixelArtWoodenBox(ctx, x, y, width, height, side) {
+    // Save context
+    ctx.save();
+    
+    // Wooden gradient background
+    const woodGradient = ctx.createLinearGradient(x, y, x, y + height);
+    woodGradient.addColorStop(0, '#8B4513');    // Dark brown
+    woodGradient.addColorStop(0.3, '#A0522D');  // Medium brown
+    woodGradient.addColorStop(0.7, '#CD853F');  // Light brown
+    woodGradient.addColorStop(1, '#DEB887');    // Very light brown
+    
+    // Draw main box
+    ctx.fillStyle = woodGradient;
+    ctx.fillRect(x, y, width, height);
+    
+    // Draw pixel art border (darker wood)
+    ctx.strokeStyle = '#654321';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(x + 2, y + 2, width - 4, height - 4);
+    
+    // Draw inner pixel art border (lighter wood)
+    ctx.strokeStyle = '#DEB887';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x + 6, y + 6, width - 12, height - 12);
+    
+    // Draw pixel art wood grain lines
+    ctx.strokeStyle = '#A0522D';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 5; i++) {
+        const lineY = y + 15 + (i * 20);
+        ctx.beginPath();
+        ctx.moveTo(x + 10, lineY);
+        ctx.lineTo(x + width - 10, lineY);
+        ctx.stroke();
+    }
+    
+    // Removed side labels for cleaner look
+    
+    // Restore context
+    ctx.restore();
+}
+
 // Load banner images
 let frogBannerImage = null;
 let scientistBannerImage = null;
@@ -173,86 +216,60 @@ export function drawUpgradeBanner(ctx) {
     // Save context
     ctx.save();
     
-    // Draw left side (frog banner) if loaded
-    if (frogBannerImage) {
-        const imageY = upgradeBannerY;
-        const leftImageWidth = CANVAS_WIDTH / 2;
-        
-        // Calculate height to maintain aspect ratio
-        const aspectRatio = frogBannerImage.width / frogBannerImage.height;
-        const leftImageHeight = leftImageWidth / aspectRatio;
-        
-        // Only draw if any part of the image is visible
-        if (imageY < CANVAS_HEIGHT && imageY + leftImageHeight > 0) {
-            // Draw the frog banner on the left half with proper aspect ratio
-            ctx.drawImage(
-                frogBannerImage,
-                0, imageY, // Destination x, y
-                leftImageWidth, leftImageHeight // Destination width, height
-            );
-        }
+    // Draw left side (wooden pixel art box)
+    const leftBoxX = 0;
+    const leftBoxY = upgradeBannerY;
+    const leftBoxWidth = CANVAS_WIDTH / 2;
+    const leftBoxHeight = 120;
+    
+    // Only draw if any part of the box is visible
+    if (leftBoxY < CANVAS_HEIGHT && leftBoxY + leftBoxHeight > 0) {
+        drawPixelArtWoodenBox(ctx, leftBoxX, leftBoxY, leftBoxWidth, leftBoxHeight, 'left');
     }
     
-    // Draw right side (scientist banner) if loaded
-    if (scientistBannerImage) {
-        const imageY = upgradeBannerY;
-        const rightImageWidth = CANVAS_WIDTH / 2;
-        
-        // Calculate height to maintain aspect ratio
-        const aspectRatio = scientistBannerImage.width / scientistBannerImage.height;
-        const rightImageHeight = rightImageWidth / aspectRatio;
-        
-        // Only draw if any part of the image is visible
-        if (imageY < CANVAS_HEIGHT && imageY + rightImageHeight > 0) {
-            // Draw the scientist banner on the right half with proper aspect ratio
-            ctx.drawImage(
-                scientistBannerImage,
-                CANVAS_WIDTH / 2, imageY, // Destination x, y (right half)
-                rightImageWidth, rightImageHeight // Destination width, height
-            );
-        }
+    // Draw right side (wooden pixel art box)
+    const rightBoxX = CANVAS_WIDTH / 2;
+    const rightBoxY = upgradeBannerY;
+    const rightBoxWidth = CANVAS_WIDTH / 2;
+    const rightBoxHeight = 120;
+    
+    // Only draw if any part of the box is visible
+    if (rightBoxY < CANVAS_HEIGHT && rightBoxY + rightBoxHeight > 0) {
+        drawPixelArtWoodenBox(ctx, rightBoxX, rightBoxY, rightBoxWidth, rightBoxHeight, 'right');
     }
     
-    // Fallback: draw a simple banner background if images not loaded
-    if (!frogBannerImage && !scientistBannerImage) {
-        const gradient = ctx.createLinearGradient(0, bannerTop, 0, bannerTop + bannerImageHeight);
-        gradient.addColorStop(0, '#4a90e2');
-        gradient.addColorStop(1, '#6ba3e8');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, bannerTop, CANVAS_WIDTH, Math.min(bannerImageHeight, bannerHeight));
-    }
-    
-    // Draw center line on the banner image
-    const centerLineY = upgradeBannerY + bannerImageHeight / 2;
+    // Draw center line on the wooden boxes
+    const boxHeight = 120;
+    const centerLineY = upgradeBannerY + boxHeight / 2;
     if (centerLineY >= 0 && centerLineY <= CANVAS_HEIGHT) {
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
         ctx.lineWidth = 3;
         ctx.setLineDash([10, 5]);
         ctx.beginPath();
         ctx.moveTo(CANVAS_WIDTH / 2, Math.max(0, upgradeBannerY));
-        ctx.lineTo(CANVAS_WIDTH / 2, Math.min(CANVAS_HEIGHT, upgradeBannerY + bannerImageHeight));
+        ctx.lineTo(CANVAS_WIDTH / 2, Math.min(CANVAS_HEIGHT, upgradeBannerY + boxHeight));
         ctx.stroke();
         ctx.setLineDash([]);
     }
     
-    // Draw upgrade text inside the banner image (moved up one line)
-    const textStartY = upgradeBannerY + (bannerImageHeight * 0.67) - 10; // Moved up one line
+    // Draw upgrade text inside the wooden boxes
+    const textStartY = upgradeBannerY + 40; // Position text in the middle of the box
     
     // Only draw text if it's visible
     if (textStartY < CANVAS_HEIGHT) {
-        // Set up text styling - smaller font size
-        ctx.font = 'bold 10px Arial';
+        // Set up text styling for wooden boxes - bigger and more visible
+        ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
         // Draw left upgrades
-        const leftStartY = textStartY + 10;
+        const leftStartY = textStartY + 15;
         leftUpgrades.forEach((upgrade, index) => {
-            const y = leftStartY + (index * 18); // Reduced line spacing
+            const y = leftStartY + (index * 25); // Increased line spacing for bigger text
             if (y >= 0 && y <= CANVAS_HEIGHT) {
-                // Draw text with better contrast and no background
-                ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = '#000000';
+                // Draw text with better contrast against wooden background
+                ctx.fillStyle = '#ffffff'; // White text for maximum contrast
+                ctx.shadowColor = '#000000'; // Black shadow for readability
                 ctx.shadowBlur = 3;
                 ctx.shadowOffsetX = 2;
                 ctx.shadowOffsetY = 2;
@@ -261,13 +278,13 @@ export function drawUpgradeBanner(ctx) {
         });
         
         // Draw right upgrades
-        const rightStartY = textStartY + 10;
+        const rightStartY = textStartY + 15;
         rightUpgrades.forEach((upgrade, index) => {
-            const y = rightStartY + (index * 18); // Reduced line spacing
+            const y = rightStartY + (index * 25); // Increased line spacing for bigger text
             if (y >= 0 && y <= CANVAS_HEIGHT) {
-                // Draw text with better contrast and no background
-                ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = '#000000';
+                // Draw text with better contrast against wooden background
+                ctx.fillStyle = '#ffffff'; // White text for maximum contrast
+                ctx.shadowColor = '#000000'; // Black shadow for readability
                 ctx.shadowBlur = 3;
                 ctx.shadowOffsetX = 2;
                 ctx.shadowOffsetY = 2;

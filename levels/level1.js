@@ -1,7 +1,8 @@
 export default {
     name: "Introductory Level",
     background: "#3e5c59",
-    bulletColor: "#4a90e2", // Blue water bullets for level 1
+    backgroundImage: "assets/river-vertical.png",
+    bulletColor: "#ff0000", // Laser red bullets for level 1
     spawnEvents: [
         // Single spawn events
         { time: 0, enemyType: 'poop', health: 1},

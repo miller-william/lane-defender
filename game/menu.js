@@ -39,6 +39,7 @@ function saveUnlockedLevel() {
     let gameOverScreen = null;
     let levelButtons = null;
     let aboutButton = null;
+    let instructionsButton = null;
     let returnToMenuButton = null;
     let retryLevelButton = null;
     let playAgainButton = null;
@@ -55,11 +56,15 @@ export function initializeMenu() {
     gameOverScreen = document.getElementById('gameOverScreen');
     levelButtons = document.getElementById('levelButtons');
     aboutButton = document.getElementById('aboutButton');
+    instructionsButton = document.getElementById('instructionsButton');
     returnToMenuButton = document.getElementById('returnToMenu');
     retryLevelButton = document.getElementById('retryLevel');
     playAgainButton = document.getElementById('playAgain');
     nextLevelButton = document.getElementById('nextLevel');
     touchControlArea = document.getElementById('touchControlArea');
+    
+    // Check if this is the first time and show how to play popup
+    checkAndShowHowToPlay();
     
     // Note: Some buttons may not exist initially (they're in gameOverScreen which is hidden)
     // Event listeners are added with null checks below
@@ -71,6 +76,14 @@ export function initializeMenu() {
             handleAboutClick();
         }, { passive: false });
         aboutButton.addEventListener('click', handleAboutClick);
+    }
+    
+    if (instructionsButton) {
+        instructionsButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleInstructionsClick();
+        }, { passive: false });
+        instructionsButton.addEventListener('click', handleInstructionsClick);
     }
     
     if (returnToMenuButton) {
@@ -104,6 +117,16 @@ export function initializeMenu() {
             handleNextLevel();
         }, { passive: false });
         nextLevelButton.addEventListener('click', handleNextLevel);
+    }
+    
+    // Add event listener for back button
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        backButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleBackClick();
+        }, { passive: false });
+        backButton.addEventListener('click', handleBackClick);
     }
     
     // Render initial level buttons
@@ -187,7 +210,7 @@ function renderLevelButtons() {
     }
     
     // Add legend for perfect completion
-    addPerfectLegend();
+    // addPerfectLegend();
     
     if (DEV_MODE.ALL_LEVELS_UNLOCKED) {
         console.log('DEV MODE: All levels unlocked for testing');
@@ -233,6 +256,9 @@ function startLevel(levelNumber) {
 
 // Show game screen
 function showGame() {
+    // Restore body scrolling
+    document.body.style.overflow = '';
+    
     menuScreen.style.display = 'none';
     gameWrapper.style.display = 'flex';
     gameOverScreen.style.display = 'none';
@@ -249,6 +275,9 @@ function showGame() {
 
 // Show menu screen
 function showMenu() {
+    // Restore body scrolling
+    document.body.style.overflow = '';
+    
     menuScreen.style.display = 'flex';
     gameWrapper.style.display = 'none';
     gameOverScreen.style.display = 'none';
@@ -262,9 +291,44 @@ function showMenu() {
     renderLevelButtons();
 }
 
+// Check if this is the first time and show how to play popup
+function checkAndShowHowToPlay() {
+    const hasSeenTips = localStorage.getItem('firstSeenGameTips');
+    
+    if (!hasSeenTips) {
+        const popup = document.getElementById('howToPlayPopup');
+        const gotItButton = document.getElementById('gotItButton');
+        
+        if (popup && gotItButton) {
+            // Show the popup
+            popup.style.display = 'flex';
+            
+            // Add event listener to the "Got it!" button
+            gotItButton.addEventListener('click', () => {
+                // Set the flag in localStorage
+                localStorage.setItem('firstSeenGameTips', 'true');
+                
+                // Hide the popup
+                popup.style.display = 'none';
+            });
+            
+            // Also allow clicking outside the popup to dismiss it
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    localStorage.setItem('firstSeenGameTips', 'true');
+                    popup.style.display = 'none';
+                }
+            });
+        }
+    }
+}
+
 // Show game over screen with appropriate message
 export function showGameOver(result = 'lose', levelNumber = null) {
     gameResult = result;
+    
+    // Prevent body scrolling when game over screen is shown
+    document.body.style.overflow = 'hidden';
     
     // Hide game wrapper and show game over screen
     gameWrapper.style.display = 'none';
@@ -288,12 +352,72 @@ export function showGameOver(result = 'lose', levelNumber = null) {
         }
     }
     
+    // Update mission debrief
+    updateMissionDebrief(result, levelNumber);
+    
     // Populate stats for win screen
     if (result === 'win') {
         populateLevelStats(levelNumber);
     }
     
     console.log(`Game over screen shown with result: ${result}${levelNumber ? ` for level ${levelNumber}` : ''}`);
+}
+
+// Debrief messages for each level
+const debriefMessages = {
+    1: {
+        win: "Welcome to the river, young defender! You've successfully completed your first mission. The small stream is now safe from basic pollutants. Your journey as a river guardian begins!",
+        lose: "Don't worry, rookie fish! Level 1 is just the beginning. Even the most experienced defenders started with simple streams. Try again and show the river your determination!"
+    },
+    2: {
+        win: "Excellent progress! You've cleared the gentle rapids of level 2. The water flows more freely now, and the local fish are grateful for your protection!",
+        lose: "The rapids proved challenging, but every fish learns from flowing water. Level 2 teaches patience and timing. You'll master it soon!"
+    },
+    3: {
+        win: "Impressive work! Level 3's moderate currents are now pure. You're developing into a skilled river defender. The ecosystem is thriving under your watch!",
+        lose: "The moderate currents of level 3 can be tricky. Remember, even the strongest rivers started as small streams. Keep flowing forward!"
+    },
+    4: {
+        win: "Outstanding! You've conquered level 4's stronger currents. Your fishy skills are growing legendary. The river's middle reaches are now crystal clear!",
+        lose: "Level 4's stronger currents tested your limits. But remember, the river doesn't flow in straight lines. Adapt and overcome!"
+    },
+    5: {
+        win: "Magnificent! Level 5's challenging waters are now pristine. You're becoming a true river master. The deep pools are safe once more!",
+        lose: "Level 5's deep waters are challenging indeed. But every great river defender faced deep currents. Your determination will carry you through!"
+    },
+    6: {
+        win: "Extraordinary! You've purified level 6's complex currents. Your mastery of river defense is undeniable. The advanced ecosystem thanks you!",
+        lose: "Level 6's complex patterns are difficult to master. But complexity is just many simple patterns combined. Break it down and try again!"
+    },
+    7: {
+        win: "Legendary performance! Level 7's treacherous waters are now pure. You're among the elite river defenders. The river's heart beats strong!",
+        lose: "Level 7's treacherous waters are not for the faint-hearted. But legends are made by those who face the greatest challenges. Rise to the occasion!"
+    },
+    8: {
+        win: "Masterful! You've conquered level 8's extreme conditions. Your river defense skills are now legendary. The entire watershed is in awe!",
+        lose: "Level 8's extreme conditions push even the best defenders to their limits. But the greatest rivers flow through the toughest terrain. Persevere!"
+    },
+    9: {
+        win: "Incredible! Level 9's ultimate challenge has been overcome. You're now a river defense virtuoso. The entire aquatic world celebrates your victory!",
+        lose: "Level 9's ultimate challenge is not easily conquered. But virtuosos are made through persistence. Your potential is limitless!"
+    },
+    10: {
+        win: "PERFECT! You've achieved the impossible - level 10 is pure! You are now the ultimate river defender, a true guardian of the waters. The entire river system bows to your mastery!",
+        lose: "Level 10 is the ultimate test of river defense. Even the greatest defenders face setbacks here. But legends are forged in the fires of challenge. You have what it takes!"
+    },
+    default: {
+        win: "Excellent work, fish warrior! You've successfully defended the river from invaders. The aquatic ecosystem thanks you!",
+        lose: "Mission failed, brave fish. The river needs you to try again. Don't give up!"
+    }
+};
+
+// Update mission debrief based on result
+function updateMissionDebrief(result, levelNumber) {
+    const debriefElement = document.getElementById('missionDebrief');
+    if (!debriefElement) return;
+    
+    const messages = debriefMessages[levelNumber] || debriefMessages.default;
+    debriefElement.textContent = result === 'win' ? messages.win : messages.lose;
 }
 
 // Populate level statistics
@@ -364,11 +488,77 @@ function populateLevelStats(levelNumber) {
             nextLevelButton.style.display = 'none';
         }
     }
+    
+    // Animate stats one by one
+    animateStats();
+}
+
+// Animate stats with staggered timing
+function animateStats() {
+    const statElements = [
+        document.getElementById('enemiesDefeated'),
+        document.getElementById('damageTaken'),
+        document.getElementById('bonusesUsed')
+    ].filter(el => el); // Remove any null elements
+    
+    // Add perfect badge to animation if it exists and is visible
+    const perfectBadge = document.getElementById('perfectBadge');
+    if (perfectBadge && perfectBadge.style.display !== 'none') {
+        statElements.push(perfectBadge);
+    }
+    
+    // Reset all elements to initial state first
+    statElements.forEach(element => {
+        element.classList.remove('animate-in');
+        element.style.opacity = '0';
+        element.style.transform = 'translateX(-20px)';
+    });
+    
+    // Animate each element with staggered timing
+    statElements.forEach((element, index) => {
+        setTimeout(() => {
+            element.classList.add('animate-in');
+            console.log(`Animating stat element ${index + 1}: ${element.textContent}`);
+            
+            // Fallback: if CSS animation doesn't work, use JavaScript animation
+            setTimeout(() => {
+                if (element.style.opacity !== '1') {
+                    element.style.transition = 'all 0.6s ease-out';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateX(0)';
+                }
+            }, 100);
+        }, 1200 + (index * 300)); // Start after debrief animation, stagger by 300ms
+    });
+    
+    console.log(`Starting stats animation for ${statElements.length} elements`);
 }
 
 // Handle about button click
 function handleAboutClick() {
     alert('About River Revival\n\nA pixel art tower defense game where you defend against waves of enemies!\n\n⭐ Perfect Score: Complete a level without taking any damage!');
+}
+
+// Handle instructions button click
+function handleInstructionsClick() {
+    const menuScreen = document.getElementById('menuScreen');
+    const instructionsScreen = document.getElementById('instructionsScreen');
+    
+    if (menuScreen && instructionsScreen) {
+        menuScreen.style.display = 'none';
+        instructionsScreen.style.display = 'flex';
+    }
+}
+
+// Handle back button click
+function handleBackClick() {
+    const menuScreen = document.getElementById('menuScreen');
+    const instructionsScreen = document.getElementById('instructionsScreen');
+    
+    if (menuScreen && instructionsScreen) {
+        instructionsScreen.style.display = 'none';
+        menuScreen.style.display = 'flex';
+    }
 }
 
 // Handle return to menu button click

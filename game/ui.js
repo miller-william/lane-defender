@@ -4,9 +4,13 @@ import { getCurrentLevel } from './levels.js';
 
 // Background image cache
 const backgroundCache = {};
+let backgroundOffset = 0;
+const backgroundScrollSpeed = -0.5; // negative scroll speed
 
 export function drawBackground(ctx) {
     const currentLevel = getCurrentLevel();
+    console.log('Current level data:', currentLevel);
+    
     if (!currentLevel || !currentLevel.background) {
         // Default background
         ctx.fillStyle = '#000000';
@@ -14,30 +18,74 @@ export function drawBackground(ctx) {
         return;
     }
 
-    const background = currentLevel.background;
-
-    // Check if it's a color (starts with #)
-    if (background.startsWith('#')) {
-        ctx.fillStyle = background;
+    // Draw base color first for depth
+    const baseColor = currentLevel.background;
+    if (baseColor && baseColor.startsWith('#')) {
+        ctx.fillStyle = baseColor;
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        return;
     }
 
-    // It's an image path
-    if (!backgroundCache[background]) {
-        const img = new Image();
-        img.src = background;
-        backgroundCache[background] = img;
-    }
+    // Check if level has a background image
+    if (currentLevel.backgroundImage) {
+        const imagePath = currentLevel.backgroundImage;
+        console.log(`Loading background image: ${imagePath}`);
+        
+        // Load image if not cached
+        if (!backgroundCache[imagePath]) {
+            const img = new Image();
+            img.src = imagePath;
+            backgroundCache[imagePath] = img;
+            console.log(`Caching new background image: ${imagePath}`);
+        }
 
-    const img = backgroundCache[background];
-    if (img.complete) {
-        // Draw the image to fill the canvas
-        ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        const img = backgroundCache[imagePath];
+        if (img.complete && img.naturalWidth > 0) {
+            console.log(`Drawing background image: ${imagePath}, size: ${img.naturalWidth}x${img.naturalHeight}`);
+            // Calculate image dimensions to fill canvas width
+            const imageAspectRatio = img.naturalWidth / img.naturalHeight;
+            const canvasAspectRatio = CANVAS_WIDTH / CANVAS_HEIGHT;
+            
+            let drawWidth, drawHeight;
+            if (imageAspectRatio > canvasAspectRatio) {
+                // Image is wider - scale to fit canvas height
+                drawHeight = CANVAS_HEIGHT;
+                drawWidth = drawHeight * imageAspectRatio;
+            } else {
+                // Image is taller - scale to fit canvas width
+                drawWidth = CANVAS_WIDTH;
+                drawHeight = drawWidth / imageAspectRatio;
+            }
+
+            // Calculate how many tiles we need to cover the canvas
+            const tilesNeeded = Math.ceil(CANVAS_HEIGHT / drawHeight) + 2;
+            
+            // Calculate the starting Y position (include tiles above visible area)
+            const startY = -backgroundOffset - drawHeight;
+            
+            // Draw tiled background with scrolling - SEAMLESS DOWNWARD SCROLLING
+            for (let i = 0; i < tilesNeeded; i++) {
+                const y = startY + (i * drawHeight);
+                ctx.drawImage(img, 0, y, drawWidth, drawHeight);
+            }
+
+            // Update scroll position with modulo to keep it safely within range
+            backgroundOffset = (backgroundOffset + backgroundScrollSpeed) % drawHeight;
+            
+            // Debug: log the direction and offset
+            console.log(`Background flowing DOWNWARD, offset: ${backgroundOffset.toFixed(2)}`);
+        } else {
+            // Fallback to base color while image loads
+            if (baseColor && baseColor.startsWith('#')) {
+                ctx.fillStyle = baseColor;
+                ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            }
+        }
     } else {
-        // Fallback to black while image loads
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        // No background image - just use base color
+        if (baseColor && baseColor.startsWith('#')) {
+            ctx.fillStyle = baseColor;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        }
     }
 }
 

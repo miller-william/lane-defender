@@ -1,7 +1,8 @@
 export default {
     name: "Intro to enemy bonuses",
     background: "#3e5c59",
-    bulletColor: "#4a90e2", // Blue water bullets
+    backgroundImage: "assets/river-vertical.png",
+    bulletColor: "#ff0000", // Laser red bullets
     spawnEvents: [
         // Initial wave
         {

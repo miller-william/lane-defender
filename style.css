@@ -5,14 +5,14 @@
 @keyframes titleGlow {
     0%, 100% {
         text-shadow: 
-            0 0 3px #4a90e2,
-            0 0 6px #4a90e2;
+            0 0 2px #4a90e2,
+            0 0 4px #4a90e2;
     }
     50% {
         text-shadow: 
-            0 0 5px #4a90e2,
-            0 0 10px #4a90e2,
-            0 0 15px #4a90e2;
+            0 0 3px #4a90e2,
+            0 0 6px #4a90e2,
+            0 0 8px #4a90e2;
     }
 }
 
@@ -107,6 +107,46 @@ html, body {
     pointer-events: none;
 }
 
+#waveBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: auto;
+    opacity: 0.6;
+    filter: blur(1px);
+}
+
+.wave1 {
+    animation: waveScroll 40s linear infinite;
+    left: 0;
+}
+
+.wave2 {
+    animation: waveScroll 40s linear infinite;
+    animation-delay: -20s;
+    left: 0;
+}
+
+@keyframes waveScroll {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 #menuScreen h1 {
     font-size: clamp(1.5rem, 6vw, 2.5rem);
     margin-bottom: 2rem;
@@ -114,10 +154,10 @@ html, body {
     text-align: center;
     font-weight: 900;
     letter-spacing: 0.1em;
-    animation: titleGlow 3s ease-in-out infinite;
+    animation: titleGlow 4s ease-in-out infinite;
     position: relative;
-    z-index: 1;
-    text-shadow: 2px 2px 0px #1a3a5f;
+    z-index: 2;
+    text-shadow: 1px 1px 0px #1a3a5f;
 }
 
 #menuScreen h1::before {
@@ -134,6 +174,68 @@ html, body {
     filter: blur(20px);
 }
 
+#tagline {
+    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+    text-align: center;
+    color: #d0f0ff;
+    font-family: 'Press Start 2P', monospace;
+    margin-top: -0.5rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    opacity: 0.85;
+    animation: taglineRipple 4s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
+}
+
+@keyframes taglineFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes taglineRipple {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 1px 1px 2px rgba(26, 58, 95, 0.8);
+    }
+    50% {
+        transform: scale(1.02);
+        text-shadow: 
+            1px 1px 2px rgba(26, 58, 95, 0.8),
+            0 0 8px rgba(232, 244, 253, 0.3);
+    }
+}
+
+@keyframes debriefFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes statSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 #levelButtons {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -142,7 +244,7 @@ html, body {
     max-width: 90vw;
     width: 100%;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .levelButton {
@@ -242,12 +344,14 @@ html, body {
     color: #999;
 }
 
-#aboutButton {
-    padding: 1rem 2rem;
-    font-size: clamp(0.8rem, 3vw, 1rem);
+#aboutButton, #instructionsButton {
+    padding: 1rem 1.5rem;
+    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
     background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
     color: white;
     border: 3px solid #4a90e2;
+    position: relative;
+    z-index: 2;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -258,6 +362,7 @@ html, body {
     -ms-user-select: none;
     user-select: none;
     min-height: 50px;
+    width: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -269,7 +374,16 @@ html, body {
     box-shadow: 3px 3px 0px #1a3a5f;
 }
 
-#aboutButton::before {
+/* Button container for horizontal layout */
+.button-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+#aboutButton::before, #instructionsButton::before {
     content: '';
     position: absolute;
     top: -2px;
@@ -283,12 +397,151 @@ html, body {
     transition: opacity 0.3s ease;
 }
 
-#aboutButton:hover::before,
-#aboutButton:active::before {
+#aboutButton:hover::before, #aboutButton:active::before,
+#instructionsButton:hover::before, #instructionsButton:active::before {
     opacity: 1;
 }
 
-#aboutButton:hover, #aboutButton:active {
+#aboutButton:hover, #aboutButton:active,
+#instructionsButton:hover, #instructionsButton:active {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+    color: #4a90e2;
+    transform: scale(1.02) translateY(-1px);
+    box-shadow: 
+        2px 2px 0px #1a3a5f,
+        0 5px 10px rgba(74, 144, 226, 0.3);
+}
+
+/* Instructions button margin removed since it's now in a row */
+
+/* Instructions Screen */
+#instructionsScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle at center, rgba(26, 58, 95, 0.8), rgba(10, 20, 40, 0.95));
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow-y: auto;
+}
+
+#instructionsScreen h1 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: 2rem;
+    color: #4a90e2;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    animation: titleGlow 3s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 0px #1a3a5f;
+}
+
+#instructionsContent {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(107, 163, 232, 0.1));
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+    max-width: 600px;
+    width: 90%;
+    max-height: 60vh;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        3px 3px 0px #1a3a5f,
+        0 0 20px rgba(74, 144, 226, 0.2);
+    z-index: 2;
+}
+
+#instructionsContent h2 {
+    color: #4a90e2;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    margin-bottom: 1rem;
+    text-align: center;
+    text-shadow: 1px 1px 0px #1a3a5f;
+}
+
+#instructionsContent p {
+    color: #d0f0ff;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    text-shadow: 1px 1px 0px #1a3a5f;
+}
+
+#instructionsContent p strong {
+    color: #4a90e2;
+    font-weight: 700;
+    text-shadow: 1px 1px 0px #1a3a5f, 0 0 8px rgba(74, 144, 226, 0.5);
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(107, 163, 232, 0.1));
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+#instructionsContent ul {
+    color: #d0f0ff;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    margin: 1rem 0;
+    padding-left: 2rem;
+    line-height: 1.6;
+    text-shadow: 1px 1px 0px #1a3a5f;
+}
+
+#instructionsContent li {
+    margin-bottom: 0.5rem;
+}
+
+#backButton {
+    padding: 1rem 2rem;
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+    color: white;
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    position: relative;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    box-shadow: 3px 3px 0px #1a3a5f;
+    z-index: 2;
+}
+
+#backButton::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#backButton:hover::before, #backButton:active::before {
+    opacity: 1;
+}
+
+#backButton:hover, #backButton:active {
     background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
     color: #4a90e2;
     transform: scale(1.02) translateY(-1px);
@@ -308,7 +561,7 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     z-index: 1000;
     padding: 20px;
     box-sizing: border-box;
@@ -316,6 +569,10 @@ html, body {
     opacity: 0;
     transform: scale(0.9);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    min-height: 100vh;
 }
 
 #gameOverScreen.show {
@@ -359,6 +616,12 @@ html, body {
     text-shadow: 1px 1px 0px #1a3a5f;
     font-weight: 600;
     letter-spacing: 0.05em;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+#levelStats p.animate-in {
+    animation: statSlideIn 0.6s ease-out forwards;
 }
 
 /* Special styling for bonus counter */
@@ -378,25 +641,13 @@ html, body {
 /* Perfect Score Badge */
 #perfectBadge {
     color: #FFD700 !important;
-    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700 !important;
+    text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700 !important;
     font-weight: 700 !important;
     font-size: clamp(1rem, 4vw, 1.3rem) !important;
     animation: titleGlow 2s ease-in-out infinite;
 }
 
-/* Perfect Score Stats Highlight */
-#levelStats.perfect {
-    border-color: #FFD700;
-    box-shadow: 
-        0 0 30px rgba(255, 215, 0, 0.4),
-        0 0 60px rgba(255, 215, 0, 0.2);
-}
-
-#levelStats.perfect::before {
-    background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
-    opacity: 0.5;
-    animation: borderGlow 2s ease-in-out infinite;
-}
+/* Perfect Score Stats Highlight - Removed to show just star badge */
 
 /* Game Over Buttons Container */
 #gameOverButtons {
@@ -498,7 +749,7 @@ html, body {
 #gameOverScreen h2 {
     font-size: clamp(1.2rem, 5vw, 2rem);
     color: #4a90e2;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     text-shadow: 
         2px 2px 0px #1a3a5f,
         0 0 10px #4a90e2;
@@ -507,6 +758,21 @@ html, body {
     letter-spacing: 0.1em;
     position: relative;
     z-index: 1;
+}
+
+#missionDebrief {
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    margin-bottom: 1.5rem;
+    color: #d0f0ff;
+    text-align: center;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    opacity: 0;
+    animation: debriefFadeIn 0.8s ease-out 0.3s forwards;
+    max-width: 80%;
+    line-height: 1.4;
 }
 
 #returnToMenu, #retryLevel {
@@ -647,8 +913,8 @@ html, body {
     z-index: 10;
 }
 
-/* Perfect completion legend */
-#perfectLegend {
+/* Perfect completion legend - removed */
+/* #perfectLegend {
     text-align: center;
     margin-top: 10px;
     font-size: 12px;
@@ -656,19 +922,22 @@ html, body {
     font-weight: bold;
     text-shadow: 0 0 5px #FFD700;
     letter-spacing: 0.05em;
-}
+} */
 
 /* Mobile-specific improvements */
 @media (max-width: 768px) {
     #menuScreen {
         padding: 10px;
-        justify-content: space-around;
+        justify-content: center;
+        gap: 0.3rem;
+        height: 100vh;
     }
     
     #levelButtons {
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
+        gap: 0.4rem;
         max-width: 95vw;
+        margin-bottom: 0.5rem;
     }
     
     .levelButton {
@@ -698,18 +967,45 @@ html, body {
         -webkit-tap-highlight-color: transparent;
     }
     
+    #gameOverScreen {
+        padding: 15px;
+        justify-content: flex-start;
+        height: 100vh;
+        min-height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+    }
+    
     #gameOverScreen h2 {
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.8rem;
+        font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+    }
+    
+    #missionDebrief {
+        font-size: clamp(0.7rem, 2.2vw, 0.9rem);
+        margin-bottom: 0.8rem;
+        max-width: 90%;
     }
     
     #levelStats {
-        padding: 1rem;
-        margin: 1rem 0;
+        padding: 0.8rem;
+        margin: 0.6rem 0;
+        max-width: 95%;
     }
     
     #levelStats p {
-        font-size: clamp(0.8rem, 2.5vw, 1rem);
-        margin: 0.3rem 0;
+        font-size: clamp(0.75rem, 2.3vw, 0.95rem);
+        margin: 0.25rem 0;
+    }
+    
+    #gameOverButtons {
+        margin-top: 0.6rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
     }
     
     #gameOverButtons button {
@@ -720,11 +1016,30 @@ html, body {
         -webkit-tap-highlight-color: transparent;
     }
     
-    /* Perfect legend for mobile */
-    #perfectLegend {
+    /* How to Play Popup mobile positioning */
+    #howToPlayPopup {
+        align-items: flex-start;
+        padding-top: 0;
+    }
+    
+    .popup-content {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .popup-content {
+        max-width: 95vw;
+        width: 350px;
+        padding: 1.5rem;
+    }
+    
+    /* Perfect legend for mobile - removed */
+    /* #perfectLegend {
         font-size: 11px;
         margin-top: 8px;
-    }
+    } */
 }
 
 @media (max-width: 480px) {
@@ -741,7 +1056,121 @@ html, body {
     
     #menuScreen h1 {
         margin-bottom: 1.5rem;
+        animation: titleGlow 6s ease-in-out infinite;
+        text-shadow: 0.5px 0.5px 0px #1a3a5f;
+    }
+    
+    #tagline {
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Mobile-specific title glow animation */
+    @keyframes titleGlowMobile {
+        0%, 100% {
+            text-shadow: 
+                0 0 1px #4a90e2,
+                0 0 2px #4a90e2;
+        }
+        50% {
+            text-shadow: 
+                0 0 2px #4a90e2,
+                0 0 3px #4a90e2;
+        }
+    }
+    
+    #menuScreen h1 {
+        animation: titleGlowMobile 6s ease-in-out infinite;
     }
 }
 
- 
+/* How to Play Popup */
+#howToPlayPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+}
+
+.popup-content {
+    background: linear-gradient(135deg, rgba(26, 58, 95, 0.95), rgba(45, 90, 138, 0.95));
+    border: 3px solid #4a90e2;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 90vw;
+    width: 400px;
+    text-align: center;
+    box-shadow: 
+        0 0 30px rgba(74, 144, 226, 0.3),
+        0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: popupFadeIn 0.5s ease-out;
+}
+
+.popup-content h2 {
+    color: #4a90e2;
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 0px #1a3a5f;
+}
+
+.popup-content ul {
+    color: #d0f0ff;
+    text-align: left;
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+    line-height: 1.6;
+}
+
+.popup-content li {
+    margin-bottom: 0.8rem;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    text-shadow: 1px 1px 0px #1a3a5f;
+}
+
+.popup-content p {
+    color: #FFD700;
+    font-size: clamp(0.9rem, 2.8vw, 1.1rem);
+    margin: 1.5rem 0;
+    font-weight: 600;
+    text-shadow: 1px 1px 0px #1a3a5f;
+}
+
+#gotItButton {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.9), rgba(107, 163, 232, 0.9));
+    color: white;
+    border: 2px solid #4a90e2;
+    border-radius: 8px;
+    padding: 0.8rem 2rem;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    box-shadow: 3px 3px 0px #1a3a5f;
+}
+
+#gotItButton:hover {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 1), rgba(107, 163, 232, 1));
+    transform: translateY(-2px);
+    box-shadow: 
+        3px 3px 0px #1a3a5f,
+        0 5px 15px rgba(74, 144, 226, 0.4);
+}
+
+@keyframes popupFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
