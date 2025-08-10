@@ -66,6 +66,20 @@ export const ENEMY_TYPES = {
         bonus: null,
         glowColour: null
     },
+    fatberg: {
+        radius: 90,
+        defaultHealth: 10,
+        defaultSpeed: 0.07, // 20% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 10,
+        color: 'silver', // fire orange fallback
+        image: 'assets/images/fatberg.png', 
+        behaviour: 'straight',
+        bonus: {
+            type: 'damage',
+            value: 2 
+        },
+        glowColour: '#00ffcc' // cyan glow for fire rate bonus
+    },
     basic: {
         radius: 20,
         defaultHealth: 3,

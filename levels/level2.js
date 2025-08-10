@@ -11,7 +11,8 @@ export default {
             count: 2,
             interval: 300,
             modifiers: {
-                health: 2
+                health: 4,
+                defaultSpeed: 0.15
             }
         },
         {
@@ -20,16 +21,18 @@ export default {
             count: 2,
             interval: 300,
             modifiers: {
-                health: 2
+                health: 4,
+                defaultSpeed: 0.15
             }
         },
         {
-            time: 10000,
+            time: 12000,
             enemyType: 'roll',
             count: 2,
             interval: 300,
             modifiers: {
-                health: 2
+                health: 4,
+                defaultSpeed: 0.15
             }
         }
         
@@ -37,16 +40,14 @@ export default {
     upgradeEvents: [        
         // slow and powerful or fast and weak
         {
-            time: 500,
+            time: 300,
             type: 'upgradeChoice',
             bannerSpeed: 0.15,
             leftBonus: [
-                { type: 'fireRate', value: 200 },
                 { type: 'damage', value: 1 }
             ],
             rightBonus: [
                 { type: 'fireRate', value: -200 },
-                { type: 'damage', value: -0.5 }
             ]
         }
     ]
