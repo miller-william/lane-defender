@@ -253,24 +253,28 @@ export function drawUpgradeBanner(ctx) {
     }
     
     // Draw upgrade text inside the wooden boxes
-    const textStartY = upgradeBannerY + 40; // Position text in the middle of the box
+    const textStartY = upgradeBannerY + (boxHeight / 2); // Center text vertically in the box
     
     // Only draw text if it's visible
     if (textStartY < CANVAS_HEIGHT) {
         // Set up text styling for wooden boxes - bigger and more visible
-        ctx.font = 'bold 16px Arial';
+        ctx.font = 'bold 20px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
+        // Calculate vertical spacing for multiple lines
+        const totalLines = Math.max(leftUpgrades.length, rightUpgrades.length);
+        const totalHeight = (totalLines - 1) * 30; // Height of all lines
+        const startOffset = -totalHeight / 2; // Center the entire text block
+        
         // Draw left upgrades
-        const leftStartY = textStartY + 15;
         leftUpgrades.forEach((upgrade, index) => {
-            const y = leftStartY + (index * 25); // Increased line spacing for bigger text
+            const y = textStartY + startOffset + (index * 30); // Center the text block
             if (y >= 0 && y <= CANVAS_HEIGHT) {
                 // Draw text with better contrast against wooden background
                 ctx.fillStyle = '#ffffff'; // White text for maximum contrast
                 ctx.shadowColor = '#000000'; // Black shadow for readability
-                ctx.shadowBlur = 3;
+                ctx.shadowBlur = 4;
                 ctx.shadowOffsetX = 2;
                 ctx.shadowOffsetY = 2;
                 ctx.fillText(upgrade, CANVAS_WIDTH / 4, y);
@@ -278,14 +282,13 @@ export function drawUpgradeBanner(ctx) {
         });
         
         // Draw right upgrades
-        const rightStartY = textStartY + 15;
         rightUpgrades.forEach((upgrade, index) => {
-            const y = rightStartY + (index * 25); // Increased line spacing for bigger text
+            const y = textStartY + startOffset + (index * 30); // Center the text block
             if (y >= 0 && y <= CANVAS_HEIGHT) {
                 // Draw text with better contrast against wooden background
                 ctx.fillStyle = '#ffffff'; // White text for maximum contrast
                 ctx.shadowColor = '#000000'; // Black shadow for readability
-                ctx.shadowBlur = 3;
+                ctx.shadowBlur = 4;
                 ctx.shadowOffsetX = 2;
                 ctx.shadowOffsetY = 2;
                 ctx.fillText(upgrade, (CANVAS_WIDTH / 4) * 3, y);
@@ -389,35 +392,35 @@ function getSingleUpgradeLabel(bonus) {
     switch (bonus.type) {
         case 'fireRate':
             if (bonus.value < 0) {
-                return `🌪️ Fire Rate -${Math.abs(bonus.value)}ms (Faster)`;
+                return `Faster Shooting (${bonus.value}ms) 🌪️`;
             } else if (bonus.value > 0) {
-                return `🌪️ Fire Rate +${bonus.value}ms (Slower)`;
+                return `Slower Shooting (+${bonus.value}ms) 🌪️`;
             } else {
-                return `🌪️ Fire Rate +0ms`;
+                return `No Change (0ms) 🌪️`;
             }
         case 'damage':
             if (bonus.value > 0) {
-                return `🌊 Damage +${bonus.value} (Better)`;
+                return `Higher Damage (+${bonus.value}) 🌊`;
             } else if (bonus.value < 0) {
-                return `🌊 Damage ${bonus.value} (Worse)`;
+                return `Lower Damage (${bonus.value}) 🌊`;
             } else {
-                return `🌊 Damage +0`;
+                return `No Change (0) 🌊`;
             }
         case 'spread':
             if (bonus.value > 0) {
-                return `💦 Spread +${bonus.value} (More Bullets)`;
+                return `More Projectiles (+${bonus.value}) 💦`;
             } else if (bonus.value < 0) {
-                return `💦 Spread ${bonus.value} (Fewer Bullets)`;
+                return `Fewer Projectiles (${bonus.value}) 💦`;
             } else {
-                return `💦 Spread +0`;
+                return `No Change (0) 💦`;
             }
         default:
             if (bonus.value > 0) {
-                return `${bonus.type} +${bonus.value}`;
+                return `Increased ${bonus.type} (+${bonus.value})`;
             } else if (bonus.value < 0) {
-                return `${bonus.type} ${bonus.value}`;
+                return `Decreased ${bonus.type} (${bonus.value})`;
             } else {
-                return `${bonus.type} +0`;
+                return `No Change (0)`;
             }
     }
 }

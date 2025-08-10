@@ -9,7 +9,7 @@ let playerImage = null;
 function loadPlayerImage() {
     if (!playerImage) {
         playerImage = new Image();
-        playerImage.src = 'assets/images/fish.png';
+        playerImage.src = 'assets/images/player.png';
     }
     return playerImage;
 }
