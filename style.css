@@ -1,7 +1,14 @@
 /* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400;700;900&display=swap');
 
-/* Keyframes for animations */
+/* Mobile Viewport Fix */
+@supports (-webkit-touch-callout: none) {
+    html, body {
+        height: -webkit-fill-available;
+    }
+}
+
+/* ===== KEYFRAMES ===== */
 @keyframes titleGlow {
     0%, 100% {
         text-shadow: 
@@ -49,28 +56,6 @@
     }
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: linear-gradient(135deg, #1a3a5f, #2d5a8a, #4a90e2, #6ba3e8);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overscroll-behavior-y: contain;
-    touch-action: manipulation;
-    font-family: 'Press Start 2P', monospace;
-    color: white;
-    overflow-x: hidden;
-}
-
 @keyframes gradientShift {
     0%, 100% {
         background-position: 0% 50%;
@@ -78,116 +63,6 @@ html, body {
     50% {
         background-position: 100% 50%;
     }
-}
-
-/* Menu Screen */
-#menuScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    background: radial-gradient(circle at center, rgba(26, 58, 95, 0.8), rgba(10, 20, 40, 0.95));
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative;
-}
-
-#menuScreen::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(107, 163, 232, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-#waveBackground {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.wave {
-    position: absolute;
-    bottom: 0;
-    width: 200%;
-    height: auto;
-    opacity: 0.6;
-    filter: blur(1px);
-}
-
-.wave1 {
-    animation: waveScroll 40s linear infinite;
-    left: 0;
-}
-
-.wave2 {
-    animation: waveScroll 40s linear infinite;
-    animation-delay: -20s;
-    left: 0;
-}
-
-@keyframes waveScroll {
-    0% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
-}
-
-#menuScreen h1 {
-    font-size: clamp(1.5rem, 6vw, 2.5rem);
-    margin-bottom: 2rem;
-    color: #4a90e2;
-    text-align: center;
-    font-weight: 900;
-    letter-spacing: 0.1em;
-    animation: titleGlow 4s ease-in-out infinite;
-    position: relative;
-    z-index: 2;
-    text-shadow: 1px 1px 0px #1a3a5f;
-}
-
-#menuScreen h1::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
-    border-radius: 10px;
-    z-index: -1;
-    opacity: 0.3;
-    filter: blur(20px);
-}
-
-#tagline {
-    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
-    text-align: center;
-    color: #d0f0ff;
-    font-family: 'Press Start 2P', monospace;
-    margin-top: -0.5rem;
-    margin-bottom: 2rem;
-    letter-spacing: 0.05em;
-    text-shadow: 1px 1px 0px #1a3a5f;
-    opacity: 0.85;
-    animation: taglineRipple 4s ease-in-out infinite;
-    position: relative;
-    z-index: 2;
-    animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
 }
 
 @keyframes taglineFadeIn {
@@ -236,6 +111,190 @@ html, body {
     }
 }
 
+@keyframes popupFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ===== BASE STYLES ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(135deg, #1a3a5f, #2d5a8a, #4a90e2, #6ba3e8);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: contain;
+    touch-action: manipulation;
+    font-family: 'Press Start 2P', monospace;
+    color: white;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* ===== COMMON BUTTON STYLES ===== */
+.btn-base {
+    padding: 1rem 1.5rem;
+    font-size: clamp(0.7rem, 2.5vw, 1rem);
+    background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+    color: white;
+    border: 3px solid #4a90e2;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    box-shadow: 3px 3px 0px #1a3a5f;
+}
+
+.btn-base::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-base:hover::before,
+.btn-base:active::before {
+    opacity: 1;
+}
+
+.btn-base:hover, .btn-base:active {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+    color: #4a90e2;
+    transform: scale(1.02) translateY(-1px);
+    box-shadow: 
+        2px 2px 0px #1a3a5f,
+        0 5px 10px rgba(74, 144, 226, 0.3);
+}
+
+/* ===== MENU SCREEN ===== */
+#menuScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+/* River Background */
+#riverBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+#riverSceneBg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    image-rendering: auto;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
+/* Menu Content Container */
+.menuContent {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    border-radius: 20px;
+    border: 3px solid rgba(74, 144, 226, 0.8);
+    box-shadow: 
+        0 0 20px rgba(0, 0, 0, 0.8),
+        inset 0 0 20px rgba(74, 144, 226, 0.1);
+    backdrop-filter: blur(5px);
+    max-width: 90%;
+    text-align: center;
+    margin: 20px;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+#menuScreen h1 {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: 2rem;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    animation: titleGlow 4s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    text-shadow: 
+        3px 3px 0px #000000,
+        6px 6px 0px #000000,
+        0 0 20px rgba(74, 144, 226, 0.9),
+        0 0 40px rgba(74, 144, 226, 0.7);
+}
+
+#tagline {
+    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    margin-top: -0.5rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+    text-shadow: 
+        2px 2px 0px #000000,
+        4px 4px 0px #000000,
+        0 0 15px rgba(74, 144, 226, 0.8);
+    opacity: 0.95;
+    animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
+    position: relative;
+    z-index: 2;
+}
+
+/* Level Buttons */
 #levelButtons {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -256,17 +315,14 @@ html, body {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
     min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     position: relative;
     overflow: hidden;
     font-weight: 700;
@@ -276,32 +332,7 @@ html, body {
 }
 
 .levelButton::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
-    border-radius: 10px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
     animation: buttonGlow 2s ease-in-out infinite;
-}
-
-.levelButton:hover::before,
-.levelButton:active::before {
-    opacity: 1;
-}
-
-.levelButton:hover, .levelButton:active {
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
-    color: #4a90e2;
-    transform: scale(1.02) translateY(-1px);
-    box-shadow: 
-        2px 2px 0px #1a3a5f,
-        0 5px 10px rgba(74, 144, 226, 0.3);
 }
 
 .levelButton:disabled {
@@ -344,9 +375,10 @@ html, body {
     color: #999;
 }
 
+/* About and Instructions Buttons */
 #aboutButton, #instructionsButton {
-    padding: 1rem 1.5rem;
-    font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+    padding: 0.8rem 1.2rem;
+    font-size: clamp(0.65rem, 2.2vw, 0.85rem);
     background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
     color: white;
     border: 3px solid #4a90e2;
@@ -357,12 +389,9 @@ html, body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    min-height: 50px;
-    width: 140px;
+    min-height: 45px;
+    width: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -377,10 +406,10 @@ html, body {
 /* Button container for horizontal layout */
 .button-row {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
     justify-content: center;
     align-items: center;
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
 }
 
 #aboutButton::before, #instructionsButton::before {
@@ -412,38 +441,64 @@ html, body {
         0 5px 10px rgba(74, 144, 226, 0.3);
 }
 
-/* Instructions button margin removed since it's now in a row */
-
 /* Instructions Screen */
 #instructionsScreen {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
-    width: 100vw;
-    background: radial-gradient(circle at center, rgba(26, 58, 95, 0.8), rgba(10, 20, 40, 0.95));
+    min-height: 100%;
+    width: 100%;
     padding: 20px;
     box-sizing: border-box;
     position: relative;
     overflow-y: auto;
+    overflow-x: hidden;
+    background: transparent;
+}
+
+#instructionsScreen #riverBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+#instructionsScreen #riverSceneBg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    image-rendering: auto;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
 }
 
 #instructionsScreen h1 {
     font-size: clamp(1.5rem, 6vw, 2.5rem);
     margin-bottom: 2rem;
-    color: #4a90e2;
+    color: #ffffff;
     text-align: center;
     font-weight: 900;
     letter-spacing: 0.1em;
     animation: titleGlow 3s ease-in-out infinite;
     position: relative;
     z-index: 2;
-    text-shadow: 2px 2px 0px #1a3a5f;
+    text-shadow: 
+        2px 2px 0px #000000,
+        4px 4px 0px #000000,
+        0 0 15px rgba(74, 144, 226, 0.8),
+        0 0 30px rgba(74, 144, 226, 0.6);
 }
 
 #instructionsContent {
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(107, 163, 232, 0.1));
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
     border: 3px solid #4a90e2;
     border-radius: 8px;
     padding: 2rem;
@@ -459,6 +514,7 @@ html, body {
         3px 3px 0px #1a3a5f,
         0 0 20px rgba(74, 144, 226, 0.2);
     z-index: 2;
+    color: #ffffff;
 }
 
 #instructionsContent h2 {
@@ -470,17 +526,17 @@ html, body {
 }
 
 #instructionsContent p {
-    color: #d0f0ff;
+    color: #ffffff;
     font-size: clamp(0.9rem, 2.5vw, 1rem);
     margin-bottom: 1rem;
     line-height: 1.5;
-    text-shadow: 1px 1px 0px #1a3a5f;
+    text-shadow: 1px 1px 0px #000000;
 }
 
 #instructionsContent p strong {
     color: #4a90e2;
     font-weight: 700;
-    text-shadow: 1px 1px 0px #1a3a5f, 0 0 8px rgba(74, 144, 226, 0.5);
+    text-shadow: 1px 1px 0px #000000, 0 0 8px rgba(74, 144, 226, 0.5);
     background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(107, 163, 232, 0.1));
     padding: 2px 6px;
     border-radius: 4px;
@@ -488,12 +544,12 @@ html, body {
 }
 
 #instructionsContent ul {
-    color: #d0f0ff;
+    color: #ffffff;
     font-size: clamp(0.9rem, 2.5vw, 1rem);
     margin: 1rem 0;
     padding-left: 2rem;
     line-height: 1.6;
-    text-shadow: 1px 1px 0px #1a3a5f;
+    text-shadow: 1px 1px 0px #000000;
 }
 
 #instructionsContent li {
@@ -509,6 +565,9 @@ html, body {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
     min-height: 50px;
     display: flex;
     align-items: center;
@@ -518,36 +577,14 @@ html, body {
     overflow: hidden;
     font-weight: 700;
     letter-spacing: 0.05em;
-    text-shadow: 1px 1px 0px #1a3a5f;
+    text-shadow: 1px 1px 0px #000000;
     box-shadow: 3px 3px 0px #1a3a5f;
     z-index: 2;
+    backdrop-filter: blur(5px);
 }
 
 #backButton::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
-    border-radius: 10px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-#backButton:hover::before, #backButton:active::before {
-    opacity: 1;
-}
-
-#backButton:hover, #backButton:active {
-    background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
-    color: #4a90e2;
-    transform: scale(1.02) translateY(-1px);
-    box-shadow: 
-        2px 2px 0px #1a3a5f,
-        0 5px 10px rgba(74, 144, 226, 0.3);
+    animation: buttonGlow 2s ease-in-out infinite;
 }
 
 /* Game Over Screen */
@@ -647,8 +684,6 @@ html, body {
     animation: titleGlow 2s ease-in-out infinite;
 }
 
-/* Perfect Score Stats Highlight - Removed to show just star badge */
-
 /* Game Over Buttons Container */
 #gameOverButtons {
     display: flex;
@@ -659,18 +694,7 @@ html, body {
 
 /* Updated button styling for game over screen */
 #gameOverButtons button {
-    padding: 1rem 2rem;
-    font-size: clamp(0.8rem, 3vw, 1rem);
-    border: 3px solid #4a90e2;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    @extend .btn-base;
     min-height: 50px;
     display: flex;
     align-items: center;
@@ -686,17 +710,7 @@ html, body {
 }
 
 #gameOverButtons button::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
-    border-radius: 10px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    animation: buttonGlow 2s ease-in-out infinite;
 }
 
 #gameOverButtons button:hover::before,
@@ -716,6 +730,7 @@ html, body {
 
 /* Next Level button special styling */
 #nextLevel {
+    @extend .btn-base;
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2)) !important;
     color: #FFD700 !important;
 }
@@ -776,30 +791,7 @@ html, body {
 }
 
 #returnToMenu, #retryLevel {
-    padding: 1rem 2rem;
-    font-size: clamp(1rem, 4vw, 1.2rem);
-    border: 2px solid transparent;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    min-height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0.5rem;
-    position: relative;
-    overflow: hidden;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-}
-
-#returnToMenu, #retryLevel {
+    @extend .btn-base;
     background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 204, 0.2));
     color: #00ff00;
 }
@@ -928,43 +920,235 @@ html, body {
 @media (max-width: 768px) {
     #menuScreen {
         padding: 10px;
+        padding-top: 5px;
         justify-content: center;
         gap: 0.3rem;
-        height: 100vh;
+        height: 100%;
+        min-height: 100%;
+        overflow: hidden;
+    }
+    
+    .menuContent {
+        padding: 20px 20px;
+        padding-top: 15px;
+        max-width: 95%;
+        margin: 10px;
+        margin-top: 5px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        border: 3px solid rgba(74, 144, 226, 0.8);
+        box-shadow: 
+            0 0 20px rgba(0, 0, 0, 0.8),
+            inset 0 0 20px rgba(74, 144, 226, 0.1);
+        justify-content: center;
+        max-height: 100%;
+        overflow: hidden;
+    }
+    
+    #menuScreen h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-bottom: 2rem;
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        animation: titleGlow 4s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+        text-shadow: 
+            3px 3px 0px #000000,
+            6px 6px 0px #000000,
+            0 0 20px rgba(74, 144, 226, 0.9),
+            0 0 40px rgba(74, 144, 226, 0.7);
+    }
+    
+    #tagline {
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        text-align: center;
+        color: #ffffff;
+        font-family: 'Press Start 2P', monospace;
+        margin-top: -0.5rem;
+        margin-bottom: 2rem;
+        letter-spacing: 0.05em;
+        text-shadow: 
+            2px 2px 0px #000000,
+            4px 4px 0px #000000,
+            0 0 15px rgba(74, 144, 226, 0.8);
+        opacity: 0.95;
+        animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
+        position: relative;
+        z-index: 2;
     }
     
     #levelButtons {
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.4rem;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
         max-width: 95vw;
-        margin-bottom: 0.5rem;
+        width: 100%;
+        position: relative;
+        z-index: 2;
     }
     
     .levelButton {
-        padding: 0.8rem 0.3rem;
+        padding: 0.8rem 0.4rem;
+        font-size: clamp(0.65rem, 2.8vw, 0.9rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         min-height: 45px;
-        font-size: 0.9rem;
-        /* Improve touch targets */
-        touch-action: manipulation;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
         -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
     }
     
-    /* Perfect completion styling for mobile */
+    .levelButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        animation: buttonGlow 2s ease-in-out infinite;
+    }
+    
+    .levelButton:hover::before,
+    .levelButton:active::before {
+        opacity: 1;
+    }
+    
+    .levelButton:hover, .levelButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    .levelButton:disabled {
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        border-color: rgba(102, 102, 102, 0.5);
+        color: #999;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 1px 1px 0px #333;
+    }
+    
+    .levelButton:disabled::before {
+        opacity: 0;
+    }
+    
     .levelButton.perfect-completed {
-        box-shadow: 0 0 8px #FFD700;
+        border-color: #FFD700;
+        box-shadow: 0 0 10px #FFD700, 3px 3px 0px #1a3a5f;
+        position: relative;
     }
     
-    .levelButton.perfect-completed:active {
-        transform: scale(0.95);
-        box-shadow: 0 0 12px #FFD700;
+    .levelButton.perfect-completed::before {
+        background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+        opacity: 0.3;
     }
     
-    #aboutButton {
-        padding: 0.8rem 1.5rem;
-        min-height: 45px;
-        font-size: 1rem;
-        touch-action: manipulation;
+    .levelButton.perfect-completed:hover {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+        color: #FFD700;
+        box-shadow: 
+            0 10px 20px rgba(255, 215, 0, 0.3),
+            0 0 30px rgba(255, 215, 0, 0.2);
+    }
+    
+    .levelButton.perfect-completed:disabled {
+        border-color: #FFD700;
+        box-shadow: 0 0 5px #FFD700, 1px 1px 0px #333;
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        color: #999;
+    }
+    
+    .button-row {
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 1rem 1.5rem;
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        position: relative;
+        z-index: 2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-height: 50px;
+        width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    #aboutButton::before, #instructionsButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #aboutButton:hover::before, #aboutButton:active::before,
+    #instructionsButton:hover::before, #instructionsButton:active::before {
+        opacity: 1;
+    }
+    
+    #aboutButton:hover, #aboutButton:active,
+    #instructionsButton:hover, #instructionsButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
     }
     
     #gameOverScreen {
@@ -980,107 +1164,1432 @@ html, body {
         width: 100vw;
     }
     
+    /* Adjust river background positioning for mobile */
+    #riverSceneBg {
+        object-position: center bottom;
+    }
+    
     #gameOverScreen h2 {
         margin-bottom: 0.8rem;
-        font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+        font-size: clamp(1.2rem, 5vw, 2rem);
+        color: #4a90e2;
+        text-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 0 10px #4a90e2;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        position: relative;
+        z-index: 1;
     }
     
     #missionDebrief {
-        font-size: clamp(0.7rem, 2.2vw, 0.9rem);
-        margin-bottom: 0.8rem;
-        max-width: 90%;
+        font-size: clamp(0.8rem, 2.5vw, 1rem);
+        margin-bottom: 1.5rem;
+        color: #d0f0ff;
+        text-align: center;
+        font-style: italic;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        opacity: 0;
+        animation: debriefFadeIn 0.8s ease-out 0.3s forwards;
+        max-width: 80%;
+        line-height: 1.4;
     }
     
     #levelStats {
-        padding: 0.8rem;
-        margin: 0.6rem 0;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
         max-width: 95%;
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(107, 163, 232, 0.1));
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: 
+            3px 3px 0px #1a3a5f,
+            0 0 20px rgba(74, 144, 226, 0.2);
+    }
+    
+    #levelStats::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0.3;
+        animation: borderGlow 3s ease-in-out infinite;
     }
     
     #levelStats p {
-        font-size: clamp(0.75rem, 2.3vw, 0.95rem);
-        margin: 0.25rem 0;
+        font-size: clamp(0.8rem, 2.5vw, 1rem);
+        margin: 0.5rem 0;
+        color: #4a90e2;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    
+    #levelStats p.animate-in {
+        animation: statSlideIn 0.6s ease-out forwards;
+    }
+    
+    #bonusesUsed {
+        background: linear-gradient(135deg, #8B4513, #A0522D, #CD853F);
+        border: 2px solid #654321;
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin: 0.8rem 0;
+        color: #F5DEB3;
+        text-shadow: 1px 1px 0px #654321;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        box-shadow: 2px 2px 0px #654321;
+    }
+    
+    #perfectBadge {
+        color: #FFD700 !important;
+        text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700 !important;
+        font-weight: 700 !important;
+        font-size: clamp(1rem, 4vw, 1.3rem) !important;
+        animation: titleGlow 2s ease-in-out infinite;
     }
     
     #gameOverButtons {
-        margin-top: 0.6rem;
+        margin-top: 1rem;
         margin-bottom: 1.5rem;
         padding-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
     }
     
     #gameOverButtons button {
-        padding: 0.8rem 1.5rem;
-        min-height: 45px;
-        font-size: 1rem;
-        touch-action: manipulation;
+        padding: 1rem 2rem;
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
     }
     
-    /* How to Play Popup mobile positioning */
-    #howToPlayPopup {
-        align-items: flex-start;
-        padding-top: 0;
-    }
-    
-    .popup-content {
+    #gameOverButtons button::before {
+        content: '';
         position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
     
-    .popup-content {
-        max-width: 95vw;
-        width: 350px;
-        padding: 1.5rem;
+    #gameOverButtons button:hover::before,
+    #gameOverButtons button:active::before {
+        opacity: 1;
     }
     
-    /* Perfect legend for mobile - removed */
-    /* #perfectLegend {
-        font-size: 11px;
-        margin-top: 8px;
-    } */
+    #gameOverButtons button:hover, 
+    #gameOverButtons button:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    /* Next Level button special styling */
+    #nextLevel {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2)) !important;
+        color: #FFD700 !important;
+    }
+    
+    #nextLevel::before {
+        background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700) !important;
+    }
+    
+    #nextLevel:hover, 
+    #nextLevel:active {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.3)) !important;
+        color: #FFD700 !important;
+        box-shadow: 
+            0 10px 20px rgba(255, 215, 0, 0.3),
+            0 0 30px rgba(255, 215, 0, 0.2) !important;
+    }
+    
+    /* Instructions screen mobile optimization */
+    #instructionsScreen {
+        padding: 15px;
+        min-height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    #instructionsScreen h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-bottom: 2rem;
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        animation: titleGlow 3s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+        text-shadow: 
+            2px 2px 0px #000000,
+            4px 4px 0px #000000,
+            0 0 15px rgba(74, 144, 226, 0.8),
+            0 0 30px rgba(74, 144, 226, 0.6);
+    }
+    
+    #instructionsContent {
+        padding: 2rem;
+        margin: 1rem 0;
+        max-height: 70vh;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: 
+            3px 3px 0px #1a3a5f,
+            0 0 20px rgba(74, 144, 226, 0.2);
+        z-index: 2;
+        color: #ffffff;
+    }
+    
+    #instructionsContent h2 {
+        color: #4a90e2;
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+        margin-bottom: 1rem;
+        text-align: center;
+        text-shadow: 1px 1px 0px #1a3a5f;
+    }
+    
+    #instructionsContent p {
+        color: #ffffff;
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        text-shadow: 1px 1px 0px #000000;
+    }
+    
+    #instructionsContent p strong {
+        color: #4a90e2;
+        font-weight: 700;
+        text-shadow: 1px 1px 0px #000000, 0 0 8px rgba(74, 144, 226, 0.5);
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(107, 163, 232, 0.1));
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid rgba(74, 144, 226, 0.3);
+    }
+    
+    #instructionsContent ul {
+        color: #ffffff;
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+        margin: 1rem 0;
+        padding-left: 2rem;
+        line-height: 1.6;
+        text-shadow: 1px 1px 0px #000000;
+    }
+    
+    #instructionsContent li {
+        margin-bottom: 0.5rem;
+    }
+    
+    #backButton {
+        padding: 1rem 2rem;
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #000000;
+        box-shadow: 3px 3px 0px #1a3a5f;
+        z-index: 2;
+        backdrop-filter: blur(5px);
+    }
+    
+    #backButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #backButton:hover::before, #backButton:active::before {
+        opacity: 1;
+    }
+    
+    #backButton:hover, #backButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
 }
 
 @media (max-width: 480px) {
-    #levelButtons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.4rem;
+    #menuScreen {
+        padding: 15px;
+        padding-top: 8px;
+        gap: 0.5rem;
+        justify-content: center;
+        height: 100%;
+        min-height: 100%;
     }
     
-    .levelButton {
-        padding: 0.6rem 0.2rem;
-        min-height: 40px;
-        font-size: 0.8rem;
+    .menuContent {
+        padding: 25px 20px;
+        padding-top: 15px;
+        max-width: 95%;
+        margin: 10px;
+        margin-top: 5px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        border: 3px solid rgba(74, 144, 226, 0.8);
+        box-shadow: 
+            0 0 20px rgba(0, 0, 0, 0.8),
+            inset 0 0 20px rgba(74, 144, 226, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-height: 100%;
+        overflow: hidden;
     }
     
     #menuScreen h1 {
-        margin-bottom: 1.5rem;
-        animation: titleGlow 6s ease-in-out infinite;
-        text-shadow: 0.5px 0.5px 0px #1a3a5f;
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-bottom: 2rem;
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        animation: titleGlow 4s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+        text-shadow: 
+            3px 3px 0px #000000,
+            6px 6px 0px #000000,
+            0 0 20px rgba(74, 144, 226, 0.9),
+            0 0 40px rgba(74, 144, 226, 0.7);
     }
     
     #tagline {
         font-size: clamp(0.8rem, 3vw, 1rem);
-        margin-bottom: 0.5rem;
+        text-align: center;
+        color: #ffffff;
+        font-family: 'Press Start 2P', monospace;
+        margin-top: -0.5rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.05em;
+        text-shadow: 
+            2px 2px 0px #000000,
+            4px 4px 0px #000000,
+            0 0 15px rgba(74, 144, 226, 0.8);
+        opacity: 0.95;
+        animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
+        position: relative;
+        z-index: 2;
     }
     
-    /* Mobile-specific title glow animation */
-    @keyframes titleGlowMobile {
-        0%, 100% {
-            text-shadow: 
-                0 0 1px #4a90e2,
-                0 0 2px #4a90e2;
-        }
-        50% {
-            text-shadow: 
-                0 0 2px #4a90e2,
-                0 0 3px #4a90e2;
-        }
+    #levelButtons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+        max-width: 90vw;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .levelButton {
+        padding: 0.8rem 0.5rem;
+        font-size: clamp(0.7rem, 3vw, 0.9rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    .levelButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        animation: buttonGlow 2s ease-in-out infinite;
+    }
+    
+    .levelButton:hover::before,
+    .levelButton:active::before {
+        opacity: 1;
+    }
+    
+    .levelButton:hover, .levelButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    .levelButton:disabled {
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        border-color: rgba(102, 102, 102, 0.5);
+        color: #999;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 1px 1px 0px #333;
+    }
+    
+    .levelButton:disabled::before {
+        opacity: 0;
+    }
+    
+    .levelButton.perfect-completed {
+        border-color: #FFD700;
+        box-shadow: 0 0 10px #FFD700, 3px 3px 0px #1a3a5f;
+        position: relative;
+    }
+    
+    .levelButton.perfect-completed::before {
+        background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+        opacity: 0.3;
+    }
+    
+    .levelButton.perfect-completed:hover {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+        color: #FFD700;
+        box-shadow: 
+            0 10px 20px rgba(255, 215, 0, 0.3),
+            0 0 30px rgba(255, 215, 0, 0.2);
+    }
+    
+    .levelButton.perfect-completed:disabled {
+        border-color: #FFD700;
+        box-shadow: 0 0 5px #FFD700, 1px 1px 0px #333;
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        color: #999;
+    }
+    
+    .button-row {
+        gap: 1.2rem;
+        margin-top: 0.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 1.2rem 1.8rem;
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        position: relative;
+        z-index: 2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-height: 55px;
+        width: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    /* Adjust river background positioning for mobile */
+    #riverSceneBg {
+        object-position: center bottom;
+    }
+}
+
+@media (max-width: 360px) {
+    #menuScreen {
+        padding: 5px;
+    }
+    
+    .menuContent {
+        padding: 18px 12px;
+        max-width: 99%;
+        margin: 5px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        border: 3px solid rgba(74, 144, 226, 0.8);
+        box-shadow: 
+            0 0 20px rgba(0, 0, 0, 0.8),
+            inset 0 0 20px rgba(74, 144, 226, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-height: 100%;
+        overflow: hidden;
     }
     
     #menuScreen h1 {
-        animation: titleGlowMobile 6s ease-in-out infinite;
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-bottom: 2rem;
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        animation: titleGlow 4s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+        text-shadow: 
+            3px 3px 0px #000000,
+            6px 6px 0px #000000,
+            0 0 20px rgba(74, 144, 226, 0.9),
+            0 0 40px rgba(74, 144, 226, 0.7);
+    }
+    
+    #tagline {
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        text-align: center;
+        color: #ffffff;
+        font-family: 'Press Start 2P', monospace;
+        margin-top: -0.5rem;
+        margin-bottom: 2rem;
+        letter-spacing: 0.05em;
+        text-shadow: 
+            2px 2px 0px #000000,
+            4px 4px 0px #000000,
+            0 0 15px rgba(74, 144, 226, 0.8);
+        opacity: 0.95;
+        animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
+        position: relative;
+        z-index: 2;
+    }
+    
+    #levelButtons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+        max-width: 95vw;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .levelButton {
+        padding: 1rem 0.5rem;
+        font-size: clamp(0.7rem, 3vw, 1rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    .levelButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        animation: buttonGlow 2s ease-in-out infinite;
+    }
+    
+    .levelButton:hover::before,
+    .levelButton:active::before {
+        opacity: 1;
+    }
+    
+    .levelButton:hover, .levelButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    .levelButton:disabled {
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        border-color: rgba(102, 102, 102, 0.5);
+        color: #999;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 1px 1px 0px #333;
+    }
+    
+    .levelButton:disabled::before {
+        opacity: 0;
+    }
+    
+    .levelButton.perfect-completed {
+        border-color: #FFD700;
+        box-shadow: 0 0 10px #FFD700, 3px 3px 0px #1a3a5f;
+        position: relative;
+    }
+    
+    .levelButton.perfect-completed::before {
+        background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+        opacity: 0.3;
+    }
+    
+    .levelButton.perfect-completed:hover {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+        color: #FFD700;
+        box-shadow: 
+            0 10px 20px rgba(255, 215, 0, 0.3),
+            0 0 30px rgba(255, 215, 0, 0.2);
+    }
+    
+    .levelButton.perfect-completed:disabled {
+        border-color: #FFD700;
+        box-shadow: 0 0 5px #FFD700, 1px 1px 0px #333;
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        color: #999;
+    }
+    
+    .button-row {
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 1rem 1.5rem;
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        position: relative;
+        z-index: 2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-height: 50px;
+        width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    #aboutButton::before, #instructionsButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #aboutButton:hover::before, #aboutButton:active::before,
+    #instructionsButton:hover::before, #instructionsButton:active::before {
+        opacity: 1;
+    }
+    
+    #aboutButton:hover, #aboutButton:active,
+    #instructionsButton:hover, #instructionsButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    /* Adjust river background positioning for mobile */
+    #riverSceneBg {
+        object-position: center bottom;
+    }
+    
+    /* Instructions screen for very small screens */
+    #instructionsScreen {
+        padding: 10px;
+    }
+    
+    #instructionsContent {
+        padding: 2rem;
+        margin: 1rem 0;
+        max-height: 75vh;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: 
+            3px 3px 0px #1a3a5f,
+            0 0 20px rgba(74, 144, 226, 0.2);
+        z-index: 2;
+        color: #ffffff;
+    }
+    
+    #backButton {
+        padding: 1rem 2rem;
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #000000;
+        box-shadow: 3px 3px 0px #1a3a5f;
+        z-index: 2;
+        backdrop-filter: blur(5px);
+    }
+    
+    #backButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #backButton:hover::before, #backButton:active::before {
+        opacity: 1;
+    }
+    
+    #backButton:hover, #backButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+}
+
+@media (max-width: 360px) {
+    #menuScreen {
+        padding: 5px;
+    }
+    
+    .menuContent {
+        padding: 18px 12px;
+        max-width: 99%;
+        margin: 5px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        border: 3px solid rgba(74, 144, 226, 0.8);
+        box-shadow: 
+            0 0 20px rgba(0, 0, 0, 0.8),
+            inset 0 0 20px rgba(74, 144, 226, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-height: 100%;
+        overflow: hidden;
+    }
+    
+    #menuScreen h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-bottom: 2rem;
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        animation: titleGlow 4s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+        text-shadow: 
+            3px 3px 0px #000000,
+            6px 6px 0px #000000,
+            0 0 20px rgba(74, 144, 226, 0.9),
+            0 0 40px rgba(74, 144, 226, 0.7);
+    }
+    
+    #tagline {
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        text-align: center;
+        color: #ffffff;
+        font-family: 'Press Start 2P', monospace;
+        margin-top: -0.5rem;
+        margin-bottom: 2rem;
+        letter-spacing: 0.05em;
+        text-shadow: 
+            2px 2px 0px #000000,
+            4px 4px 0px #000000,
+            0 0 15px rgba(74, 144, 226, 0.8);
+        opacity: 0.95;
+        animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
+        position: relative;
+        z-index: 2;
+    }
+    
+    #levelButtons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+        max-width: 95vw;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .levelButton {
+        padding: 1rem 0.5rem;
+        font-size: clamp(0.7rem, 3vw, 1rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    .levelButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        animation: buttonGlow 2s ease-in-out infinite;
+    }
+    
+    .levelButton:hover::before,
+    .levelButton:active::before {
+        opacity: 1;
+    }
+    
+    .levelButton:hover, .levelButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    .levelButton:disabled {
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        border-color: rgba(102, 102, 102, 0.5);
+        color: #999;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 1px 1px 0px #333;
+    }
+    
+    .levelButton:disabled::before {
+        opacity: 0;
+    }
+    
+    .levelButton.perfect-completed {
+        border-color: #FFD700;
+        box-shadow: 0 0 10px #FFD700, 3px 3px 0px #1a3a5f;
+        position: relative;
+    }
+    
+    .levelButton.perfect-completed::before {
+        background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+        opacity: 0.3;
+    }
+    
+    .levelButton.perfect-completed:hover {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+        color: #FFD700;
+        box-shadow: 
+            0 10px 20px rgba(255, 215, 0, 0.3),
+            0 0 30px rgba(255, 215, 0, 0.2);
+    }
+    
+    .levelButton.perfect-completed:disabled {
+        border-color: #FFD700;
+        box-shadow: 0 0 5px #FFD700, 1px 1px 0px #333;
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        color: #999;
+    }
+    
+    .button-row {
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 1rem 1.5rem;
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        position: relative;
+        z-index: 2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-height: 50px;
+        width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    #aboutButton::before, #instructionsButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #aboutButton:hover::before, #aboutButton:active::before,
+    #instructionsButton:hover::before, #instructionsButton:active::before {
+        opacity: 1;
+    }
+    
+    #aboutButton:hover, #aboutButton:active,
+    #instructionsButton:hover, #instructionsButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    /* Instructions screen for extremely small screens */
+    #instructionsScreen {
+        padding: 8px;
+    }
+    
+    #instructionsContent {
+        padding: 2rem;
+        margin: 1rem 0;
+        max-height: 80vh;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: 
+            3px 3px 0px #1a3a5f,
+            0 0 20px rgba(74, 144, 226, 0.2);
+        z-index: 2;
+        color: #ffffff;
+    }
+    
+    #backButton {
+        padding: 1rem 2rem;
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #000000;
+        box-shadow: 3px 3px 0px #1a3a5f;
+        z-index: 2;
+        backdrop-filter: blur(5px);
+    }
+    
+    #backButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #backButton:hover::before, #backButton:active::before {
+        opacity: 1;
+    }
+    
+    #backButton:hover, #backButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    /* Adjust river background positioning for mobile */
+    #riverSceneBg {
+        object-position: center bottom;
+    }
+}
+
+/* Landscape orientation for mobile devices */
+@media (max-height: 500px) and (orientation: landscape) {
+    #menuScreen {
+        padding: 5px;
+        height: 100vh;
+        min-height: 100vh;
+    }
+    
+    .menuContent {
+        padding: 15px 20px;
+        max-width: 90%;
+        margin: 5px;
+        max-height: 100%;
+        overflow: hidden;
+    }
+    
+    #levelButtons {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+        max-width: 95vw;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .levelButton {
+        padding: 1rem 0.5rem;
+        min-height: 50px;
+        font-size: clamp(0.7rem, 3vw, 1rem);
+        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        box-shadow: 3px 3px 0px #1a3a5f;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+    }
+    
+    .levelButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        animation: buttonGlow 2s ease-in-out infinite;
+    }
+    
+    .levelButton:hover::before,
+    .levelButton:active::before {
+        opacity: 1;
+    }
+    
+    .levelButton:hover, .levelButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    .levelButton:disabled {
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        border-color: rgba(102, 102, 102, 0.5);
+        color: #999;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 1px 1px 0px #333;
+    }
+    
+    .levelButton:disabled::before {
+        opacity: 0;
+    }
+    
+    .levelButton.perfect-completed {
+        border-color: #FFD700;
+        box-shadow: 0 0 10px #FFD700, 3px 3px 0px #1a3a5f;
+        position: relative;
+    }
+    
+    .levelButton.perfect-completed::before {
+        background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+        opacity: 0.3;
+    }
+    
+    .levelButton.perfect-completed:hover {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+        color: #FFD700;
+        box-shadow: 
+            0 10px 20px rgba(255, 215, 0, 0.3),
+            0 0 30px rgba(255, 215, 0, 0.2);
+    }
+    
+    .levelButton.perfect-completed:disabled {
+        border-color: #FFD700;
+        box-shadow: 0 0 5px #FFD700, 1px 1px 0px #333;
+        background: linear-gradient(135deg, rgba(102, 102, 102, 0.5), rgba(51, 51, 51, 0.5));
+        color: #999;
+    }
+    
+    .button-row {
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 1rem 1.5rem;
+        min-height: 50px;
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        width: 140px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        box-shadow: 3px 3px 0px #1a3a5f;
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+    }
+    
+    #aboutButton::before, #instructionsButton::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #4a90e2, #6ba3e8, #4a90e2);
+        border-radius: 10px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #aboutButton:hover::before, #aboutButton:active::before,
+    #instructionsButton:hover::before, #instructionsButton:active::before {
+        opacity: 1;
+    }
+    
+    #aboutButton:hover, #aboutButton:active,
+    #instructionsButton:hover, #instructionsButton:active {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.3), rgba(107, 163, 232, 0.3));
+        color: #4a90e2;
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    #menuScreen h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-bottom: 2rem;
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        animation: titleGlow 4s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+        text-shadow: 
+            3px 3px 0px #000000,
+            6px 6px 0px #000000,
+            0 0 20px rgba(74, 144, 226, 0.9),
+            0 0 40px rgba(74, 144, 226, 0.7);
+    }
+    
+    #tagline {
+        font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+        text-align: center;
+        color: #ffffff;
+        font-family: 'Press Start 2P', monospace;
+        margin-top: -0.5rem;
+        margin-bottom: 2rem;
+        letter-spacing: 0.05em;
+        text-shadow: 
+            2px 2px 0px #000000,
+            4px 4px 0px #000000,
+            0 0 15px rgba(74, 144, 226, 0.8);
+        opacity: 0.95;
+        animation: taglineFadeIn 2s ease-out forwards, taglineRipple 4s ease-in-out infinite 2s;
+        position: relative;
+        z-index: 2;
+    }
+}
+
+/* High DPI displays and retina screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    #riverSceneBg {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+    
+    .levelButton, #aboutButton, #instructionsButton, #backButton {
+        border-width: 3px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .levelButton:hover, #aboutButton:hover, #instructionsButton:hover, #backButton:hover {
+        transform: scale(1.02) translateY(-1px);
+        box-shadow: 
+            2px 2px 0px #1a3a5f,
+            0 5px 10px rgba(74, 144, 226, 0.3);
+    }
+    
+    .levelButton:active, #aboutButton:active, #instructionsButton:active, #backButton:active {
+        transform: scale(0.98);
+    }
+    
+    /* Maintain web styling for touch devices */
+    .levelButton {
+        min-height: 50px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    #aboutButton, #instructionsButton {
+        min-height: 50px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    #backButton {
+        min-height: 50px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        box-shadow: 3px 3px 0px #1a3a5f;
     }
 }
 
@@ -1172,5 +2681,277 @@ html, body {
     100% {
         opacity: 1;
         transform: scale(1) translateY(0);
+    }
+}
+
+/* Additional mobile optimizations for very small screens */
+@media (max-width: 320px) {
+    #menuScreen {
+        padding: 3px;
+    }
+    
+        .menuContent {
+        padding: 15px 10px;
+        max-width: 99.5%;
+        margin: 3px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        border: 3px solid rgba(74, 144, 226, 0.8);
+        box-shadow:
+            0 0 20px rgba(0, 0, 0, 0.8),
+            inset 0 0 20px rgba(74, 144, 226, 0.1);
+        max-height: 100%;
+        overflow: hidden;
+    }
+    
+    #levelButtons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+        margin-bottom: 0.8rem;
+        max-width: 95vw;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .levelButton {
+        padding: 0.6rem 0.2rem;
+        min-height: 42px;
+        font-size: 0.65rem;
+        border-radius: 6px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 2px solid #4a90e2;
+        box-shadow: 2px 2px 0px #1a3a5f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+    }
+    
+    .button-row {
+        gap: 0.4rem;
+        margin-top: 0.4rem;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 0.5rem 0.7rem;
+        min-height: 38px;
+        font-size: 0.75rem;
+        width: 90px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    #menuScreen h1 {
+        margin-bottom: 0.8rem;
+        font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-shadow: 
+            3px 3px 0px #000000,
+            6px 6px 0px #000000,
+            0 0 20px rgba(74, 144, 226, 0.9),
+            0 0 40px rgba(74, 144, 226, 0.7);
+    }
+    
+    #tagline {
+        font-size: clamp(0.65rem, 2.8vw, 0.75rem);
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+        text-align: center;
+        font-family: 'Press Start 2P', monospace;
+        letter-spacing: 0.05em;
+        text-shadow: 
+            2px 2px 0px #000000,
+            4px 4px 0px #000000,
+            0 0 15px rgba(74, 144, 226, 0.8);
+        opacity: 0.95;
+    }
+    
+    /* Instructions screen for extremely small screens */
+    #instructionsScreen {
+        padding: 5px;
+    }
+    
+    #instructionsContent {
+        padding: 0.8rem;
+        margin: 0.4rem 0;
+        max-height: 85vh;
+    }
+    
+    #backButton {
+        padding: 0.5rem 0.8rem;
+        min-height: 38px;
+        font-size: 0.75rem;
+        margin: 0.4rem;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 3px solid #4a90e2;
+        box-shadow: 3px 3px 0px #1a3a5f;
+    }
+    
+    /* Adjust river background positioning for mobile */
+    #riverSceneBg {
+        object-position: center bottom;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 280px) {
+    #levelButtons {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.3rem;
+        margin-bottom: 0.6rem;
+        max-width: 98vw;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .levelButton {
+        padding: 0.5rem 0.15rem;
+        min-height: 38px;
+        font-size: 0.6rem;
+        border-radius: 5px;
+        background: linear-gradient(135deg, rgba(26, 58, 95, 0.9), rgba(45, 90, 138, 0.9));
+        color: white;
+        border: 2px solid #4a90e2;
+        box-shadow: 2px 2px 0px #1a3a5f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 1px 1px 0px #1a3a5f;
+    }
+    
+    #menuScreen h1 {
+        margin-bottom: 0.6rem;
+        font-size: clamp(1rem, 4vw, 1.2rem);
+    }
+    
+    #tagline {
+        font-size: clamp(0.6rem, 2.5vw, 0.7rem);
+        margin-bottom: 0.4rem;
+    }
+    
+    .button-row {
+        gap: 0.3rem;
+        margin-top: 0.3rem;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 0.5rem 0.6rem;
+        min-height: 38px;
+        font-size: 0.65rem;
+        width: 80px;
+    }
+    
+    /* Adjust river background positioning for mobile */
+    #riverSceneBg {
+        object-position: center bottom;
+    }
+}
+
+/* Ensure proper mobile viewport handling */
+@media (max-width: 100vw) and (max-height: 100vh) {
+    #menuScreen {
+        min-height: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    .menuContent {
+        max-height: 100%;
+        overflow: hidden;
+    }
+}
+
+/* Mobile landscape with very low height */
+@media (max-height: 400px) and (orientation: landscape) {
+    #menuScreen {
+        padding: 3px;
+        height: 100%;
+        min-height: 100%;
+    }
+    
+    .menuContent {
+        padding: 10px 15px;
+        max-width: 85%;
+        margin: 3px;
+        max-height: 100%;
+        overflow: hidden;
+    }
+    
+    #levelButtons {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.3rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .levelButton {
+        padding: 0.4rem 0.1rem;
+        min-height: 32px;
+        font-size: 0.65rem;
+    }
+    
+    .button-row {
+        gap: 0.4rem;
+        margin-top: 0.3rem;
+    }
+    
+    #aboutButton, #instructionsButton {
+        padding: 0.4rem 0.8rem;
+        min-height: 32px;
+        font-size: 0.7rem;
+        width: 90px;
+    }
+    
+    #menuScreen h1 {
+        margin-bottom: 0.5rem;
+        font-size: clamp(1rem, 3.5vw, 1.2rem);
+    }
+    
+    #tagline {
+        margin-bottom: 0.3rem;
+        font-size: clamp(0.55rem, 2.2vw, 0.65rem);
+    }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+    html, body {
+        height: -webkit-fill-available;
+        overflow: hidden;
+    }
+    
+    #menuScreen {
+        height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
     }
 }
