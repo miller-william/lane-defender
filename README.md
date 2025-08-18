@@ -10,7 +10,7 @@ River Revival is a vertical shooter/tower defense game with a unique water theme
 
 ## 🌊 Features
 
-- **Water-Based Combat**: Shoot water droplets at enemies
+- **Water-Based Combat**: Shoot laser beams at pollutants
 - **Pixel Art Aesthetic**: Retro-style graphics
 - **Upgrade System**: Choose between different power-ups during gameplay
 - **Multiple Levels**: Progressive difficulty with unique challenges
@@ -20,7 +20,7 @@ River Revival is a vertical shooter/tower defense game with a unique water theme
 ## 🎯 How to Play
 
 - **Movement**: Move left and right to dodge enemies
-- **Shooting**: Automatically fires water droplets at enemies
+- **Shooting**: Automatically fires lasers at enemies
 - **Upgrades**: Choose between different power-ups when they appear
 - **Objective**: Defeat all enemies while surviving the wave
 
@@ -45,5 +45,3 @@ The game is also playable online at the link above.
 River Revival is designed to work on both desktop and mobile devices, with touch controls optimized for smartphones and tablets.
 
 ---
-
-*Defend the river, one droplet at a time! 💧*
