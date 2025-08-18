@@ -2,13 +2,13 @@
 
 [![Deploy](https://img.shields.io/badge/Play-Online-blue)](https://miller-william.github.io/lane-defender/)
 
-A pixel art tower defense game where you defend against waves of enemies using water-based attacks!
+A pixel art tower defense game where you defend against waves of pollutants to save the river!
 
 ![Main Menu](assets/menu.png)
 
 ## 🎮 Game Concept
 
-River Revival is a vertical shooter/tower defense game with a unique water theme. Players control a defender who shoots water droplets at incoming enemies, with the goal of protecting the environment from pollution and waste.
+River Revival is a vertical shooter/tower defense game with a unique theme. Players control a laser wielding fish who shoots at incoming pollutants, with the goal of protecting the river.
 
 ## 🌊 Features
 
