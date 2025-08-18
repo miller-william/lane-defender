@@ -1,6 +1,6 @@
 // Game configuration and development settings
 export const DEV_MODE = {
-    ALL_LEVELS_UNLOCKED: false, // Set to true to unlock all levels for testing
+    ALL_LEVELS_UNLOCKED: true, // Set to true to unlock all levels for testing
     INFINITE_HEALTH: false, // Set to true for infinite health
     INSTANT_WIN: false // Set to true to instantly complete levels
 };

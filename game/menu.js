@@ -370,19 +370,19 @@ const debriefMessages = {
         lose: "Don't worry, rookie fish! Level 1 is just the beginning. Even the most experienced defenders started with simple streams. Try again and show the river your determination!"
     },
     2: {
-        win: "Excellent progress! You've cleared the gentle rapids of level 2. The water flows more freely now, and the local fish are grateful for your protection!",
+        win: "Outstanding! You've cleaned up the sewage! Did you know? Sewage pollution lowers oxygen in rivers, which can suffocate fish and other wildlife.",
         lose: "The rapids proved challenging, but every fish learns from flowing water. Level 2 teaches patience and timing. You'll master it soon!"
     },
     3: {
-        win: "Impressive work! Level 3's moderate currents are now pure. You're developing into a skilled river defender. The ecosystem is thriving under your watch!",
+        win: "Impressive work! You've cleared the fast food containers! Did you know? Single-use packaging is one of the most common forms of river litter.",
         lose: "The moderate currents of level 3 can be tricky. Remember, even the strongest rivers started as small streams. Keep flowing forward!"
     },
     4: {
-        win: "Outstanding! You've conquered level 4's stronger currents. Your fishy skills are growing legendary. The river's middle reaches are now crystal clear!",
+        win: "Outstanding! You've cleaned up the chemical waste barrels! Chemicals dumped in rivers can devastate ecosystems.",
         lose: "Level 4's stronger currents tested your limits. But remember, the river doesn't flow in straight lines. Adapt and overcome!"
     },
     5: {
-        win: "Magnificent! Level 5's challenging waters are now pristine. You're becoming a true river master. The deep pools are safe once more!",
+        win: "Magnificent! Level 5's challenging waters are now pristine. Did you keep the ducks alive? Ducks are a symbol of the river's health.",
         lose: "Level 5's deep waters are challenging indeed. But every great river defender faced deep currents. Your determination will carry you through!"
     },
     6: {

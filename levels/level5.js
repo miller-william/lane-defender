@@ -18,14 +18,15 @@ export default {
             }
         },
 
-        // Trap upgrade fatberg
+        // Trap upgrade ducks
         {
-            time: 12000,
+            time: 10000,
             enemyType: 'ducks',
             count: 1,
             modifiers: {
                 health: 30,
-                speed: 0.045,
+                speed: 0.1,
+                damage: 0
             }
         },
 

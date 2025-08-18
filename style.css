@@ -12,6 +12,12 @@
         height: -webkit-fill-available;
         min-height: -webkit-fill-available;
     }
+    
+    /* Fix for how to play popup on mobile */
+    #howToPlayPopup {
+        height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
+    }
 }
 
 /* ===== KEYFRAMES ===== */
@@ -697,6 +703,14 @@ html, body {
     font-weight: 700 !important;
     font-size: clamp(1rem, 4vw, 1.3rem) !important;
     animation: titleGlow 2s ease-in-out infinite;
+}
+
+/* Mobile-optimized perfect badge (overrides above for mobile) */
+@media (max-width: 768px) {
+    #perfectBadge {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8), 0 0 2px #FFD700 !important; /* Sharp outline + minimal glow */
+        animation: titleGlow 3s ease-in-out infinite; /* Slower animation for mobile */
+    }
 }
 
 /* Game Over Buttons Container */
@@ -1563,6 +1577,12 @@ html, body {
         padding: 0.8rem 1rem;
     }
     
+    /* Reduce perfect badge glow intensity on mobile for better legibility */
+    #perfectBadge {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8), 0 0 1px #FFD700 !important; /* Sharp outline + very minimal glow */
+        animation: titleGlow 3s ease-in-out infinite; /* Slower animation */
+    }
+    
     /* Menu Screen */
     #menuScreen {
         padding: 15px;
@@ -1815,6 +1835,12 @@ html, body {
         min-height: 35px;
         font-size: clamp(0.55rem, 2.5vw, 0.75rem);
         padding: 0.5rem 0.6rem;
+    }
+    
+    /* Further reduce perfect badge glow on very small mobile */
+    #perfectBadge {
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9) !important; /* Sharp black outline only - no blur */
+        animation: titleGlow 4s ease-in-out infinite; /* Even slower animation */
     }
     
     #menuScreen {
@@ -2716,13 +2742,15 @@ html, body {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh; /* Use dynamic viewport height like gameWrapper */
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2000;
     backdrop-filter: blur(5px);
+    /* Mobile viewport fix */
+    min-height: 100dvh;
 }
 
 .popup-content {
@@ -2737,6 +2765,9 @@ html, body {
         0 0 30px rgba(74, 144, 226, 0.3),
         0 10px 30px rgba(0, 0, 0, 0.5);
     animation: popupFadeIn 0.5s ease-out;
+    /* Mobile-friendly improvements */
+    box-sizing: border-box;
+    margin: 20px; /* Ensure content doesn't touch screen edges */
 }
 
 .popup-content h2 {
@@ -2798,6 +2829,40 @@ html, body {
     100% {
         opacity: 1;
         transform: scale(1) translateY(0);
+    }
+}
+
+/* Mobile optimizations for How to Play popup */
+@media (max-width: 480px) {
+    #howToPlayPopup {
+        padding: 10px; /* Add padding to prevent edge touching */
+    }
+    
+    .popup-content {
+        padding: 1.5rem;
+        margin: 15px;
+        max-width: 95vw;
+        width: auto; /* Allow content to size naturally on mobile */
+    }
+    
+    .popup-content h2 {
+        font-size: clamp(1rem, 4.5vw, 1.3rem);
+        margin-bottom: 1rem;
+    }
+    
+    .popup-content li {
+        font-size: clamp(0.7rem, 2.3vw, 0.9rem);
+        margin-bottom: 0.6rem;
+    }
+    
+    .popup-content p {
+        font-size: clamp(0.8rem, 2.5vw, 1rem);
+        margin: 1rem 0;
+    }
+    
+    #gotItButton {
+        padding: 0.7rem 1.5rem;
+        font-size: clamp(0.8rem, 2.5vw, 1rem);
     }
 }
 

@@ -10,44 +10,38 @@ import {
     setUpgradeDecisionMade
 } from './state.js';
 
-// Function to draw pixel art wooden boxes
-function drawPixelArtWoodenBox(ctx, x, y, width, height, side) {
+// Function to draw board image
+function drawBoard(ctx, x, y, width, height) {
+    console.log(`drawBoard called with: x=${x}, y=${y}, width=${width}, height=${height}`);
+    
+    if (!boardImage) {
+        console.log('Board image not loaded yet!');
+        return;
+    }
+    
+    console.log(`Board image loaded: ${boardImage.width}x${boardImage.height}`);
+    
     // Save context
     ctx.save();
     
-    // Wooden gradient background
-    const woodGradient = ctx.createLinearGradient(x, y, x, y + height);
-    woodGradient.addColorStop(0, '#8B4513');    // Dark brown
-    woodGradient.addColorStop(0.3, '#A0522D');  // Medium brown
-    woodGradient.addColorStop(0.7, '#CD853F');  // Light brown
-    woodGradient.addColorStop(1, '#DEB887');    // Very light brown
+    // Draw the board image, filling the full width while maintaining aspect ratio
+    const aspectRatio = boardImage.width / boardImage.height;
     
-    // Draw main box
-    ctx.fillStyle = woodGradient;
-    ctx.fillRect(x, y, width, height);
+    // Focus on width - make board fill the full allocated width and extend slightly beyond
+    let drawWidth = width * 1.2; // 20% wider than allocated space
+    let drawHeight = drawWidth / aspectRatio;
     
-    // Draw pixel art border (darker wood)
-    ctx.strokeStyle = '#654321';
-    ctx.lineWidth = 4;
-    ctx.strokeRect(x + 2, y + 2, width - 4, height - 4);
+    console.log(`Aspect ratio: ${aspectRatio}, Full width draw: ${drawWidth}x${drawHeight}`);
     
-    // Draw inner pixel art border (lighter wood)
-    ctx.strokeStyle = '#DEB887';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(x + 6, y + 6, width - 12, height - 12);
+    // No height restriction - let the board scale naturally
+    // Center the board horizontally in the allocated space
+    const offsetX = x + (width - drawWidth) / 2; // Center horizontally
+    const offsetY = y + (height - drawHeight) / 2; // Center vertically
     
-    // Draw pixel art wood grain lines
-    ctx.strokeStyle = '#A0522D';
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 5; i++) {
-        const lineY = y + 15 + (i * 20);
-        ctx.beginPath();
-        ctx.moveTo(x + 10, lineY);
-        ctx.lineTo(x + width - 10, lineY);
-        ctx.stroke();
-    }
+    console.log(`Final draw: offsetX=${offsetX}, offsetY=${offsetY}, drawWidth=${drawWidth}, drawHeight=${drawHeight}`);
     
-    // Removed side labels for cleaner look
+    ctx.drawImage(boardImage, offsetX, offsetY, drawWidth, drawHeight);
+    console.log('Board drawn successfully!');
     
     // Restore context
     ctx.restore();
@@ -56,6 +50,7 @@ function drawPixelArtWoodenBox(ctx, x, y, width, height, side) {
 // Load banner images
 let frogBannerImage = null;
 let scientistBannerImage = null;
+let boardImage = null;
 
 const frogBannerImg = new Image();
 frogBannerImg.onload = function() {
@@ -76,6 +71,16 @@ scientistBannerImg.onerror = function() {
     console.error('Failed to load scientist banner image');
 };
 scientistBannerImg.src = 'assets/images/scientist_banner.png';
+
+const boardImg = new Image();
+boardImg.onload = function() {
+    boardImage = this;
+    console.log('Board image loaded successfully');
+};
+boardImg.onerror = function() {
+    console.error('Failed to load board image');
+};
+boardImg.src = 'assets/images/board.png';
 
 // Banner animation constants
 const BANNER_HEIGHT = 80;
@@ -216,7 +221,7 @@ export function drawUpgradeBanner(ctx) {
     // Save context
     ctx.save();
     
-    // Draw left side (wooden pixel art box)
+    // Draw left side (board image)
     const leftBoxX = 0;
     const leftBoxY = upgradeBannerY;
     const leftBoxWidth = CANVAS_WIDTH / 2;
@@ -224,10 +229,10 @@ export function drawUpgradeBanner(ctx) {
     
     // Only draw if any part of the box is visible
     if (leftBoxY < CANVAS_HEIGHT && leftBoxY + leftBoxHeight > 0) {
-        drawPixelArtWoodenBox(ctx, leftBoxX, leftBoxY, leftBoxWidth, leftBoxHeight, 'left');
+        drawBoard(ctx, leftBoxX, leftBoxY, leftBoxWidth, leftBoxHeight);
     }
     
-    // Draw right side (wooden pixel art box)
+    // Draw right side (board image)
     const rightBoxX = CANVAS_WIDTH / 2;
     const rightBoxY = upgradeBannerY;
     const rightBoxWidth = CANVAS_WIDTH / 2;
@@ -235,10 +240,10 @@ export function drawUpgradeBanner(ctx) {
     
     // Only draw if any part of the box is visible
     if (rightBoxY < CANVAS_HEIGHT && rightBoxY + rightBoxHeight > 0) {
-        drawPixelArtWoodenBox(ctx, rightBoxX, rightBoxY, rightBoxWidth, rightBoxHeight, 'right');
+        drawBoard(ctx, rightBoxX, rightBoxY, rightBoxWidth, rightBoxHeight);
     }
     
-    // Draw center line on the wooden boxes
+    // Draw center line on the boards
     const boxHeight = 120;
     const centerLineY = upgradeBannerY + boxHeight / 2;
     if (centerLineY >= 0 && centerLineY <= CANVAS_HEIGHT) {
@@ -252,13 +257,13 @@ export function drawUpgradeBanner(ctx) {
         ctx.setLineDash([]);
     }
     
-    // Draw upgrade text inside the wooden boxes
-    const textStartY = upgradeBannerY + (boxHeight / 2); // Center text vertically in the box
+    // Draw upgrade text inside the boards
+    const textStartY = upgradeBannerY + (boxHeight / 2); // Center text vertically in the board
     
     // Only draw text if it's visible
     if (textStartY < CANVAS_HEIGHT) {
-        // Set up text styling for wooden boxes - bigger and more visible
-        ctx.font = 'bold 20px Arial';
+        // Set up text styling for boards - slightly smaller for better fit
+        ctx.font = 'bold 18px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
@@ -267,104 +272,124 @@ export function drawUpgradeBanner(ctx) {
         const totalHeight = (totalLines - 1) * 30; // Height of all lines
         const startOffset = -totalHeight / 2; // Center the entire text block
         
-        // Draw left upgrades
-        leftUpgrades.forEach((upgrade, index) => {
-            const y = textStartY + startOffset + (index * 30); // Center the text block
-            if (y >= 0 && y <= CANVAS_HEIGHT) {
-                // Draw text with better contrast against wooden background
-                ctx.fillStyle = '#ffffff'; // White text for maximum contrast
-                ctx.shadowColor = '#000000'; // Black shadow for readability
-                ctx.shadowBlur = 4;
-                ctx.shadowOffsetX = 2;
-                ctx.shadowOffsetY = 2;
-                ctx.fillText(upgrade, CANVAS_WIDTH / 4, y);
-            }
-        });
+                    // Draw left upgrades
+            leftUpgrades.forEach((upgrade, index) => {
+                const y = textStartY + startOffset + (index * 30); // Center the text block
+                if (y >= 0 && y <= CANVAS_HEIGHT) {
+                    // Draw text with better contrast against board background
+                    ctx.fillStyle = '#ffffff'; // White text for maximum contrast
+                    ctx.shadowColor = '#000000'; // Black shadow for readability
+                    ctx.shadowBlur = 4;
+                    ctx.shadowOffsetX = 2;
+                    ctx.shadowOffsetY = 2;
+                    ctx.fillText(upgrade, CANVAS_WIDTH / 4, y);
+                }
+            });
         
-        // Draw right upgrades
-        rightUpgrades.forEach((upgrade, index) => {
-            const y = textStartY + startOffset + (index * 30); // Center the text block
-            if (y >= 0 && y <= CANVAS_HEIGHT) {
-                // Draw text with better contrast against wooden background
-                ctx.fillStyle = '#ffffff'; // White text for maximum contrast
-                ctx.shadowColor = '#000000'; // Black shadow for readability
-                ctx.shadowBlur = 4;
-                ctx.shadowOffsetX = 2;
-                ctx.shadowOffsetY = 2;
-                ctx.fillText(upgrade, (CANVAS_WIDTH / 4) * 3, y);
-            }
-        });
+                    // Draw right upgrades
+            rightUpgrades.forEach((upgrade, index) => {
+                const y = textStartY + startOffset + (index * 30); // Center the text block
+                if (y >= 0 && y <= CANVAS_HEIGHT) {
+                    // Draw text with better contrast against board background
+                    ctx.fillStyle = '#ffffff'; // White text for maximum contrast
+                    ctx.shadowColor = '#000000'; // Black shadow for readability
+                    ctx.shadowBlur = 4;
+                    ctx.shadowOffsetX = 2;
+                    ctx.shadowOffsetY = 2;
+                    ctx.fillText(upgrade, (CANVAS_WIDTH / 4) * 3, y);
+                }
+            });
     }
     
     // Draw decision indicator or confirmation
     if (upgradeBannerY >= DECISION_Y_THRESHOLD - 50 && !upgradeDecisionMade) {
-        // Show "CHOOSE NOW!" with better styling
+        // Show "CHOOSE NOW!" with modern styling
         const time = performance.now() * 0.001;
-        const pulseIntensity = 0.8 + 0.2 * Math.sin(time * 5);
-        const text = '⚡ CHOOSE NOW! ⚡';
+        const pulseIntensity = 0.7 + 0.3 * Math.sin(time * 4);
+        const text = ' CHOOSE NOW! ';
         
-        ctx.font = 'bold 18px Arial';
+        ctx.font = 'bold 20px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
         // Measure text for background
         const textMetrics = ctx.measureText(text);
         const textWidth = textMetrics.width;
-        const textHeight = 30;
+        const textHeight = 36;
         const textX = CANVAS_WIDTH / 2 - textWidth / 2;
         const textY = upgradeBannerY + bannerImageHeight / 2;
         
         // Only draw if visible
         if (textY >= 0 && textY <= CANVAS_HEIGHT) {
-            // Draw solid background
+            // Create modern gradient background
+            const gradient = ctx.createLinearGradient(textX - 25, textY - textHeight/2 - 8, textX + textWidth + 25, textY + textHeight/2 + 8);
+            gradient.addColorStop(0, 'rgba(255, 215, 0, 0.95)'); // Gold
+            gradient.addColorStop(0.5, 'rgba(255, 165, 0, 0.95)'); // Orange
+            gradient.addColorStop(1, 'rgba(255, 215, 0, 0.95)'); // Gold
+            
+            // Draw rounded background with gradient
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(textX - 25, textY - textHeight/2 - 8, textWidth + 50, textHeight + 16, 12);
+            ctx.fill();
+            
+            // Draw modern border with glow effect
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.9 * pulseIntensity})`;
+            ctx.lineWidth = 2;
+            ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
+            ctx.shadowBlur = 8 * pulseIntensity;
+            ctx.stroke();
+            
+            // Draw text with modern styling
             ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
-            ctx.fillRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
-            
-            // Draw border
-            ctx.strokeStyle = `rgba(255, 255, 0, ${pulseIntensity})`;
-            ctx.lineWidth = 3;
-            ctx.strokeRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
-            
-            // Draw text with better visibility
-            ctx.fillStyle = `rgba(255, 255, 0, ${pulseIntensity})`;
-            ctx.shadowColor = '#000000';
-            ctx.shadowBlur = 3;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
+            ctx.shadowBlur = 2;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
             ctx.fillText(text, CANVAS_WIDTH / 2, textY);
         }
     } else if (upgradeDecisionMade) {
-        // Show confirmation with better styling
-        const text = '✅ UPGRADE APPLIED! ✅';
+        // Show confirmation with modern styling
+        const text = 'UPGRADE APPLIED!';
         
-        ctx.font = 'bold 18px Arial';
+        ctx.font = 'bold 20px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
         // Measure text for background
         const textMetrics = ctx.measureText(text);
         const textWidth = textMetrics.width;
-        const textHeight = 30;
+        const textHeight = 36;
         const textX = CANVAS_WIDTH / 2 - textWidth / 2;
         const textY = upgradeBannerY + bannerImageHeight / 2;
         
         // Only draw if visible
         if (textY >= 0 && textY <= CANVAS_HEIGHT) {
-            // Draw solid background
+            // Create modern gradient background
+            const gradient = ctx.createLinearGradient(textX - 25, textY - textHeight/2 - 8, textX + textWidth + 25, textY + textHeight/2 + 8);
+            gradient.addColorStop(0, 'rgba(0, 255, 100, 0.95)'); // Green
+            gradient.addColorStop(0.5, 'rgba(0, 200, 80, 0.95)'); // Darker green
+            gradient.addColorStop(1, 'rgba(0, 255, 100, 0.95)'); // Green
+            
+            // Draw rounded background with gradient
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(textX - 25, textY - textHeight/2 - 8, textWidth + 50, textHeight + 16, 12);
+            ctx.fill();
+            
+            // Draw modern border with glow effect
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.lineWidth = 2;
+            ctx.shadowColor = 'rgba(0, 255, 100, 0.8)';
+            ctx.shadowBlur = 8;
+            ctx.stroke();
+            
+            // Draw text with modern styling
             ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
-            ctx.fillRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
-            
-            // Draw border
-            ctx.strokeStyle = 'rgba(0, 255, 100, 0.9)';
-            ctx.lineWidth = 3;
-            ctx.strokeRect(textX - 20, textY - textHeight/2 - 5, textWidth + 40, textHeight + 10);
-            
-            // Draw text with better visibility
-            ctx.fillStyle = 'rgba(0, 255, 100, 0.9)';
-            ctx.shadowColor = '#000000';
-            ctx.shadowBlur = 3;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
+            ctx.shadowBlur = 2;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
             ctx.fillText(text, CANVAS_WIDTH / 2, textY);
         }
     }

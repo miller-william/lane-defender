@@ -66,16 +66,18 @@ export const ENEMY_TYPES = {
         bonus: null,
         glowColour: null
     },
-    fatberg: {
+    barrels: {
         radius: 90,
         defaultHealth: 10,
         defaultSpeed: 0.07, // 20% of canvas height per second (adjusted for real delta time)
         defaultDamage: 10,
         color: 'silver', // fire orange fallback
-        image: 'assets/images/fatberg.png', 
+        image: 'assets/images/barrels.png', 
         behaviour: 'straight',
         bonus: null,
-        glowColour: '#00ffcc' // cyan glow for fire rate bonus
+        glowColour: '#00ffcc', // cyan glow for fire rate bonus
+        text_popup: "Chemical waste cleaned up!"
+
     },
     ducks: {
         radius: 90,

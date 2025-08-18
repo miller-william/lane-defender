@@ -16,10 +16,10 @@ export default {
             }
         },
 
-        // First fatberg introduction
+        // First barrels introduction
         {
             time: 12000,
-            enemyType: 'fatberg',
+            enemyType: 'barrels',
             count: 1,
             modifiers: {
                 behaviour: 'straight',
@@ -55,10 +55,10 @@ export default {
             }
         },
 
-        // Second fatberg with no bonus
+        // Second barrels with no bonus
         {
             time: 21000,
-            enemyType: 'fatberg',
+            enemyType: 'barrels',
             count: 1,
             modifiers: {
                 behaviour: 'straight',

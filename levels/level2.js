@@ -47,7 +47,7 @@ export default {
                 { type: 'damage', value: 1 }
             ],
             rightBonus: [
-                { type: 'fireRate', value: -200 },
+                { type: 'fireRate', value: -400 },
             ]
         }
     ]

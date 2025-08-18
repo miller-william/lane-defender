@@ -116,13 +116,15 @@ export function updateEnemies(deltaTime) {
         
         // Check if enemy reached bottom
         if (updatedEnemy.y - updatedEnemy.radius >= CANVAS_HEIGHT) {
-            // Use enemy's damage value instead of fixed 1
-            const damage = enemy.damage || 1; // fallback to 1 if damage is undefined
+            // Use enemy's damage value, fallback to 1 only if damage is null/undefined
+            const damage = enemy.damage ?? 1; // fallback to 1 if damage is null/undefined (not 0)
             const newHealth = player.health - damage;
             setPlayerHealth(newHealth);
             
-            // Trigger damage flash effect
-            triggerDamageFlash();
+            // Only trigger damage flash if actual damage was dealt
+            if (damage > 0) {
+                triggerDamageFlash();
+            }
             
             console.log(`Enemy reached bottom! Player took ${damage} damage. Health: ${newHealth}`);
             if (newHealth <= 0) {

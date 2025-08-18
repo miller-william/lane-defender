@@ -22,6 +22,11 @@ export default {
             modifiers: {
                 health: 15,
                 speed: 0.045,
+                damage: 0,
+                bonus: {
+                    type: 'fireRate',
+                    value: +200 // 
+                }
             }
         },
         // Initial minions
