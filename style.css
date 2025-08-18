@@ -6,6 +6,12 @@
     html, body {
         height: -webkit-fill-available;
     }
+    
+    /* Fix for game over screen on mobile */
+    #gameOverScreen {
+        height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
+    }
 }
 
 /* ===== KEYFRAMES ===== */
@@ -593,7 +599,7 @@ html, body {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh; /* Use dynamic viewport height like gameWrapper */
     background: radial-gradient(circle at center, rgba(10, 20, 40, 0.9), rgba(26, 58, 95, 0.95));
     display: flex;
     flex-direction: column;
@@ -609,7 +615,12 @@ html, body {
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    min-height: 100vh;
+    min-height: 100dvh; /* Use dynamic viewport height */
+    /* Mobile-friendly improvements */
+    padding-top: 4vh; /* Reduced top padding */
+    padding-bottom: 15px; /* Reduced bottom padding */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 
 #gameOverScreen.show {
@@ -630,6 +641,10 @@ html, body {
     box-shadow: 
         3px 3px 0px #1a3a5f,
         0 0 20px rgba(74, 144, 226, 0.2);
+    /* Mobile-friendly improvements */
+    max-width: 95vw;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #levelStats::before {
@@ -690,6 +705,10 @@ html, body {
     flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
+    /* Mobile-friendly improvements */
+    width: 100%;
+    max-width: 95vw;
+    align-items: center;
 }
 
 /* Updated button styling for game over screen */
@@ -1484,6 +1503,67 @@ html, body {
 }
 
 @media (max-width: 480px) {
+    /* Game Over Screen Mobile Fixes */
+    #gameOverScreen {
+        padding: 15px;
+        padding-bottom: 20px; /* Reduced bottom padding */
+        justify-content: flex-start;
+        padding-top: 8vh; /* Reduced top padding */
+        min-height: 100dvh; /* Use dynamic viewport height */
+        height: 100dvh; /* Use dynamic viewport height */
+        overflow-y: auto;
+        /* Ensure content fits within viewport */
+        box-sizing: border-box;
+        /* Mobile-specific fixes */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #gameOverScreen h2 {
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    #missionDebrief {
+        font-size: clamp(0.7rem, 3vw, 0.9rem);
+        line-height: 1.3; /* Reduce line height for mobile */
+        margin-bottom: 0.8rem; /* Reduce margin for mobile */
+        text-align: center;
+        padding: 0 10px;
+        max-width: 90vw; /* Ensure text doesn't overflow */
+        word-wrap: break-word; /* Handle long words */
+    }
+    
+    #levelStats {
+        padding: 0.8rem; /* Reduced padding */
+        margin: 0.8rem 0; /* Reduced margin */
+        max-width: 90vw;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    #levelStats p {
+        font-size: clamp(0.7rem, 3vw, 0.9rem);
+        margin: 0.4rem 0;
+    }
+    
+    #gameOverButtons {
+        margin-top: 1rem;
+        margin-bottom: 1rem; /* Add bottom margin for spacing */
+        width: 100%;
+        max-width: 90vw;
+        gap: 0.8rem;
+    }
+    
+    #gameOverButtons button {
+        min-height: 45px;
+        font-size: clamp(0.7rem, 3vw, 0.9rem);
+        padding: 0.8rem 1rem;
+    }
+    
+    /* Menu Screen */
     #menuScreen {
         padding: 15px;
         padding-top: 8px;
@@ -1700,6 +1780,43 @@ html, body {
 }
 
 @media (max-width: 360px) {
+    /* Game Over Screen Extra Small Mobile Fixes */
+    #gameOverScreen {
+        padding: 8px;
+        padding-bottom: 15px; /* Reduced bottom padding for small mobile */
+        padding-top: 5vh; /* Reduced top padding for small mobile */
+        /* Ensure proper viewport height on small mobile */
+        height: 100dvh;
+        min-height: 100dvh;
+    }
+    
+    #gameOverScreen h2 {
+        font-size: clamp(0.9rem, 4vw, 1.3rem);
+        margin-bottom: 0.6rem;
+    }
+    
+    #missionDebrief {
+        font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+        line-height: 1.2;
+        padding: 0 3px;
+    }
+    
+    #levelStats {
+        padding: 0.5rem; /* Further reduced for small mobile */
+        margin: 0.5rem 0; /* Further reduced for small mobile */
+    }
+    
+    #levelStats p {
+        font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+        margin: 0.25rem 0;
+    }
+    
+    #gameOverButtons button {
+        min-height: 35px;
+        font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+        padding: 0.5rem 0.6rem;
+    }
+    
     #menuScreen {
         padding: 5px;
     }
