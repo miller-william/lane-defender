@@ -355,9 +355,17 @@ export function showGameOver(result = 'lose', levelNumber = null) {
     // Update mission debrief
     updateMissionDebrief(result, levelNumber);
     
-    // Populate stats for win screen
-    if (result === 'win') {
-        populateLevelStats(levelNumber);
+    // Handle stats box visibility
+    const statsElement = document.getElementById('levelStats');
+    if (statsElement) {
+        if (result === 'win') {
+            // Show and populate stats for win screen
+            statsElement.style.display = 'block';
+            populateLevelStats(levelNumber);
+        } else {
+            // Hide stats box for lose screen
+            statsElement.style.display = 'none';
+        }
     }
     
     console.log(`Game over screen shown with result: ${result}${levelNumber ? ` for level ${levelNumber}` : ''}`);
@@ -371,7 +379,7 @@ const debriefMessages = {
     },
     2: {
         win: "Outstanding! You've cleaned up the sewage! Did you know? Sewage pollution lowers oxygen in rivers, which can suffocate fish and other wildlife.",
-        lose: "The rapids proved challenging, but every fish learns from flowing water. Level 2 teaches patience and timing. You'll master it soon!"
+        lose: "The poop got you."
     },
     3: {
         win: "Impressive work! You've cleared the fast food containers! Did you know? Single-use packaging is one of the most common forms of river litter.",
@@ -386,7 +394,7 @@ const debriefMessages = {
         lose: "Level 5's deep waters are challenging indeed. But every great river defender faced deep currents. Your determination will carry you through!"
     },
     6: {
-        win: "Extraordinary! You've purified level 6's complex currents. Your mastery of river defense is undeniable. The advanced ecosystem thanks you!",
+        win: "Extraordinary! That was a tricky one. The ecosystem thanks you!",
         lose: "Level 6's complex patterns are difficult to master. But complexity is just many simple patterns combined. Break it down and try again!"
     },
     7: {
@@ -394,8 +402,8 @@ const debriefMessages = {
         lose: "Level 7's treacherous waters are not for the faint-hearted. But legends are made by those who face the greatest challenges. Rise to the occasion!"
     },
     8: {
-        win: "Masterful! You've conquered level 8's extreme conditions. Your river defense skills are now legendary. The entire watershed is in awe!",
-        lose: "Level 8's extreme conditions push even the best defenders to their limits. But the greatest rivers flow through the toughest terrain. Persevere!"
+        win: "Masterful! You've conquered the wall of poop! Your river defense skills are now legendary. The entire watershed is in awe!",
+        lose: "Those zombie fish are deadly - don't let them get to you!"
     },
     9: {
         win: "Incredible! Level 9's ultimate challenge has been overcome. You're now a river defense virtuoso. The entire aquatic world celebrates your victory!",

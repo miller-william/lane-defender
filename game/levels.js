@@ -29,7 +29,7 @@ function expandBulkSpawnEvents(spawnEvents) {
     for (const event of spawnEvents) {
         if (event.count && event.count > 1) {
             // This is a bulk spawn event - expand it
-            const interval = event.interval || 500; // default 500ms interval
+            const interval = event.interval ?? 500; // allow 0ms (simultaneous); default 500ms if null/undefined
             const baseTime = event.time;
             
             for (let i = 0; i < event.count; i++) {

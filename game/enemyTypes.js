@@ -33,6 +33,17 @@ export const ENEMY_TYPES = {
         bonus: null,
         glowColour: null
     },
+    zombie: {
+        radius: 20,
+        defaultHealth: 1,
+        defaultSpeed: 0.2, // 60% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 1.5,
+        color: 'white', 
+        image: 'assets/images/zombie.png', 
+        behaviour: 'zigzag',
+        bonus: null,
+        glowColour: null
+    },
     cup: {
         radius: 20,
         defaultHealth: 1,

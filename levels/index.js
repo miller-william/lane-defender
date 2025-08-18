@@ -5,6 +5,8 @@ import level4 from './level4.js';
 import level5 from './level5.js';
 import level6 from './level6.js';
 import level7 from './level7.js';
+import level8 from './level8.js';
+import level9 from './level9.js';
 
 // Placeholder levels for 6-10
 const placeholderLevel = {
@@ -23,7 +25,7 @@ export const LEVELS = {
     5: level5,
     6: level6,
     7: level7,
-    8: placeholderLevel,
-    9: placeholderLevel,
+    8: level8,
+    9: level9,
     10: placeholderLevel
 }; 
