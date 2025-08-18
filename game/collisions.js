@@ -29,18 +29,33 @@ function applyEnemyBonus(enemy) {
     
     switch (bonus.type) {
         case 'fireRate':
-            text = `Fire Rate +${Math.abs(bonus.value)}ms`;
-            color = '#00ffcc'; // Cyan for fire rate
+            if (bonus.value > 0) {
+                text = 'Slower Fire Rate';
+                color = '#ff6666'; // Red for slower
+            } else {
+                text = 'Faster Fire Rate';
+                color = '#00ffcc'; // Cyan for faster
+            }
             break;
             
         case 'damage':
-            text = `Damage +${bonus.value}`;
-            color = '#ff00ff'; // Magenta for damage
+            if (bonus.value > 0) {
+                text = 'More Power!';
+                color = '#ff00ff'; // Magenta for damage
+            } else {
+                text = 'Less Power!';
+                color = '#ff6666'; // Red for weaker
+            }
             break;
             
         case 'spread':
-            text = `Spread +${bonus.value}`;
-            color = '#00ffff'; // Cyan for spread
+            if (bonus.value > 0) {
+                text = 'More Bullets';
+                color = '#00ffff'; // Cyan for spread
+            } else {
+                text = 'Fewer Bullets';
+                color = '#ff6666'; // Red for less
+            }
             break;
             
         default:
@@ -87,6 +102,12 @@ export function handleCollisions() {
                     // Spawn particles at enemy position
                     const enemy = enemies[j];
                     spawnParticles(enemy.x, enemy.y, enemy.color || '#ff8800', 15);
+                    
+                    // Check for text popup and spawn it if present
+                    if (enemy.text_popup) {
+                        console.log(`Spawning text popup: "${enemy.text_popup}" for ${enemy.type} enemy`);
+                        spawnTextParticle(enemy.x, enemy.y - enemy.radius - 20, enemy.text_popup, '#ffff00');
+                    }
                     
                     // Apply bonus before removing enemy
                     applyEnemyBonus(enemies[j]);

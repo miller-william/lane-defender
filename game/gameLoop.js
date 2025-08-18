@@ -5,7 +5,7 @@ import { createBullet, updateBullets, drawBullets } from './bullets.js';
 import { updateEnemies, drawEnemies } from './enemies.js';
 import { handleCollisions } from './collisions.js';
 import { drawPlayer } from './player.js';
-import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground, drawActiveBonuses } from './ui.js';
+import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground, drawActiveBonuses, drawDamageFlash } from './ui.js';
 import { updateLevel } from './levels.js';
 import { updateParticles, drawParticles } from './particles.js';
 import { updateUpgradeBanner, drawUpgradeBanner } from './upgrades.js';
@@ -64,6 +64,9 @@ export function gameLoop(currentTime = performance.now()) {
     drawUpgradeBanner(ctx); // Draw upgrade banner on top
     drawPlayerHealth(ctx);
     drawActiveBonuses(ctx); // Draw active bonuses
+    
+    // Draw damage flash effect on top of everything
+    drawDamageFlash(ctx);
     
     // Continue game loop
     requestAnimationFrame(gameLoop);

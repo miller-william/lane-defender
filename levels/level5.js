@@ -6,7 +6,7 @@ export default {
     spawnEvents: [
         // Opening zigzag wave
         {
-            time: 2000,
+            time: 8000,
             enemyType: 'cup',
             count: 4,
             interval: 600,
@@ -20,25 +20,18 @@ export default {
 
         // Trap upgrade fatberg
         {
-            time: 6000,
-            enemyType: 'fatberg',
+            time: 12000,
+            enemyType: 'ducks',
             count: 1,
             modifiers: {
-                behaviour: 'straight',
-                radius: 100,
-                defaultHealth: 20,
-                defaultSpeed: 0.045,
-                defaultDamage: 0,
-                glowColour: '#ff4444',
-                bonus: [
-                    { type: 'fireRate', value: 50 } // slower shooting (bad)
-                ]
+                health: 30,
+                speed: 0.045,
             }
         },
 
         // Mixed mid-pressure wave
         {
-            time: 10000,
+            time: 16000,
             enemyType: 'poop',
             count: 3,
             interval: 500,
@@ -48,7 +41,7 @@ export default {
             }
         },
         {
-            time: 11500,
+            time: 17500,
             enemyType: 'crisps',
             count: 3,
             interval: 400,
@@ -60,9 +53,9 @@ export default {
 
         // High-speed closing swarm
         {
-            time: 14000,
+            time: 20000,
             enemyType: 'cup',
-            count: 4,
+            count: 2,
             interval: 350,
             modifiers: {
                 behaviour: 'zigzag',
@@ -72,7 +65,7 @@ export default {
             }
         },
         {
-            time: 15000,
+            time: 21000,
             enemyType: 'poop',
             count: 2,
             interval: 500,

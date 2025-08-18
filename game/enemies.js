@@ -1,5 +1,6 @@
 import { CANVAS_WIDTH, CANVAS_HEIGHT, ENEMY_RADIUS, ENEMY_SPEED } from './constants.js';
 import { enemies, enemyHealth, player, gameOver, setEnemies, setPlayerHealth, setGameOver } from './state.js';
+import { triggerDamageFlash } from './ui.js';
 import { ENEMY_TYPES } from './enemyTypes.js';
 
 // Enemy management
@@ -33,7 +34,8 @@ export function createEnemyFromSpawnEvent(event) {
         imageSrc: enemyType.image,
         bonus: enemyType.bonus,
         behaviour: enemyType.behaviour,
-        glowColour: enemyType.glowColour
+        glowColour: enemyType.glowColour,
+        text_popup: enemyType.text_popup
     };
     
     // Apply modifiers if they exist (shallow merge)
@@ -61,7 +63,8 @@ export function createEnemyFromSpawnEvent(event) {
         type: event.enemyType,
         behaviour: finalConfig.behaviour,
         bonus: finalConfig.bonus,
-        glowColour: finalConfig.glowColour
+        glowColour: finalConfig.glowColour,
+        text_popup: finalConfig.text_popup
     };
     
     // Add zigzag properties if behavior is zigzag
@@ -78,7 +81,7 @@ export function createEnemyFromSpawnEvent(event) {
     const newEnemies = [...enemies, enemy];
     setEnemies(newEnemies);
     
-    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed} (canvas height/sec), radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}, glow=${finalConfig.glowColour || 'none'}, behaviour=${finalConfig.behaviour}`);
+    console.log(`Spawned ${event.enemyType} enemy: health=${finalConfig.health}, speed=${finalConfig.speed} (canvas height/sec), radius=${finalConfig.radius}, damage=${finalConfig.damage}, color=${finalConfig.color}, glow=${finalConfig.glowColour || 'none'}, behaviour=${finalConfig.behaviour}, text_popup=${finalConfig.text_popup || 'none'}`);
 }
 
 export function updateEnemies(deltaTime) {
@@ -117,6 +120,10 @@ export function updateEnemies(deltaTime) {
             const damage = enemy.damage || 1; // fallback to 1 if damage is undefined
             const newHealth = player.health - damage;
             setPlayerHealth(newHealth);
+            
+            // Trigger damage flash effect
+            triggerDamageFlash();
+            
             console.log(`Enemy reached bottom! Player took ${damage} damage. Health: ${newHealth}`);
             if (newHealth <= 0) {
                 setGameOver(true);

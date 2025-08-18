@@ -7,6 +7,12 @@ const backgroundCache = {};
 let backgroundOffset = 0;
 const backgroundScrollSpeed = -0.5; // negative scroll speed
 
+// Damage flash effect system
+let damageFlashActive = false;
+let damageFlashStartTime = 0;
+const damageFlashDuration = 300; // milliseconds
+const damageFlashColor = 'rgba(139, 69, 19, 0.4)'; // Semi-transparent brown (saddle brown)
+
 export function drawBackground(ctx) {
     const currentLevel = getCurrentLevel();
     console.log('Current level data:', currentLevel);
@@ -89,24 +95,128 @@ export function drawBackground(ctx) {
     }
 }
 
+// Trigger damage flash effect
+export function triggerDamageFlash() {
+    damageFlashActive = true;
+    damageFlashStartTime = performance.now();
+    console.log('Damage flash triggered');
+}
+
+// Draw damage flash effect if active
+export function drawDamageFlash(ctx) {
+    if (!damageFlashActive) return;
+    
+    const currentTime = performance.now();
+    const elapsed = currentTime - damageFlashStartTime;
+    
+    if (elapsed >= damageFlashDuration) {
+        // Flash duration expired, deactivate
+        damageFlashActive = false;
+        return;
+    }
+    
+    // Calculate flash intensity (fade out over time)
+    const remainingTime = damageFlashDuration - elapsed;
+    const intensity = Math.min(1, remainingTime / damageFlashDuration);
+    
+    // Create semi-transparent brown pollution overlay
+    ctx.fillStyle = `rgba(139, 69, 19, ${0.4 * intensity})`;
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
+
 export function drawPlayerHealth(ctx) {
     const barWidth = 200;
     const barHeight = 20;
     const x = 20;
     const y = 20;
 
-    // Background
-    ctx.fillStyle = '#333';
+    // Background (darker blue for river bed)
+    ctx.fillStyle = '#1a4a6b';
     ctx.fillRect(x, y, barWidth, barHeight);
 
-    // Health
+    // Health (river water - blue gradient or dark green when depleted)
     const healthRatio = player.health / player.maxHealth;
-    ctx.fillStyle = '#00ff00';
-    ctx.fillRect(x, y, barWidth * healthRatio, barHeight);
+    if (healthRatio > 0) {
+        // Create wavy river water effect
+        ctx.beginPath();
+        
+        // Start at the left edge
+        ctx.moveTo(x, y);
+        
+        // Create wavy top edge that follows the health ratio
+        const waveAmplitude = 2; // Height of the waves
+        const waveFrequency = 0.1; // How many waves
+        const currentWidth = barWidth * healthRatio; // Width based on current health
+        
+        for (let i = 0; i <= currentWidth; i += 2) {
+            const waveY = y + Math.sin(i * waveFrequency) * waveAmplitude;
+            ctx.lineTo(x + i, waveY);
+        }
+        
+        // Create wavy bottom edge that follows the health ratio
+        for (let i = currentWidth; i >= 0; i -= 2) {
+            const waveY = y + barHeight + Math.sin(i * waveFrequency) * waveAmplitude;
+            ctx.lineTo(x + i, waveY);
+        }
+        
+        // Close the path back to the start
+        ctx.closePath();
+        
+        // Fill with water gradient
+        const waterGradient = ctx.createLinearGradient(x, y, x + currentWidth, y);
+        waterGradient.addColorStop(0, '#4a90e2');      // Light blue
+        waterGradient.addColorStop(0.5, '#87ceeb');    // Sky blue
+        waterGradient.addColorStop(1, '#b0e0e6');      // Powder blue
+        ctx.fillStyle = waterGradient;
+        ctx.fill();
+    } else {
+        // Dark green when health is completely depleted
+        ctx.fillStyle = '#0d4d0d';
+        ctx.fillRect(x, y, barWidth, barHeight);
+    }
 
-    // Border
-    ctx.strokeStyle = '#ffffff';
-    ctx.strokeRect(x, y, barWidth, barHeight);
+    // Border (river bank - sandy brown) - also wavy
+    ctx.strokeStyle = '#d2b48c';
+    ctx.lineWidth = 2;
+    
+    // Draw wavy border
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    
+    // Top edge waves
+    const waveAmplitude = 2;
+    const waveFrequency = 0.1;
+    for (let i = 0; i <= barWidth; i += 2) {
+        const waveY = y + Math.sin(i * waveFrequency) * waveAmplitude;
+        ctx.lineTo(x + i, waveY);
+    }
+    
+    // Right edge
+    ctx.lineTo(x + barWidth, y + barHeight);
+    
+    // Bottom edge waves
+    for (let i = barWidth; i >= 0; i -= 2) {
+        const waveY = y + barHeight + Math.sin(i * waveFrequency) * waveAmplitude;
+        ctx.lineTo(x + i, waveY);
+    }
+    
+    // Left edge
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    // "River Health" text overlay with black outline for better visibility
+    ctx.font = 'bold 12px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Draw black outline first
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 3;
+    ctx.strokeText('River Health', x + barWidth / 2, y + barHeight / 2);
+    
+    // Draw white text on top
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('River Health', x + barWidth / 2, y + barHeight / 2);
 }
 
 // Draw active player bonuses

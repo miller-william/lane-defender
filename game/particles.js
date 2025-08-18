@@ -56,15 +56,15 @@ class TextParticle {
         this.text = text;
         this.color = color;
         
-        // Float upward
-        this.dy = -1;
+        // Float upward (slower for better visibility)
+        this.dy = -0.5;
         
         // Lifetime
-        this.lifetime = 2.0; // seconds
+        this.lifetime = 3.0; // seconds (longer for better visibility)
         this.maxLifetime = this.lifetime;
         
         // Font size
-        this.fontSize = 16;
+        this.fontSize = 20;
     }
     
     update(deltaTime) {

@@ -6,7 +6,7 @@ export default {
     spawnEvents: [
         // Initial minions
         {
-            time: 12000,
+            time: 15000,
             enemyType: 'roll',
             count: 4,
             interval: 2000,
@@ -15,9 +15,18 @@ export default {
                 glowColour: null
             }
         },
+        {
+            time: 18000,
+            enemyType: 'ducks',
+            count: 1,
+            modifiers: {
+                health: 15,
+                speed: 0.045,
+            }
+        },
         // Initial minions
         {
-            time: 25000,
+            time: 28000,
             enemyType: 'roll',
             count: 8,
             interval: 1000,
@@ -29,7 +38,7 @@ export default {
         
         // Final boss
         {
-            time: 35000,
+            time: 38000,
             enemyType: 'trolley',
             count: 1,
             modifiers: {

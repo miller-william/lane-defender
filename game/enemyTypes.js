@@ -74,11 +74,23 @@ export const ENEMY_TYPES = {
         color: 'silver', // fire orange fallback
         image: 'assets/images/fatberg.png', 
         behaviour: 'straight',
-        bonus: {
-            type: 'damage',
-            value: 2 
-        },
+        bonus: null,
         glowColour: '#00ffcc' // cyan glow for fire rate bonus
+    },
+    ducks: {
+        radius: 90,
+        defaultHealth: 10,
+        defaultSpeed: 0.07, // 20% of canvas height per second (adjusted for real delta time)
+        defaultDamage: 0,
+        color: '#ffaa00', // Orange color for ducks
+        image: 'assets/images/ducks.png', 
+        behaviour: 'zigzag',
+        bonus: {
+            type: 'fireRate',
+            value: +100 // increase fire rate by 50ms
+        },
+        glowColour: '#00ffcc', // cyan glow for fire rate bonus
+        text_popup: "Oh no! That was a duck family 🦆💔"
     },
     basic: {
         radius: 20,

@@ -196,13 +196,13 @@ function renderLevelButtons() {
             button.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                startLevel(i);
+                startLevelInMenu(i);
             }, { passive: false });
             
             // Keep click for desktop
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                startLevel(i);
+                startLevelInMenu(i);
             });
         }
         
@@ -240,7 +240,7 @@ function addPerfectLegend() {
 }
 
 // Start a specific level
-function startLevel(levelNumber) {
+function startLevelInMenu(levelNumber) {
     currentLevel = levelNumber;
     lastPlayedLevel = levelNumber; // Track this as the last played level
     gameResult = null; // Reset game result
@@ -583,12 +583,12 @@ function handleRetryLevel() {
         resetGameState();
         
         // Restart the same level
-        startLevel(lastPlayedLevel);
+        startLevelInMenu(lastPlayedLevel);
     } else {
         // Fallback to current level or level 1
         const levelToStart = currentLevel || 1;
         console.log(`No last played level, starting level ${levelToStart}`);
-        startLevel(levelToStart);
+        startLevelInMenu(levelToStart);
     }
 }
 
@@ -614,7 +614,7 @@ function handleNextLevel() {
             }
             
             resetGameState();
-            startLevel(nextLevel);
+            startLevelInMenu(nextLevel);
         } else {
             console.log('No more levels available');
             showMenu();
@@ -632,7 +632,7 @@ function handleNextLevel() {
         }
         
         resetGameState();
-        startLevel(2);
+        startLevelInMenu(2);
     }
 }
 
@@ -670,6 +670,12 @@ export function getCurrentLevel() {
 // Get last played level
 export function getLastPlayedLevel() {
     return lastPlayedLevel;
+}
+
+// Set last played level (for updating when level is completed)
+export function setLastPlayedLevel(levelNumber) {
+    lastPlayedLevel = levelNumber;
+    console.log(`Last played level set to ${levelNumber}`);
 }
 
 // Get game result
