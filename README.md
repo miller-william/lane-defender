@@ -4,6 +4,8 @@
 
 A pixel art tower defense game where you defend against waves of enemies using water-based attacks!
 
+![Main Menu](assets/menu.png)
+
 ## 🎮 Game Concept
 
 River Revival is a vertical shooter/tower defense game with a unique water theme. Players control a defender who shoots water droplets at incoming enemies, with the goal of protecting the environment from pollution and waste.
