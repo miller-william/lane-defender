@@ -5,8 +5,8 @@ import { createBullet, updateBullets, drawBullets } from './bullets.js';
 import { updateEnemies, drawEnemies } from './enemies.js';
 import { handleCollisions } from './collisions.js';
 import { drawPlayer } from './player.js';
-import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground, drawActiveBonuses } from './ui.js';
-import { updateLevel } from './levels.js';
+import { drawPlayerHealth, drawGameOver, drawWinScreen, drawBackground, drawActiveBonuses, drawDamageFlash } from './ui.js';
+import { updateLevel, getCurrentLevelNumber } from './levels.js';
 import { updateParticles, drawParticles } from './particles.js';
 import { updateUpgradeBanner, drawUpgradeBanner } from './upgrades.js';
 import { showGameOver } from './menu.js';
@@ -35,7 +35,8 @@ export function gameLoop(currentTime = performance.now()) {
         // Player lost - stop game loop and show game over screen
         console.log('Game over triggered - player lost');
         gameLoopActive = false;
-        setTimeout(() => showGameOver('lose'), 100);
+        const currentLevel = getCurrentLevelNumber();
+        setTimeout(() => showGameOver('lose', currentLevel), 100);
         return; // stop loop
     }
     
@@ -64,6 +65,9 @@ export function gameLoop(currentTime = performance.now()) {
     drawUpgradeBanner(ctx); // Draw upgrade banner on top
     drawPlayerHealth(ctx);
     drawActiveBonuses(ctx); // Draw active bonuses
+    
+    // Draw damage flash effect on top of everything
+    drawDamageFlash(ctx);
     
     // Continue game loop
     requestAnimationFrame(gameLoop);

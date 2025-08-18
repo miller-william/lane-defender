@@ -1,7 +1,7 @@
 import { initializeInput } from './game/input.js';
 import { initializeGameLoop, startGameLoop } from './game/gameLoop.js';
 import { startLevel } from './game/levels.js';
-import { initializeMenu, setGameFunctions, showGameOver, resetUnlockedLevel, unlockLevel, testPersistentStorage } from './game/menu.js';
+import { initializeMenu, setGameFunctions, showGameOver, resetUnlockedLevel, unlockLevel, testPersistentStorage, setLastPlayedLevel } from './game/menu.js';
 import { 
     setBullets, setEnemies, setPlayerHealth, setGameOver, 
     setLevelComplete, setBulletDamage, setBulletFireRate, 
@@ -61,6 +61,22 @@ function handleLevelCompletion(levelNumber) {
         console.log(`🎉 Level ${levelNumber} completed perfectly!`);
     }
     
+    // Update the last played level to the completed level
+    // This ensures "Play Next Level" works correctly
+    if (window.setLastPlayedLevel) {
+        window.setLastPlayedLevel(levelNumber);
+        console.log(`📝 Last played level updated to ${levelNumber}`);
+    }
+    
+    // Unlock the next level immediately when level is completed
+    // This ensures the level is unlocked regardless of whether the player
+    // clicks "Play Next Level" or "Main Menu"
+    if (window.unlockLevel && levelNumber < 10) { // Assuming max 10 levels
+        const nextLevel = levelNumber + 1;
+        window.unlockLevel(nextLevel);
+        console.log(`🔓 Level ${nextLevel} unlocked automatically!`);
+    }
+    
     showGameOver('win', levelNumber);
 }
 
@@ -79,6 +95,7 @@ function initializeGame() {
     window.resetUnlockedLevel = resetUnlockedLevel;
     window.unlockLevel = unlockLevel;
     window.testPersistentStorage = testPersistentStorage;
+    window.setLastPlayedLevel = setLastPlayedLevel;
 }
 
 // Start the game when the page loads

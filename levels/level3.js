@@ -7,7 +7,7 @@ export default {
         
         // Basic wave
         {
-            time: 8000,
+            time: 10000,
             enemyType: 'poop',
             count: 3,
             interval: 800,
@@ -17,7 +17,7 @@ export default {
             }
         },
         {
-            time: 8400,
+            time: 10400,
             enemyType: 'crisps',
             count: 3,
             interval: 800,
@@ -29,7 +29,7 @@ export default {
         
         // Fast wave
         {
-            time: 9000,
+            time: 11000,
             enemyType: 'cup',
             count: 2,
             modifiers: {
@@ -40,7 +40,7 @@ export default {
         
         // Final swarm
         {
-            time: 11000,
+            time: 13000,
             enemyType: 'poop',
             count: 3,
             modifiers: {
@@ -51,7 +51,7 @@ export default {
             interval: 400
         },
         {
-            time: 13000,
+            time: 15000,
             enemyType: 'cup',
             count: 2,
             modifiers: {
@@ -62,7 +62,7 @@ export default {
         
         // Final swarm
         {
-            time: 14000,
+            time: 16000,
             enemyType: 'poop',
             count: 4,
             interval: 400,

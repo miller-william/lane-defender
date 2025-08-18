@@ -196,13 +196,13 @@ function renderLevelButtons() {
             button.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                startLevel(i);
+                startLevelInMenu(i);
             }, { passive: false });
             
             // Keep click for desktop
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                startLevel(i);
+                startLevelInMenu(i);
             });
         }
         
@@ -240,7 +240,7 @@ function addPerfectLegend() {
 }
 
 // Start a specific level
-function startLevel(levelNumber) {
+function startLevelInMenu(levelNumber) {
     currentLevel = levelNumber;
     lastPlayedLevel = levelNumber; // Track this as the last played level
     gameResult = null; // Reset game result
@@ -355,9 +355,17 @@ export function showGameOver(result = 'lose', levelNumber = null) {
     // Update mission debrief
     updateMissionDebrief(result, levelNumber);
     
-    // Populate stats for win screen
-    if (result === 'win') {
-        populateLevelStats(levelNumber);
+    // Handle stats box visibility
+    const statsElement = document.getElementById('levelStats');
+    if (statsElement) {
+        if (result === 'win') {
+            // Show and populate stats for win screen
+            statsElement.style.display = 'block';
+            populateLevelStats(levelNumber);
+        } else {
+            // Hide stats box for lose screen
+            statsElement.style.display = 'none';
+        }
     }
     
     console.log(`Game over screen shown with result: ${result}${levelNumber ? ` for level ${levelNumber}` : ''}`);
@@ -370,23 +378,23 @@ const debriefMessages = {
         lose: "Don't worry, rookie fish! Level 1 is just the beginning. Even the most experienced defenders started with simple streams. Try again and show the river your determination!"
     },
     2: {
-        win: "Excellent progress! You've cleared the gentle rapids of level 2. The water flows more freely now, and the local fish are grateful for your protection!",
-        lose: "The rapids proved challenging, but every fish learns from flowing water. Level 2 teaches patience and timing. You'll master it soon!"
+        win: "Outstanding! You've cleaned up the sewage! Did you know? Sewage pollution lowers oxygen in rivers, which can suffocate fish and other wildlife.",
+        lose: "The poop got you."
     },
     3: {
-        win: "Impressive work! Level 3's moderate currents are now pure. You're developing into a skilled river defender. The ecosystem is thriving under your watch!",
+        win: "Impressive work! You've cleared the fast food containers! Did you know? Single-use packaging is one of the most common forms of river litter.",
         lose: "The moderate currents of level 3 can be tricky. Remember, even the strongest rivers started as small streams. Keep flowing forward!"
     },
     4: {
-        win: "Outstanding! You've conquered level 4's stronger currents. Your fishy skills are growing legendary. The river's middle reaches are now crystal clear!",
+        win: "Outstanding! You've cleaned up the chemical waste barrels! Chemicals dumped in rivers can devastate ecosystems.",
         lose: "Level 4's stronger currents tested your limits. But remember, the river doesn't flow in straight lines. Adapt and overcome!"
     },
     5: {
-        win: "Magnificent! Level 5's challenging waters are now pristine. You're becoming a true river master. The deep pools are safe once more!",
+        win: "Magnificent! Level 5's challenging waters are now pristine. Did you keep the ducks alive? Ducks are a symbol of the river's health.",
         lose: "Level 5's deep waters are challenging indeed. But every great river defender faced deep currents. Your determination will carry you through!"
     },
     6: {
-        win: "Extraordinary! You've purified level 6's complex currents. Your mastery of river defense is undeniable. The advanced ecosystem thanks you!",
+        win: "Extraordinary! That was a tricky one. The ecosystem thanks you!",
         lose: "Level 6's complex patterns are difficult to master. But complexity is just many simple patterns combined. Break it down and try again!"
     },
     7: {
@@ -394,8 +402,8 @@ const debriefMessages = {
         lose: "Level 7's treacherous waters are not for the faint-hearted. But legends are made by those who face the greatest challenges. Rise to the occasion!"
     },
     8: {
-        win: "Masterful! You've conquered level 8's extreme conditions. Your river defense skills are now legendary. The entire watershed is in awe!",
-        lose: "Level 8's extreme conditions push even the best defenders to their limits. But the greatest rivers flow through the toughest terrain. Persevere!"
+        win: "Masterful! You've conquered the wall of poop! Your river defense skills are now legendary. The entire watershed is in awe!",
+        lose: "Those zombie fish are deadly - don't let them get to you!"
     },
     9: {
         win: "Incredible! Level 9's ultimate challenge has been overcome. You're now a river defense virtuoso. The entire aquatic world celebrates your victory!",
@@ -583,12 +591,12 @@ function handleRetryLevel() {
         resetGameState();
         
         // Restart the same level
-        startLevel(lastPlayedLevel);
+        startLevelInMenu(lastPlayedLevel);
     } else {
         // Fallback to current level or level 1
         const levelToStart = currentLevel || 1;
         console.log(`No last played level, starting level ${levelToStart}`);
-        startLevel(levelToStart);
+        startLevelInMenu(levelToStart);
     }
 }
 
@@ -614,7 +622,7 @@ function handleNextLevel() {
             }
             
             resetGameState();
-            startLevel(nextLevel);
+            startLevelInMenu(nextLevel);
         } else {
             console.log('No more levels available');
             showMenu();
@@ -632,7 +640,7 @@ function handleNextLevel() {
         }
         
         resetGameState();
-        startLevel(2);
+        startLevelInMenu(2);
     }
 }
 
@@ -670,6 +678,12 @@ export function getCurrentLevel() {
 // Get last played level
 export function getLastPlayedLevel() {
     return lastPlayedLevel;
+}
+
+// Set last played level (for updating when level is completed)
+export function setLastPlayedLevel(levelNumber) {
+    lastPlayedLevel = levelNumber;
+    console.log(`Last played level set to ${levelNumber}`);
 }
 
 // Get game result

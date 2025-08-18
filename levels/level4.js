@@ -6,7 +6,7 @@ export default {
     spawnEvents: [
         // Opening wave – familiar enemies
         {
-            time: 3000,
+            time: 8000,
             enemyType: 'crisps',
             count: 4,
             interval: 600,
@@ -16,36 +16,36 @@ export default {
             }
         },
 
-        // First fatberg introduction
+        // First barrels introduction
         {
-            time: 7000,
-            enemyType: 'fatberg',
+            time: 12000,
+            enemyType: 'barrels',
             count: 1,
             modifiers: {
                 behaviour: 'straight',
                 radius: 90,
-                defaultHealth: 15,
-                defaultSpeed: 0.05,
-                defaultDamage: 2,
+                health: 40,
+                speed: 0.05,
+                damage: 2,
             }
 
          },
 
         // Mix wave
         {
-            time: 11000,
+            time: 15000,
             enemyType: 'cup',
             count: 3,
             interval: 500,
             modifiers: {
                 behaviour: 'zigzag',
                 health: 1,
-                defaultSpeed: 0.12
+                speed: 0.12
             }
         },
 
         {
-            time: 13000,
+            time: 18000,
             enemyType: 'poop',
             count: 3,
             interval: 500,
@@ -55,24 +55,24 @@ export default {
             }
         },
 
-        // Second fatberg with no bonus
+        // Second barrels with no bonus
         {
-            time: 16000,
-            enemyType: 'fatberg',
+            time: 21000,
+            enemyType: 'barrels',
             count: 1,
             modifiers: {
                 behaviour: 'straight',
-                radius: 100,
-                defaultHealth: 30,
-                defaultSpeed: 0.045,
-                defaultDamage: 2,
+                radius: 200,
+                health: 70,
+                speed: 0.045,
+                damage: 2,
                 glowColour: '#ddaa00'
             }
         },
 
         // Final cluttered swarm
         {
-            time: 19000,
+            time: 25000,
             enemyType: 'crisps',
             count: 3,
             interval: 400,
@@ -82,13 +82,13 @@ export default {
             }
         },
         {
-            time: 20000,
+            time: 27000,
             enemyType: 'cup',
             count: 1,
             interval: 500,
             modifiers: {
                 behaviour: 'straight',
-                defaultSpeed: 0.14
+                speed: 0.14
             }
         }
     ],
