@@ -12,14 +12,9 @@ import {
 
 // Function to draw board image
 function drawBoard(ctx, x, y, width, height) {
-    console.log(`drawBoard called with: x=${x}, y=${y}, width=${width}, height=${height}`);
-    
     if (!boardImage) {
-        console.log('Board image not loaded yet!');
         return;
     }
-    
-    console.log(`Board image loaded: ${boardImage.width}x${boardImage.height}`);
     
     // Save context
     ctx.save();
@@ -31,17 +26,12 @@ function drawBoard(ctx, x, y, width, height) {
     let drawWidth = width * 1.2; // 20% wider than allocated space
     let drawHeight = drawWidth / aspectRatio;
     
-    console.log(`Aspect ratio: ${aspectRatio}, Full width draw: ${drawWidth}x${drawHeight}`);
-    
     // No height restriction - let the board scale naturally
     // Center the board horizontally in the allocated space
     const offsetX = x + (width - drawWidth) / 2; // Center horizontally
     const offsetY = y + (height - drawHeight) / 2; // Center vertically
     
-    console.log(`Final draw: offsetX=${offsetX}, offsetY=${offsetY}, drawWidth=${drawWidth}, drawHeight=${drawHeight}`);
-    
     ctx.drawImage(boardImage, offsetX, offsetY, drawWidth, drawHeight);
-    console.log('Board drawn successfully!');
     
     // Restore context
     ctx.restore();
@@ -58,7 +48,7 @@ frogBannerImg.onload = function() {
     console.log('Frog banner image loaded successfully');
 };
 frogBannerImg.onerror = function() {
-    console.error('Failed to load frog banner image');
+    console.log('Frog banner image not found - using fallback');
 };
 frogBannerImg.src = 'assets/images/frog_banner.png';
 
@@ -68,7 +58,7 @@ scientistBannerImg.onload = function() {
     console.log('Scientist banner image loaded successfully');
 };
 scientistBannerImg.onerror = function() {
-    console.error('Failed to load scientist banner image');
+    console.log('Scientist banner image not found - using fallback');
 };
 scientistBannerImg.src = 'assets/images/scientist_banner.png';
 

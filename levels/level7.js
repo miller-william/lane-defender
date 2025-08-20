@@ -6,7 +6,7 @@ export default {
     spawnEvents: [
         // Initial minions
         {
-            time: 15000,
+            time: 10000,
             enemyType: 'roll',
             count: 8,
             interval: 0,
@@ -17,7 +17,7 @@ export default {
         },
         // Initial minions
         {
-            time: 25000,
+            time: 20000,
             enemyType: 'roll',
             count: 8,
             interval: 1000,
@@ -29,7 +29,7 @@ export default {
         
         // Final boss
         {
-            time: 35000,
+            time: 30000,
             enemyType: 'trolley',
             count: 1,
             modifiers: {
@@ -38,9 +38,9 @@ export default {
         },
 
         {
-            time: 45000,
+            time: 40000,
             enemyType: 'poop',
-            count: 8,
+            count: 6,
             interval: 100,
             modifiers: {
                 health: 3,
@@ -49,15 +49,15 @@ export default {
                 glowColour: null
             }
         },
-        // Initial minions
+        // final minions
         {
-            time: 55000,
+            time: 50000,
             enemyType: 'crisps',
             count: 2,
             interval: 1000,
             modifiers: {
                 health: 2,
-                speed: 1.5,
+                speed: 0.8,
                 movement: 'zigzag',
                 bonus: null,
                 glowColour: null
@@ -69,9 +69,9 @@ export default {
         {
             time: 1000,
             type: 'upgradeChoice',
-            bannerSpeed: 0.1, // Slow banner for easy reading
+            bannerSpeed: 0.2, // Slow banner for easy reading
             leftBonus: [ // faster 
-                { type: 'damage', value: 1 },
+                { type: 'damage', value: 2 },
 
             ],
             rightBonus: [ // more spread

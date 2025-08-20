@@ -15,7 +15,6 @@ const damageFlashColor = 'rgba(139, 69, 19, 0.4)'; // Semi-transparent brown (sa
 
 export function drawBackground(ctx) {
     const currentLevel = getCurrentLevel();
-    console.log('Current level data:', currentLevel);
     
     if (!currentLevel || !currentLevel.background) {
         // Default background
@@ -34,19 +33,16 @@ export function drawBackground(ctx) {
     // Check if level has a background image
     if (currentLevel.backgroundImage) {
         const imagePath = currentLevel.backgroundImage;
-        console.log(`Loading background image: ${imagePath}`);
         
         // Load image if not cached
         if (!backgroundCache[imagePath]) {
             const img = new Image();
             img.src = imagePath;
             backgroundCache[imagePath] = img;
-            console.log(`Caching new background image: ${imagePath}`);
         }
 
         const img = backgroundCache[imagePath];
         if (img.complete && img.naturalWidth > 0) {
-            console.log(`Drawing background image: ${imagePath}, size: ${img.naturalWidth}x${img.naturalHeight}`);
             // Calculate image dimensions to fill canvas width
             const imageAspectRatio = img.naturalWidth / img.naturalHeight;
             const canvasAspectRatio = CANVAS_WIDTH / CANVAS_HEIGHT;
@@ -76,9 +72,6 @@ export function drawBackground(ctx) {
 
             // Update scroll position with modulo to keep it safely within range
             backgroundOffset = (backgroundOffset + backgroundScrollSpeed) % drawHeight;
-            
-            // Debug: log the direction and offset
-            console.log(`Background flowing DOWNWARD, offset: ${backgroundOffset.toFixed(2)}`);
         } else {
             // Fallback to base color while image loads
             if (baseColor && baseColor.startsWith('#')) {

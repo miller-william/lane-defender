@@ -6,9 +6,19 @@ export default {
     spawnEvents: [
         // Initial minions
         {
-            time: 15000,
+            time: 10000,
             enemyType: 'roll',
-            count: 4,
+            count: 6,
+            interval: 2000,
+            modifiers: {
+                bonus: null,
+                glowColour: null
+            }
+        },
+        {
+            time: 10000,
+            enemyType: 'roll',
+            count: 6,
             interval: 2000,
             modifiers: {
                 bonus: null,
@@ -54,9 +64,9 @@ export default {
     upgradeEvents: [
         // Test multiple upgrades vs nothing
         {
-            time: 3000,
+            time: 100,
             type: 'upgradeChoice',
-            bannerSpeed: 0.1, // Slow banner for easy reading
+            bannerSpeed: 0.2, // Slow banner for easy reading
             leftBonus: [ // faster 
                 { type: 'fireRate', value: -200 },
 

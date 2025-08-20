@@ -2821,6 +2821,77 @@ html, body {
         0 5px 15px rgba(74, 144, 226, 0.4);
 }
 
+/* Level 1 Popup Styles */
+#level1Popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+    min-height: 100dvh;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#level1Popup.show {
+    opacity: 1;
+}
+
+#level1Popup .popup-content img {
+    border: 2px solid #4a90e2;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
+}
+
+#level1Popup .popup-content h2 {
+    color: #4a90e2;
+    font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+    margin-bottom: 1.2rem;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    font-weight: 700;
+}
+
+#level1Popup .popup-content p {
+    color: #d0f0ff;
+    font-size: clamp(0.75rem, 2.8vw, 0.9rem);
+    margin: 0.8rem 0;
+    line-height: 1.4;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    font-weight: 400;
+}
+
+#level1Popup .popup-content strong {
+    color: #FFD700;
+    font-weight: 600;
+}
+
+#level1GotItButton {
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.9), rgba(0, 200, 80, 0.9));
+    color: white;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    padding: 0.7rem 1.8rem;
+    font-size: clamp(0.8rem, 2.8vw, 1rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-shadow: 1px 1px 0px #1a3a5f;
+    box-shadow: 3px 3px 0px #1a3a5f;
+}
+
+#level1GotItButton:hover {
+    background: linear-gradient(135deg, rgba(0, 255, 0, 1), rgba(0, 200, 80, 1));
+    transform: translateY(-2px);
+    box-shadow: 
+        3px 3px 0px #1a3a5f,
+        0 5px 15px rgba(0, 255, 0, 0.4);
+}
+
 @keyframes popupFadeIn {
     0% {
         opacity: 0;
