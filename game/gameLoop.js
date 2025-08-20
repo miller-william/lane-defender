@@ -17,6 +17,14 @@ let gameLoopActive = false;
 
 export function initializeGameLoop(canvas) {
     ctx = canvas.getContext('2d');
+    
+    // Mobile performance optimization - reduce image smoothing for better performance
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingQuality = 'low';
+    }
+    
     lastTime = performance.now();
 }
 

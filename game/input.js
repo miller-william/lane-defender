@@ -109,6 +109,10 @@ export function initializeInput(canvas) {
     // Event listeners
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
+    
+    // Event listeners
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
     canvas.addEventListener('touchstart', e => handleTouch(e, canvas), { passive: false });
     canvas.addEventListener('touchmove', e => handleTouch(e, canvas), { passive: false });
     canvas.addEventListener('touchend', handleTouchEnd);

@@ -53,7 +53,7 @@ export default {
                 glowColour: null
             }
         },
-        // Initial minions
+        // FINAL minions
         {
             time: 50000,
             enemyType: 'zombie',
@@ -61,7 +61,7 @@ export default {
             interval: 1000,
             modifiers: {
                 health: 3,
-                speed: 1,
+                speed: 0.7,
                 damage: 10,
                 movement: 'zigzag',
                 bonus: null,

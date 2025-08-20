@@ -129,6 +129,26 @@ export function initializeMenu() {
         backButton.addEventListener('click', handleBackClick);
     }
     
+    // Add event listener for level 1 popup button
+    const level1GotItButton = document.getElementById('level1GotItButton');
+    if (level1GotItButton) {
+        level1GotItButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            hideLevel1PopupAndStart();
+        }, { passive: false });
+        level1GotItButton.addEventListener('click', hideLevel1PopupAndStart);
+    }
+    
+    // Add click-outside-to-dismiss for level 1 popup
+    const level1Popup = document.getElementById('level1Popup');
+    if (level1Popup) {
+        level1Popup.addEventListener('click', (e) => {
+            if (e.target === level1Popup) {
+                hideLevel1PopupAndStart();
+            }
+        });
+    }
+    
     // Render initial level buttons
     renderLevelButtons();
     
@@ -192,18 +212,34 @@ function renderLevelButtons() {
         }
         
         if (i <= effectiveUnlockedLevel) {
-            // Use touchstart for mobile compatibility
-            button.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                startLevelInMenu(i);
-            }, { passive: false });
-            
-            // Keep click for desktop
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                startLevelInMenu(i);
-            });
+            // Special handling for level 1 - show popup first
+            if (i === 1) {
+                // Use touchstart for mobile compatibility
+                button.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showLevel1Popup();
+                }, { passive: false });
+                
+                // Keep click for desktop
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showLevel1Popup();
+                });
+            } else {
+                // Use touchstart for mobile compatibility
+                button.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    startLevelInMenu(i);
+                }, { passive: false });
+                
+                // Keep click for desktop
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    startLevelInMenu(i);
+                });
+            }
         }
         
         levelButtons.appendChild(button);
@@ -252,6 +288,31 @@ function startLevelInMenu(levelNumber) {
     
     // Start the level
     startLevelGame(levelNumber);
+}
+
+// Show level 1 popup
+function showLevel1Popup() {
+    const level1Popup = document.getElementById('level1Popup');
+    if (level1Popup) {
+        level1Popup.style.display = 'flex';
+        // Add smooth transition
+        setTimeout(() => {
+            level1Popup.classList.add('show');
+        }, 50);
+    }
+}
+
+// Hide level 1 popup and start level
+function hideLevel1PopupAndStart() {
+    const level1Popup = document.getElementById('level1Popup');
+    if (level1Popup) {
+        level1Popup.classList.remove('show');
+        setTimeout(() => {
+            level1Popup.style.display = 'none';
+            // Start level 1
+            startLevelInMenu(1);
+        }, 300);
+    }
 }
 
 // Show game screen
@@ -352,8 +413,10 @@ export function showGameOver(result = 'lose', levelNumber = null) {
         }
     }
     
-    // Update mission debrief
-    updateMissionDebrief(result, levelNumber);
+    // Update mission debrief with a small delay to ensure DOM is ready
+    setTimeout(() => {
+        updateMissionDebrief(result, levelNumber);
+    }, 100);
     
     // Handle stats box visibility
     const statsElement = document.getElementById('levelStats');
@@ -422,10 +485,18 @@ const debriefMessages = {
 // Update mission debrief based on result
 function updateMissionDebrief(result, levelNumber) {
     const debriefElement = document.getElementById('missionDebrief');
-    if (!debriefElement) return;
+    if (!debriefElement) {
+        return;
+    }
     
-    const messages = debriefMessages[levelNumber] || debriefMessages.default;
-    debriefElement.textContent = result === 'win' ? messages.win : messages.lose;
+    // Ensure levelNumber is a number for proper lookup
+    const levelKey = levelNumber ? parseInt(levelNumber) : null;
+    
+    const messages = debriefMessages[levelKey] || debriefMessages.default;
+    
+    const messageText = result === 'win' ? messages.win : messages.lose;
+    
+    debriefElement.textContent = messageText;
 }
 
 // Populate level statistics
