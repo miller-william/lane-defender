@@ -42,8 +42,8 @@ Built with:
 
 The game is also playable online at the link above.
 
-## 📱 Mobile Optimized
+## 📱 Mobile Optimised
 
-River Revival is designed to work on both desktop and mobile devices, with touch controls optimized for smartphones and tablets.
+River Revival is designed to work on both desktop and mobile devices, with touch controls optimised for smartphones and tablets.
 
 ---
